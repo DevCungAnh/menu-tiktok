@@ -1,16 +1,11 @@
 /**
- * MENU SCRIPT - Star Particle System & Effects
- * =============================================
+ * MENU SCRIPT - Floating Bubbles & Effects
+ * =========================================
  * 
  * Các phần chính:
- * 1. Star Particle System (canvas) - Vẽ sao lấp lánh
+ * 1. Floating Bubbles (canvas) - Bong bóng bay lên
  * 2. Parallax Effect - Di chuyển theo chuột
  * 3. Effects Toggle - Bật/tắt hiệu ứng
- * 
- * Để tùy chỉnh:
- * - STAR_COUNT: Số lượng sao
- * - STAR_COLORS: Màu sắc sao
- * - BIG_STAR_RATIO: Tỷ lệ sao lớn
  */
 
 (function() {
@@ -18,90 +13,91 @@
 
     // ===== Configuration =====
     const CONFIG = {
-        STAR_COUNT: 120,
-        BIG_STAR_RATIO: 0.08,
-        STAR_COLORS: ['#ffffff', '#ff6b9d', '#00f5ff', '#c471ed'],
-        PARALLAX_FACTOR: 0.02,
-        TWINKLE_SPEED: 0.02
+        BUBBLE_COUNT: 35,
+        BUBBLE_COLORS: [
+            'rgba(255, 107, 157, 0.4)',
+            'rgba(196, 113, 237, 0.4)',
+            'rgba(0, 245, 255, 0.3)',
+            'rgba(255, 255, 255, 0.3)',
+            'rgba(255, 182, 193, 0.4)'
+        ],
+        MIN_SIZE: 8,
+        MAX_SIZE: 40,
+        MIN_SPEED: 0.3,
+        MAX_SPEED: 1.2
     };
 
     // ===== State =====
     let canvas, ctx;
-    let stars = [];
+    let bubbles = [];
     let mouseX = 0, mouseY = 0;
     let animationId = null;
     let effectsEnabled = true;
     let prefersReducedMotion = false;
 
-    // ===== Star Class =====
-    class Star {
+    // ===== Bubble Class =====
+    class Bubble {
         constructor() {
-            this.reset();
+            this.reset(true);
         }
 
-        reset() {
+        reset(initial = false) {
+            this.size = Math.random() * (CONFIG.MAX_SIZE - CONFIG.MIN_SIZE) + CONFIG.MIN_SIZE;
             this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            this.baseX = this.x;
-            this.baseY = this.y;
+            this.y = initial ? Math.random() * canvas.height : canvas.height + this.size;
+            this.speed = Math.random() * (CONFIG.MAX_SPEED - CONFIG.MIN_SPEED) + CONFIG.MIN_SPEED;
+            this.color = CONFIG.BUBBLE_COLORS[Math.floor(Math.random() * CONFIG.BUBBLE_COLORS.length)];
             
-            // Determine if big star
-            this.isBig = Math.random() < CONFIG.BIG_STAR_RATIO;
-            this.size = this.isBig ? Math.random() * 3 + 2 : Math.random() * 1.5 + 0.5;
+            // Horizontal drift
+            this.drift = (Math.random() - 0.5) * 0.5;
+            this.driftAngle = Math.random() * Math.PI * 2;
+            this.driftSpeed = Math.random() * 0.02 + 0.01;
             
-            // Color
-            this.color = CONFIG.STAR_COLORS[Math.floor(Math.random() * CONFIG.STAR_COLORS.length)];
-            
-            // Twinkle properties
-            this.opacity = Math.random();
-            this.twinkleSpeed = (Math.random() * 0.02 + 0.005) * (this.isBig ? 1.5 : 1);
-            this.twinkleDirection = Math.random() > 0.5 ? 1 : -1;
+            // Opacity animation
+            this.opacity = Math.random() * 0.5 + 0.3;
+            this.opacityDirection = Math.random() > 0.5 ? 1 : -1;
         }
 
-        update(mouseOffsetX, mouseOffsetY) {
-            // Parallax movement
-            if (effectsEnabled && !prefersReducedMotion) {
-                this.x = this.baseX + mouseOffsetX * (this.isBig ? 1.5 : 1);
-                this.y = this.baseY + mouseOffsetY * (this.isBig ? 1.5 : 1);
-            }
-
-            // Twinkle effect
-            if (effectsEnabled && !prefersReducedMotion) {
-                this.opacity += this.twinkleSpeed * this.twinkleDirection;
-                
-                if (this.opacity >= 1) {
-                    this.opacity = 1;
-                    this.twinkleDirection = -1;
-                } else if (this.opacity <= 0.2) {
-                    this.opacity = 0.2;
-                    this.twinkleDirection = 1;
-                }
+        update() {
+            // Rise up
+            this.y -= this.speed;
+            
+            // Horizontal drift (sine wave)
+            this.driftAngle += this.driftSpeed;
+            this.x += Math.sin(this.driftAngle) * this.drift;
+            
+            // Opacity pulse
+            this.opacity += 0.005 * this.opacityDirection;
+            if (this.opacity >= 0.8) this.opacityDirection = -1;
+            if (this.opacity <= 0.2) this.opacityDirection = 1;
+            
+            // Reset when off screen
+            if (this.y < -this.size * 2) {
+                this.reset();
             }
         }
 
         draw() {
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fillStyle = this.color;
-            ctx.globalAlpha = this.opacity;
+            
+            // Gradient fill for 3D effect
+            const gradient = ctx.createRadialGradient(
+                this.x - this.size * 0.3, this.y - this.size * 0.3, 0,
+                this.x, this.y, this.size
+            );
+            gradient.addColorStop(0, 'rgba(255, 255, 255, ' + (this.opacity * 0.8) + ')');
+            gradient.addColorStop(0.4, this.color);
+            gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+            
+            ctx.fillStyle = gradient;
             ctx.fill();
             
-            // Glow effect for big stars
-            if (this.isBig && effectsEnabled) {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size * 2, 0, Math.PI * 2);
-                const gradient = ctx.createRadialGradient(
-                    this.x, this.y, 0,
-                    this.x, this.y, this.size * 2
-                );
-                gradient.addColorStop(0, this.color);
-                gradient.addColorStop(1, 'transparent');
-                ctx.fillStyle = gradient;
-                ctx.globalAlpha = this.opacity * 0.5;
-                ctx.fill();
-            }
-            
-            ctx.globalAlpha = 1;
+            // Highlight
+            ctx.beginPath();
+            ctx.arc(this.x - this.size * 0.25, this.y - this.size * 0.25, this.size * 0.2, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255, 255, 255, ' + (this.opacity * 0.6) + ')';
+            ctx.fill();
         }
     }
 
@@ -120,51 +116,44 @@
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         
-        // Recreate stars on resize
-        createStars();
+        // Recreate bubbles on resize
+        createBubbles();
     }
 
-    // ===== Create Stars =====
-    function createStars() {
-        stars = [];
-        for (let i = 0; i < CONFIG.STAR_COUNT; i++) {
-            stars.push(new Star());
+    // ===== Create Bubbles =====
+    function createBubbles() {
+        bubbles = [];
+        for (let i = 0; i < CONFIG.BUBBLE_COUNT; i++) {
+            bubbles.push(new Bubble());
         }
     }
 
     // ===== Animation Loop =====
     function animate() {
         if (!effectsEnabled && prefersReducedMotion) {
-            // Draw static stars when effects disabled
-            drawStaticStars();
+            drawStaticBubbles();
             return;
         }
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Calculate mouse offset for parallax
-        const centerX = window.innerWidth / 2;
-        const centerY = window.innerHeight / 2;
-        const offsetX = (mouseX - centerX) * CONFIG.PARALLAX_FACTOR;
-        const offsetY = (mouseY - centerY) * CONFIG.PARALLAX_FACTOR;
-
-        // Update and draw stars
-        stars.forEach(star => {
-            star.update(offsetX, offsetY);
-            star.draw();
+        // Update and draw bubbles
+        bubbles.forEach(bubble => {
+            bubble.update();
+            bubble.draw();
         });
 
         animationId = requestAnimationFrame(animate);
     }
 
-    // ===== Draw Static Stars =====
-    function drawStaticStars() {
+    // ===== Draw Static Bubbles =====
+    function drawStaticBubbles() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        stars.forEach(star => {
+        bubbles.forEach(bubble => {
             ctx.beginPath();
-            ctx.arc(star.baseX, star.baseY, star.size, 0, Math.PI * 2);
-            ctx.fillStyle = star.color;
-            ctx.globalAlpha = 0.6;
+            ctx.arc(bubble.x, bubble.y, bubble.size, 0, Math.PI * 2);
+            ctx.fillStyle = bubble.color;
+            ctx.globalAlpha = 0.3;
             ctx.fill();
         });
         ctx.globalAlpha = 1;
@@ -179,7 +168,7 @@
             mouseX = e.clientX;
             mouseY = e.clientY;
             mouseMoveTimeout = null;
-        }, 16); // ~60fps
+        }, 16);
     }
 
     // ===== Effects Toggle =====
@@ -196,7 +185,7 @@
                 animate();
             } else {
                 cancelAnimationFrame(animationId);
-                drawStaticStars();
+                drawStaticBubbles();
             }
         });
     }
@@ -210,7 +199,7 @@
             prefersReducedMotion = e.matches;
             if (prefersReducedMotion) {
                 cancelAnimationFrame(animationId);
-                drawStaticStars();
+                drawStaticBubbles();
             } else if (effectsEnabled) {
                 animate();
             }
@@ -303,14 +292,14 @@
         // Add styles
         addDynamicStyles();
 
-        // Create stars
-        createStars();
+        // Create bubbles
+        createBubbles();
 
         // Start animation
         if (!prefersReducedMotion) {
             animate();
         } else {
-            drawStaticStars();
+            drawStaticBubbles();
         }
 
         // Event listeners
