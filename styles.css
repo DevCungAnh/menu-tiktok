@@ -131,8 +131,8 @@ body {
 .menu-card {
     width: 100%;
     max-width: 360px;
-    max-height: 90vh;
-    max-height: 90dvh;
+    max-height: 95vh;
+    max-height: 95dvh;
     background: var(--card-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -181,7 +181,9 @@ body {
     list-style: none;
     padding: 8px 0;
     flex: 1;
+    min-height: 0; /* Allow flex item to shrink */
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 /* ===== Divider ===== */
@@ -777,7 +779,7 @@ body.effects-off #starfield {
     .menu-card {
         width: 96%;
         max-width: 450px;
-        max-height: 90dvh;
+        max-height: 96dvh;
         border-radius: var(--radius-lg);
     }
     
@@ -892,7 +894,7 @@ body.effects-off #starfield {
     
     .menu-card {
         width: 100%;
-        max-height: 92dvh;
+        max-height: 98dvh;
     }
     
     .card-header {
