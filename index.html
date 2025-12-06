@@ -1,0 +1,181 @@
+<!--
+  MENU BẢNG GIÁ DỊCH VỤ - Premium Design
+  ========================================
+  
+  HƯỚNG DẪN THAY ĐỔI NỘI DUNG:
+  - Mỗi item menu nằm trong <li class="menu-item">
+  - data-qty: số lượng hiển thị trong badge tròn
+  - data-tooltip: nội dung tooltip khi hover
+  - Thay emoji trong .item-icon
+  - Thay text trong .item-text và .item-badges
+  
+  Ví dụ thêm item mới:
+  <li class="menu-item" data-qty="3" data-tooltip="Mô tả chi tiết">
+    <span class="item-icon">🎁</span>
+    <span class="item-text">Nội dung item</span>
+    <span class="item-badges"><span class="badge-heart">❤️</span></span>
+  </li>
+-->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bảng Giá Dịch Vụ | Lên Điểm CMT</title>
+    <meta name="description" content="Bảng giá dịch vụ tăng tương tác - View, Like, Comment, Share, Follow">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Star Particle Background (Canvas) -->
+    <canvas id="starfield" aria-hidden="true"></canvas>
+    
+    <!-- Animated Gradient Overlay -->
+    <div class="gradient-bg" aria-hidden="true"></div>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <!-- Menu Card -->
+        <article class="menu-card">
+            <!-- Header -->
+            <header class="card-header">
+                <h1 class="card-title">Lên Điểm CMT v1, v2</h1>
+                <p class="card-subtitle">(tính cả v ghim) có nhận đăng lại ạ</p>
+            </header>
+
+            <!-- Menu List -->
+            <nav aria-label="Danh sách dịch vụ">
+                <ul class="menu-list" role="list">
+                    <!-- Item 1: 50k view -->
+                    <li class="menu-item featured" data-qty="5" data-tooltip="Nhận từ nửa bông" tabindex="0">
+                        <span class="item-qty">5</span>
+                        <span class="item-icon" aria-hidden="true">🌹</span>
+                        <span class="item-text">50k viu</span>
+                        <span class="item-note">(nhận từ nửa bông)</span>
+                    </li>
+
+                    <!-- Divider -->
+                    <li class="divider" aria-hidden="true"></li>
+
+                    <!-- Item 2: 100->200 -->
+                    <li class="menu-item" data-qty="1" data-tooltip="Like tăng từ 100 đến 200" tabindex="0">
+                        <span class="item-qty">1</span>
+                        <span class="item-icon" aria-hidden="true">🐷</span>
+                        <span class="item-text">100 → 200</span>
+                        <span class="item-badges">
+                            <span class="badge-heart" aria-label="Tim">❤️</span>
+                            <span class="badge-flag" aria-label="Việt Nam">🇻🇳</span>
+                        </span>
+                    </li>
+
+                    <li class="divider" aria-hidden="true"></li>
+
+                    <!-- Item 3: 250->350 -->
+                    <li class="menu-item" data-qty="2" data-tooltip="Like tăng từ 250 đến 350" tabindex="0">
+                        <span class="item-qty">2</span>
+                        <span class="item-icon" aria-hidden="true">🐷</span>
+                        <span class="item-text">250 → 350</span>
+                        <span class="item-badges">
+                            <span class="badge-heart" aria-label="Tim">❤️</span>
+                            <span class="badge-flag" aria-label="Việt Nam">🇻🇳</span>
+                        </span>
+                    </li>
+
+                    <li class="divider" aria-hidden="true"></li>
+
+                    <!-- Item 4: 100 FL -->
+                    <li class="menu-item" data-qty="4" data-tooltip="100 Follow" tabindex="0">
+                        <span class="item-qty">4</span>
+                        <span class="item-icon" aria-hidden="true">🐷</span>
+                        <span class="item-text">100 FL</span>
+                        <span class="item-badges">
+                            <span class="badge-flag" aria-label="Việt Nam">🇻🇳</span>
+                        </span>
+                    </li>
+
+                    <li class="divider" aria-hidden="true"></li>
+
+                    <!-- Item 5: 200 yêu thích -->
+                    <li class="menu-item" data-qty="1" data-tooltip="200 lượt yêu thích" tabindex="0">
+                        <span class="item-qty">1</span>
+                        <span class="item-icon" aria-hidden="true">🍀</span>
+                        <span class="item-text">200 yêu thích</span>
+                    </li>
+
+                    <li class="divider" aria-hidden="true"></li>
+
+                    <!-- Item 6: 200 chia sẻ -->
+                    <li class="menu-item" data-qty="1" data-tooltip="200 lượt chia sẻ" tabindex="0">
+                        <span class="item-qty">1</span>
+                        <span class="item-icon" aria-hidden="true">🍀</span>
+                        <span class="item-text">200 chia sẻ</span>
+                    </li>
+
+                    <li class="divider" aria-hidden="true"></li>
+
+                    <!-- Item 7: 20 cmt -->
+                    <li class="menu-item" data-qty="1" data-tooltip="20 bình luận" tabindex="0">
+                        <span class="item-qty">1</span>
+                        <span class="item-icon" aria-hidden="true">�</span>
+                        <span class="item-text">20 cmt</span>
+                        <span class="item-badges">
+                            <span class="badge-flag" aria-label="Việt Nam">🇻🇳</span>
+                        </span>
+                    </li>
+
+                    <li class="divider" aria-hidden="true"></li>
+
+                    <!-- Item 8: 1000->1500 -->
+                    <li class="menu-item premium" data-qty="1" data-tooltip="Like tăng từ 1000 đến 1500" tabindex="0">
+                        <span class="item-qty">1</span>
+                        <span class="item-icon" aria-hidden="true">🎁</span>
+                        <span class="item-text">1000 → 1500</span>
+                        <span class="item-badges">
+                            <span class="badge-heart" aria-label="Tim">❤️</span>
+                            <span class="badge-flag" aria-label="Việt Nam">🇻🇳</span>
+                        </span>
+                    </li>
+
+                    <li class="divider" aria-hidden="true"></li>
+
+                    <!-- Item 9: 1000 FL -->
+                    <li class="menu-item premium" data-qty="1" data-tooltip="1000 Follow" tabindex="0">
+                        <span class="item-qty">1</span>
+                        <span class="item-icon" aria-hidden="true">🌍</span>
+                        <span class="item-text">1000 FL</span>
+                        <span class="item-badges">
+                            <span class="badge-flag" aria-label="Việt Nam">🇻🇳</span>
+                        </span>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Footer Warning -->
+            <footer class="card-footer">
+                <p class="warning-text">
+                    <span class="warning-icon" aria-hidden="true">⚠️</span>
+                    Zép lào: Không 5/5/9/6/2/9/4/6/9
+                </p>
+            </footer>
+        </article>
+
+        <!-- Effects Toggle Button -->
+        <button 
+            class="effects-toggle" 
+            id="effectsToggle"
+            aria-label="Bật/tắt hiệu ứng nền"
+            aria-pressed="true"
+            title="Bật/tắt hiệu ứng">
+            <span class="toggle-icon">✨</span>
+            <span class="toggle-text">Hiệu ứng</span>
+        </button>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
