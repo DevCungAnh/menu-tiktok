@@ -199,31 +199,62 @@ body {
     padding: 18px 25px;
     margin: 0;
     background: transparent;
-    border-left: 3px solid transparent;
+    border-left: 4px solid transparent;
     cursor: pointer;
     position: relative;
+    overflow: hidden;
+    /* Staggered entrance */
+    opacity: 0;
+    transform: translateY(15px);
     transition: 
-        transform 0.25s ease,
+        transform 0.35s cubic-bezier(.2,.9,.3,1),
+        opacity 0.35s ease,
         background 0.25s ease,
         border-color 0.25s ease,
         box-shadow 0.25s ease;
-    will-change: transform;
+    will-change: transform, opacity;
+}
+
+/* Staggered entrance - shown state */
+.menu-item.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Accent line animation */
+.menu-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, var(--neon-pink), var(--neon-purple));
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.3s cubic-bezier(.2,.9,.3,1);
+}
+
+.menu-item:hover::before,
+.menu-item:focus::before,
+.menu-item.featured::before {
+    transform: scaleY(1);
 }
 
 .menu-item:hover,
 .menu-item:focus {
     transform: translateY(-6px);
     background: rgba(255, 107, 157, 0.08);
-    border-left-color: var(--neon-pink);
+    border-left-color: transparent;
     box-shadow: 
-        0 10px 30px rgba(255, 45, 117, 0.15),
-        inset 0 0 30px rgba(255, 107, 157, 0.05);
+        0 12px 35px rgba(255, 45, 117, 0.2),
+        0 0 40px rgba(109, 93, 252, 0.08) inset;
     outline: none;
 }
 
 .menu-item:focus {
     box-shadow: 
-        0 10px 30px rgba(255, 45, 117, 0.15),
+        0 12px 35px rgba(255, 45, 117, 0.2),
         0 0 0 2px var(--neon-cyan);
 }
 
@@ -247,7 +278,6 @@ body {
     border-left-color: gold;
 }
 
-/* ===== Item Quantity Badge ===== */
 .item-qty {
     width: 42px;
     height: 42px;
@@ -257,13 +287,18 @@ body {
     font-size: 1.2rem;
     font-weight: 700;
     color: var(--text-white);
-    background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+    background: radial-gradient(circle at 30% 30%, #ff7bbd, #d84fd1);
     border-radius: var(--radius-full);
     flex-shrink: 0;
     box-shadow: 
         0 4px 15px rgba(255, 45, 117, 0.4),
         inset 0 -2px 4px rgba(0, 0, 0, 0.2);
-    transition: transform 0.25s ease;
+    animation: badgePulse 2s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 4px 15px rgba(216, 79, 209, 0.3); }
+    50% { transform: scale(1.05); box-shadow: 0 8px 25px rgba(216, 79, 209, 0.5); }
 }
 
 .menu-item:hover .item-qty,

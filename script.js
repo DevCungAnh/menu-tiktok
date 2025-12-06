@@ -221,7 +221,12 @@
     function initMenuItems() {
         const menuItems = document.querySelectorAll('.menu-item');
         
-        menuItems.forEach(item => {
+        // Staggered entrance animation
+        menuItems.forEach((item, idx) => {
+            setTimeout(() => item.classList.add('show'), idx * 80);
+        });
+        
+        menuItems.forEach(item => { 
             // Click ripple effect
             item.addEventListener('click', function(e) {
                 if (!effectsEnabled) return;
@@ -253,6 +258,20 @@
                     this.click();
                 }
             });
+        });
+    }
+
+    // ===== Zalo Button Ripple =====
+    function initZaloButton() {
+        const zaloBtn = document.querySelector('.zalo-contact');
+        if (!zaloBtn) return;
+
+        zaloBtn.addEventListener('click', function(e) {
+            // Add ripple effect
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 150);
         });
     }
 
@@ -301,6 +320,7 @@
         // Initialize UI
         initEffectsToggle();
         initMenuItems();
+        initZaloButton();
 
         console.log('✨ Menu initialized!');
     }
