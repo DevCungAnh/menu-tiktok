@@ -54,10 +54,12 @@ body {
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
     background: var(--bg1);
     color: var(--text-white);
-    height: 100%;
-    height: 100dvh;
-    overflow: hidden;
+    min-height: 100vh;
+    min-height: 100dvh;
     line-height: 1.6;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 /* ===== Star Canvas Background ===== */
@@ -118,31 +120,29 @@ body {
 .main-container {
     position: relative;
     z-index: 10;
-    height: 100vh;
-    height: 100dvh;
+    min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 10px;
+    justify-content: flex-start;
+    padding: 20px 10px;
 }
 
 /* ===== Menu Card ===== */
 .menu-card {
     width: 100%;
     max-width: 360px;
-    max-height: 95vh;
-    max-height: 95dvh;
     background: var(--card-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-radius: var(--radius-lg);
     border: 1px solid var(--card-border);
     box-shadow: var(--shadow-soft);
-    overflow: hidden;
     will-change: transform;
     display: flex;
     flex-direction: column;
+    margin-bottom: 20px;
 }
 
 /* ===== Card Header ===== */
@@ -176,14 +176,16 @@ body {
     font-weight: 500;
 }
 
+/* ===== Nav Wrapper ===== */
+nav[aria-label="Danh sách dịch vụ"] {
+    display: flex;
+    flex-direction: column;
+}
+
 /* ===== Menu List ===== */
 .menu-list {
     list-style: none;
     padding: 8px 0;
-    flex: 1;
-    min-height: 0; /* Allow flex item to shrink */
-    overflow-y: auto;
-    overflow-x: hidden;
 }
 
 /* ===== Divider ===== */
@@ -772,14 +774,13 @@ body.effects-off #starfield {
 /* === Mobile Portrait (360px - 767px) === */
 @media (max-width: 767px) {
     .main-container {
-        padding: 10px;
-        justify-content: center;
+        padding: 15px 10px;
+        justify-content: flex-start;
     }
     
     .menu-card {
         width: 96%;
         max-width: 450px;
-        max-height: 96dvh;
         border-radius: var(--radius-lg);
     }
     
@@ -894,7 +895,6 @@ body.effects-off #starfield {
     
     .menu-card {
         width: 100%;
-        max-height: 98dvh;
     }
     
     .card-header {
