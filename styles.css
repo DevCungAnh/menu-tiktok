@@ -425,18 +425,25 @@ body {
 
 /* ===== Card Footer ===== */
 .card-footer {
-    padding: 10px 15px;
+    padding: 12px 15px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     position: relative;
     background: linear-gradient(
         0deg,
-        rgba(255, 193, 7, 0.08) 0%,
+        rgba(255, 107, 157, 0.05) 0%,
         transparent 100%
     );
     border-top: 1px solid var(--card-border);
     flex-shrink: 0;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
 }
 
 .warning-text {
@@ -455,19 +462,72 @@ body {
 .zalo-contact {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    padding: 10px 20px;
+    gap: 8px;
+    padding: 8px 16px;
     background: linear-gradient(135deg, rgba(0, 106, 255, 0.2), rgba(0, 180, 255, 0.15));
     border: 1px solid rgba(0, 136, 255, 0.4);
     border-radius: var(--radius-full);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 600;
     color: #00b4ff;
     white-space: nowrap;
+    transition: all 0.3s ease;
+    align-self: flex-start;
 }
 
 .zalo-contact:hover {
-    box-shadow: 0 0 15px rgba(0, 136, 255, 0.3);
+    box-shadow: 0 0 20px rgba(0, 136, 255, 0.4);
+    transform: translateY(-2px);
+}
+
+/* ===== Copyright Text ===== */
+.copyright-text {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    align-self: flex-start;
+}
+
+.copyright-icon {
+    font-size: 0.9rem;
+    color: var(--neon-pink);
+    animation: copyrightPulse 3s ease-in-out infinite;
+}
+
+@keyframes copyrightPulse {
+    0%, 100% { 
+        opacity: 0.7;
+        transform: scale(1);
+    }
+    50% { 
+        opacity: 1;
+        transform: scale(1.1);
+    }
+}
+
+.copyright-label {
+    color: var(--text-muted);
+}
+
+.copyright-name {
+    font-weight: 700;
+    font-size: 0.85rem;
+    background: linear-gradient(135deg, #ff6b9d, #c471ed, #00f5ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 200% 200%;
+    animation: gradientFlow 4s ease infinite;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 20px rgba(255, 107, 157, 0.3);
+}
+
+@keyframes gradientFlow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
 }
 
 .warning-icon {
@@ -483,8 +543,6 @@ body {
 
 /* ===== Effects Toggle Button ===== */
 .effects-toggle {
-    position: absolute;
-    right: 12px;
     width: 38px;
     height: 38px;
     display: flex;
@@ -497,6 +555,7 @@ body {
     border-radius: 50%;
     cursor: pointer;
     transition: transform 0.2s ease, background 0.2s ease;
+    flex-shrink: 0;
 }
 
 .effects-toggle:hover {
@@ -598,12 +657,24 @@ body.effects-off #starfield {
     }
     
     .card-footer {
-        padding: 18px 25px;
+        padding: 20px 30px;
+    }
+    
+    .footer-content {
+        gap: 10px;
     }
     
     .zalo-contact {
-        padding: 14px 28px;
-        font-size: 1rem;
+        padding: 12px 24px;
+        font-size: 0.95rem;
+    }
+    
+    .copyright-text {
+        font-size: 0.85rem;
+    }
+    
+    .copyright-name {
+        font-size: 0.95rem;
     }
     
     .effects-toggle {
@@ -669,12 +740,24 @@ body.effects-off #starfield {
     }
     
     .card-footer {
-        padding: 16px 22px;
+        padding: 18px 25px;
+    }
+    
+    .footer-content {
+        gap: 9px;
     }
     
     .zalo-contact {
-        padding: 12px 24px;
-        font-size: 0.95rem;
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+    
+    .copyright-text {
+        font-size: 0.8rem;
+    }
+    
+    .copyright-name {
+        font-size: 0.9rem;
     }
     
     .effects-toggle {
@@ -754,17 +837,36 @@ body.effects-off #starfield {
     }
     
     .card-footer {
-        padding: 12px 16px;
+        padding: 12px 12px;
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+    
+    .footer-content {
+        width: 100%;
+        gap: 8px;
     }
     
     /* Full-width Zalo button on mobile */
     .zalo-contact {
-        flex: 1;
+        width: 100%;
         justify-content: center;
-        padding: 12px 20px;
-        font-size: 0.9rem;
+        padding: 10px 16px;
+        font-size: 0.85rem;
         min-height: 44px; /* Touch-friendly */
         border-radius: 999px;
+        align-self: stretch;
+    }
+    
+    .copyright-text {
+        font-size: 0.7rem;
+        justify-content: center;
+        width: 100%;
+    }
+    
+    .copyright-name {
+        font-size: 0.8rem;
     }
     
     .effects-toggle {
@@ -772,6 +874,7 @@ body.effects-off #starfield {
         height: 44px;
         font-size: 1.1rem;
         min-width: 44px; /* Touch-friendly */
+        align-self: center;
     }
     
     /* Hide tooltip on mobile */
