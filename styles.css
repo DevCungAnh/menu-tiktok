@@ -130,7 +130,9 @@ body {
 /* ===== Menu Card ===== */
 .menu-card {
     width: 100%;
-    max-width: 380px;
+    max-width: 360px;
+    max-height: 90vh;
+    max-height: 90dvh;
     background: var(--card-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -139,23 +141,26 @@ body {
     box-shadow: var(--shadow-soft);
     overflow: hidden;
     will-change: transform;
+    display: flex;
+    flex-direction: column;
 }
 
 /* ===== Card Header ===== */
 .card-header {
     text-align: center;
-    padding: 20px 15px 15px;
+    padding: 15px 15px 10px;
     background: linear-gradient(
         180deg,
         rgba(255, 107, 157, 0.1) 0%,
         transparent 100%
     );
     border-bottom: 1px solid var(--card-border);
+    flex-shrink: 0;
 }
 
 .card-title {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: clamp(1.5rem, 5vw, 2rem);
+    font-size: 1.2rem;
     font-weight: 700;
     background: linear-gradient(135deg, var(--accent), var(--neon-cyan));
     -webkit-background-clip: text;
@@ -166,7 +171,7 @@ body {
 }
 
 .card-subtitle {
-    font-size: 0.9rem;
+    font-size: 0.75rem;
     color: var(--text-muted);
     font-weight: 500;
 }
@@ -174,13 +179,15 @@ body {
 /* ===== Menu List ===== */
 .menu-list {
     list-style: none;
-    padding: 15px 0;
+    padding: 8px 0;
+    flex: 1;
+    overflow-y: auto;
 }
 
 /* ===== Divider ===== */
 .divider {
     height: 1px;
-    margin: 0 25px;
+    margin: 0 15px;
     background: linear-gradient(
         90deg,
         transparent 0%,
@@ -195,11 +202,11 @@ body {
 .menu-item {
     display: flex;
     align-items: center;
-    gap: 15px;
-    padding: 18px 25px;
+    gap: 10px;
+    padding: 10px 15px;
     margin: 0;
     background: transparent;
-    border-left: 4px solid transparent;
+    border-left: 3px solid transparent;
     cursor: pointer;
     position: relative;
     overflow: hidden;
@@ -279,20 +286,18 @@ body {
 }
 
 .item-qty {
-    width: 42px;
-    height: 42px;
+    width: 34px;
+    height: 34px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
+    font-size: 0.95rem;
     font-weight: 700;
     color: var(--text-white);
     background: radial-gradient(circle at 30% 30%, #ff7bbd, #d84fd1);
     border-radius: var(--radius-full);
     flex-shrink: 0;
-    box-shadow: 
-        0 4px 15px rgba(255, 45, 117, 0.4),
-        inset 0 -2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 3px 10px rgba(255, 45, 117, 0.4);
     animation: badgePulse 2s ease-in-out infinite;
 }
 
@@ -308,42 +313,39 @@ body {
 
 /* ===== Item Icon (Emoji) ===== */
 .item-icon {
-    width: 48px;
-    height: 48px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.8rem;
+    font-size: 1.3rem;
     background: rgba(255, 255, 255, 0.05);
-    border: 2px solid rgba(255, 107, 157, 0.3);
+    border: 1px solid rgba(255, 107, 157, 0.3);
     border-radius: var(--radius-full);
     flex-shrink: 0;
-    box-shadow: 0 0 15px rgba(255, 107, 157, 0.2);
-    transition: 
-        box-shadow 0.25s ease,
-        border-color 0.25s ease;
+    transition: box-shadow 0.25s ease;
 }
 
 .menu-item:hover .item-icon,
 .menu-item:focus .item-icon {
     border-color: var(--neon-pink);
-    box-shadow: var(--glow-pink);
+    box-shadow: 0 0 10px rgba(255, 107, 157, 0.3);
 }
 
 /* ===== Item Text ===== */
 .item-text {
     flex: 1;
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     font-weight: 600;
     color: var(--text-white);
-    letter-spacing: 0.3px;
+    letter-spacing: 0.2px;
 }
 
 .item-note {
-    font-size: 0.85rem;
+    font-size: 0.7rem;
     color: var(--text-muted);
     font-weight: 400;
-    margin-left: 8px;
+    margin-left: 4px;
 }
 
 /* ===== Item Badges ===== */
@@ -423,7 +425,7 @@ body {
 
 /* ===== Card Footer ===== */
 .card-footer {
-    padding: 15px 20px;
+    padding: 10px 15px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -434,6 +436,7 @@ body {
         transparent 100%
     );
     border-top: 1px solid var(--card-border);
+    flex-shrink: 0;
 }
 
 .warning-text {
