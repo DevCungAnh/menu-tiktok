@@ -715,9 +715,9 @@ body.effects-off #starfield {
     }
     
     .menu-item {
-        padding: 10px 12px;
-        gap: 10px;
-        min-height: 44px; /* Touch-friendly */
+        padding: 14px 16px;
+        gap: 12px;
+        min-height: 48px; /* Touch-friendly */
     }
     
     .item-qty {
