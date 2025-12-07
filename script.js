@@ -209,35 +209,58 @@
     // ===== Menu Item Interactions =====
     function initMenuItems() {
         const menuItems = document.querySelectorAll('.menu-item');
+        const popupOverlay = document.getElementById('popupOverlay');
+        const popupClose = document.getElementById('popupClose');
+        const popupTitle = document.getElementById('popupTitle');
+        const popupTextarea = document.getElementById('popupTextarea');
+        const popupCopy = document.getElementById('popupCopy');
+        const popupSave = document.getElementById('popupSave');
+        
+        let currentItemIndex = null;
         
         // Staggered entrance animation
         menuItems.forEach((item, idx) => {
             setTimeout(() => item.classList.add('show'), idx * 80);
         });
         
-        menuItems.forEach(item => { 
-            // Click ripple effect
+        // Open popup on click
+        menuItems.forEach((item, idx) => { 
             item.addEventListener('click', function(e) {
-                if (!effectsEnabled) return;
+                // Ripple effect
+                if (effectsEnabled) {
+                    const ripple = document.createElement('span');
+                    ripple.style.cssText = `
+                        position: absolute;
+                        background: rgba(255, 107, 157, 0.3);
+                        border-radius: 50%;
+                        transform: scale(0);
+                        animation: ripple 0.6s ease-out forwards;
+                        pointer-events: none;
+                    `;
+                    
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+                    ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+                    
+                    this.appendChild(ripple);
+                    setTimeout(() => ripple.remove(), 600);
+                }
                 
-                const ripple = document.createElement('span');
-                ripple.style.cssText = `
-                    position: absolute;
-                    background: rgba(255, 107, 157, 0.3);
-                    border-radius: 50%;
-                    transform: scale(0);
-                    animation: ripple 0.6s ease-out forwards;
-                    pointer-events: none;
-                `;
-                
-                const rect = this.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
-                ripple.style.width = ripple.style.height = size + 'px';
-                ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
-                ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
-                
-                this.appendChild(ripple);
-                setTimeout(() => ripple.remove(), 600);
+                // Open popup
+                if (popupOverlay) {
+                    currentItemIndex = idx;
+                    const itemText = this.querySelector('.item-text')?.textContent || 'Chi tiết';
+                    popupTitle.textContent = itemText;
+                    
+                    // Load saved note
+                    const savedNote = localStorage.getItem('menu_note_' + idx) || '';
+                    popupTextarea.value = savedNote;
+                    
+                    popupOverlay.classList.add('active');
+                    popupTextarea.focus();
+                }
             });
 
             // Keyboard support
@@ -247,6 +270,56 @@
                     this.click();
                 }
             });
+        });
+        
+        // Close popup
+        function closePopup() {
+            if (popupOverlay) {
+                popupOverlay.classList.remove('active');
+                currentItemIndex = null;
+            }
+        }
+        
+        if (popupClose) {
+            popupClose.addEventListener('click', closePopup);
+        }
+        
+        if (popupOverlay) {
+            popupOverlay.addEventListener('click', function(e) {
+                if (e.target === this) closePopup();
+            });
+        }
+        
+        // Save note
+        if (popupSave) {
+            popupSave.addEventListener('click', function() {
+                if (currentItemIndex !== null) {
+                    localStorage.setItem('menu_note_' + currentItemIndex, popupTextarea.value);
+                    this.textContent = '✅ Đã lưu!';
+                    setTimeout(() => {
+                        this.textContent = '💾 Lưu';
+                    }, 1500);
+                }
+            });
+        }
+        
+        // Copy to clipboard
+        if (popupCopy) {
+            popupCopy.addEventListener('click', function() {
+                popupTextarea.select();
+                document.execCommand('copy');
+                this.textContent = '✅ Đã sao chép!';
+                setTimeout(() => {
+                    this.textContent = '📋 Sao chép';
+                }, 1500);
+            });
+        }
+        
+        // Close on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && popupOverlay?.classList.contains('active')) {
+                closePopup();
+            }
         });
     }
 

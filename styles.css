@@ -176,6 +176,30 @@ body {
     font-weight: 500;
 }
 
+/* ===== Navigation Button ===== */
+.nav-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, rgba(0, 245, 255, 0.2), rgba(196, 113, 237, 0.2));
+    border: 1px solid rgba(0, 245, 255, 0.4);
+    border-radius: var(--radius-full);
+    color: var(--neon-cyan);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.nav-button:hover {
+    background: linear-gradient(135deg, rgba(0, 245, 255, 0.3), rgba(196, 113, 237, 0.3));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 245, 255, 0.3);
+}
+
 /* ===== Nav Wrapper ===== */
 nav[aria-label="Danh sách dịch vụ"] {
     display: flex;
@@ -592,6 +616,323 @@ body.effects-off .gradient-bg {
 
 body.effects-off #starfield {
     opacity: 0.3;
+}
+
+/* ===== Combo Card Styles ===== */
+.combo-card {
+    max-width: 420px;
+}
+
+.combo-list {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto;
+}
+
+.combo-item {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-md);
+    padding: 15px;
+    transition: all 0.3s ease;
+}
+
+.combo-item:hover {
+    transform: translateY(-4px);
+    background: rgba(255, 107, 157, 0.08);
+    box-shadow: 0 10px 30px rgba(255, 45, 117, 0.15);
+    border-color: var(--neon-pink);
+}
+
+.combo-item.vip {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.05));
+    border-color: rgba(255, 215, 0, 0.4);
+}
+
+.combo-item.vip:hover {
+    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
+    border-color: gold;
+}
+
+.combo-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--card-border);
+}
+
+.combo-badge {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-white);
+    background: radial-gradient(circle at 30% 30%, #ff7bbd, #d84fd1);
+    border-radius: var(--radius-full);
+    flex-shrink: 0;
+}
+
+.combo-item.vip .combo-badge {
+    background: radial-gradient(circle at 30% 30%, #ffd700, #ff8c00);
+    font-size: 1.2rem;
+}
+
+.combo-title {
+    flex: 1;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-white);
+}
+
+.combo-item.vip .combo-title {
+    background: linear-gradient(135deg, #ffd700, #ff8c00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.combo-price {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--neon-cyan);
+    background: rgba(0, 245, 255, 0.15);
+    padding: 6px 14px;
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(0, 245, 255, 0.3);
+}
+
+.combo-item.vip .combo-price {
+    color: #ffd700;
+    background: rgba(255, 215, 0, 0.15);
+    border-color: rgba(255, 215, 0, 0.3);
+}
+
+.combo-details {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.combo-details li {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    padding-left: 18px;
+    position: relative;
+}
+
+.combo-details li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--neon-pink);
+    font-weight: 700;
+    font-size: 0.75rem;
+}
+
+.combo-item.vip .combo-details li::before {
+    color: #ffd700;
+}
+
+/* ===== Warranty Banner ===== */
+.warranty-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 16px;
+    margin: 12px 15px 0 15px;
+    background: linear-gradient(135deg, rgba(0, 245, 255, 0.15), rgba(196, 113, 237, 0.15), rgba(255, 107, 157, 0.15));
+    border: 1px solid rgba(0, 245, 255, 0.3);
+    border-radius: var(--radius-md);
+    animation: warrantyGlow 3s ease-in-out infinite;
+}
+
+@keyframes warrantyGlow {
+    0%, 100% {
+        box-shadow: 0 0 15px rgba(0, 245, 255, 0.2);
+        border-color: rgba(0, 245, 255, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 25px rgba(196, 113, 237, 0.3);
+        border-color: rgba(196, 113, 237, 0.4);
+    }
+}
+
+.warranty-icon {
+    font-size: 1.3rem;
+    animation: iconPulse 2s ease-in-out infinite;
+}
+
+.warranty-icon:first-child {
+    animation-delay: 0s;
+}
+
+.warranty-icon:last-child {
+    animation-delay: 1s;
+}
+
+@keyframes iconPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+.warranty-text {
+    font-size: 0.9rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple), var(--neon-pink), var(--neon-cyan));
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: textShine 4s linear infinite;
+}
+
+@keyframes textShine {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+}
+
+/* ===== Popup Modal ===== */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.popup-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.popup-modal {
+    width: 90%;
+    max-width: 400px;
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--card-border);
+    padding: 24px;
+    position: relative;
+    transform: scale(0.9) translateY(20px);
+    transition: transform 0.3s ease;
+}
+
+.popup-overlay.active .popup-modal {
+    transform: scale(1) translateY(0);
+}
+
+.popup-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-white);
+    font-size: 1.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.popup-close:hover {
+    background: var(--neon-pink);
+    transform: rotate(90deg);
+}
+
+.popup-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    padding-right: 30px;
+    background: linear-gradient(135deg, var(--accent), var(--neon-cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.popup-textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-md);
+    color: var(--text-white);
+    font-family: inherit;
+    font-size: 0.9rem;
+    resize: vertical;
+    transition: border-color 0.2s ease;
+}
+
+.popup-textarea:focus {
+    outline: none;
+    border-color: var(--neon-cyan);
+}
+
+.popup-textarea::placeholder {
+    color: var(--text-muted);
+}
+
+.popup-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.popup-btn {
+    flex: 1;
+    padding: 12px 16px;
+    border: none;
+    border-radius: var(--radius-full);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.popup-btn-copy {
+    background: rgba(0, 245, 255, 0.2);
+    color: var(--neon-cyan);
+    border: 1px solid rgba(0, 245, 255, 0.3);
+}
+
+.popup-btn-copy:hover {
+    background: rgba(0, 245, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.popup-btn-save {
+    background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+    color: var(--text-white);
+}
+
+.popup-btn-save:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 45, 117, 0.3);
 }
 
 /* ===== Responsive Design ===== */
