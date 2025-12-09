@@ -212,11 +212,7 @@
         const popupOverlay = document.getElementById('popupOverlay');
         const popupClose = document.getElementById('popupClose');
         const popupTitle = document.getElementById('popupTitle');
-        const popupTextarea = document.getElementById('popupTextarea');
-        const popupCopy = document.getElementById('popupCopy');
-        const popupSave = document.getElementById('popupSave');
-        
-        let currentItemIndex = null;
+        const popupInfo = document.getElementById('popupInfo');
         
         // Staggered entrance animation
         menuItems.forEach((item, idx) => {
@@ -248,18 +244,13 @@
                     setTimeout(() => ripple.remove(), 600);
                 }
                 
-                // Open popup
-                if (popupOverlay) {
-                    currentItemIndex = idx;
+                // Open popup if item has data-info
+                const info = this.dataset.info;
+                if (popupOverlay && info) {
                     const itemText = this.querySelector('.item-text')?.textContent || 'Chi tiết';
                     popupTitle.textContent = itemText;
-                    
-                    // Load saved note
-                    const savedNote = localStorage.getItem('menu_note_' + idx) || '';
-                    popupTextarea.value = savedNote;
-                    
+                    popupInfo.textContent = info;
                     popupOverlay.classList.add('active');
-                    popupTextarea.focus();
                 }
             });
 
@@ -276,7 +267,6 @@
         function closePopup() {
             if (popupOverlay) {
                 popupOverlay.classList.remove('active');
-                currentItemIndex = null;
             }
         }
         
@@ -287,31 +277,6 @@
         if (popupOverlay) {
             popupOverlay.addEventListener('click', function(e) {
                 if (e.target === this) closePopup();
-            });
-        }
-        
-        // Save note
-        if (popupSave) {
-            popupSave.addEventListener('click', function() {
-                if (currentItemIndex !== null) {
-                    localStorage.setItem('menu_note_' + currentItemIndex, popupTextarea.value);
-                    this.textContent = '✅ Đã lưu!';
-                    setTimeout(() => {
-                        this.textContent = '💾 Lưu';
-                    }, 1500);
-                }
-            });
-        }
-        
-        // Copy to clipboard
-        if (popupCopy) {
-            popupCopy.addEventListener('click', function() {
-                popupTextarea.select();
-                document.execCommand('copy');
-                this.textContent = '✅ Đã sao chép!';
-                setTimeout(() => {
-                    this.textContent = '📋 Sao chép';
-                }, 1500);
             });
         }
         
@@ -334,6 +299,160 @@
             setTimeout(() => {
                 this.style.transform = 'scale(1)';
             }, 150);
+        });
+    }
+
+    // ===== QR Lightbox =====
+    function initQRLightbox() {
+        const qrImage = document.getElementById('qrImage');
+        const qrLightbox = document.getElementById('qrLightbox');
+        
+        if (!qrImage || !qrLightbox) return;
+        
+        // Click to open
+        qrImage.addEventListener('click', function() {
+            qrLightbox.classList.add('active');
+        });
+        
+        // Click to close
+        qrLightbox.addEventListener('click', function() {
+            qrLightbox.classList.remove('active');
+        });
+        
+        // Escape to close
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && qrLightbox.classList.contains('active')) {
+                qrLightbox.classList.remove('active');
+            }
+        });
+    }
+
+    // ===== Copy STK =====
+    function initCopySTK() {
+        const copyBtn = document.getElementById('copyStk');
+        const bankNumber = document.getElementById('bankNumber');
+        const copyToast = document.getElementById('copyToast');
+        
+        if (!copyBtn || !bankNumber) return;
+        
+        copyBtn.addEventListener('click', function() {
+            const stk = bankNumber.dataset.stk;
+            
+            // Copy to clipboard
+            navigator.clipboard.writeText(stk).then(() => {
+                // Show toast
+                if (copyToast) {
+                    copyToast.classList.add('show');
+                    setTimeout(() => {
+                        copyToast.classList.remove('show');
+                    }, 2000);
+                }
+                
+                // Change button text temporarily
+                this.textContent = '✅';
+                setTimeout(() => {
+                    this.textContent = '📋';
+                }, 2000);
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = stk;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                if (copyToast) {
+                    copyToast.classList.add('show');
+                    setTimeout(() => {
+                        copyToast.classList.remove('show');
+                    }, 2000);
+                }
+            });
+        });
+    }
+
+    // ===== Confetti for VIP Combo =====
+    function initConfetti() {
+        const vipCombo = document.querySelector('.combo-item.vip');
+        if (!vipCombo) return;
+        
+        vipCombo.addEventListener('click', function() {
+            createConfetti();
+        });
+    }
+
+    function createConfetti() {
+        const colors = ['#ff6b9d', '#c471ed', '#00f5ff', '#ffd700', '#ff4757', '#00e676'];
+        const confettiCount = 50;
+        
+        for (let i = 0; i < confettiCount; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.top = '-10px';
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.width = Math.random() * 10 + 5 + 'px';
+            confetti.style.height = Math.random() * 10 + 5 + 'px';
+            confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+            confetti.style.animationDuration = Math.random() * 2 + 2 + 's';
+            confetti.style.animationDelay = Math.random() * 0.5 + 's';
+            
+            document.body.appendChild(confetti);
+            
+            // Remove after animation
+            setTimeout(() => confetti.remove(), 4000);
+        }
+    }
+
+    // ===== Background Music =====
+    function initMusic() {
+        const bgMusic = document.getElementById('bgMusic');
+        const musicToggle = document.getElementById('musicToggle');
+        
+        if (!bgMusic || !musicToggle) return;
+        
+        // Set volume
+        bgMusic.volume = 0.3;
+        
+        // Check if user explicitly disabled music (default is ON)
+        const musicDisabled = localStorage.getItem('musicEnabled') === 'false';
+        
+        // Update button state
+        function updateButton(playing) {
+            musicToggle.textContent = playing ? '🔊' : '🔇';
+            musicToggle.classList.toggle('playing', playing);
+        }
+        
+        // Auto-play on first user interaction (unless user disabled it)
+        if (!musicDisabled) {
+            const playOnInteraction = () => {
+                bgMusic.play().then(() => {
+                    updateButton(true);
+                }).catch(() => {});
+                document.removeEventListener('click', playOnInteraction);
+                document.removeEventListener('touchstart', playOnInteraction);
+            };
+            document.addEventListener('click', playOnInteraction);
+            document.addEventListener('touchstart', playOnInteraction);
+        }
+        
+        // Toggle music on button click
+        musicToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            
+            if (bgMusic.paused) {
+                bgMusic.play().then(() => {
+                    updateButton(true);
+                    localStorage.setItem('musicEnabled', 'true');
+                }).catch(err => {
+                    console.log('Could not play music:', err);
+                });
+            } else {
+                bgMusic.pause();
+                updateButton(false);
+                localStorage.setItem('musicEnabled', 'false');
+            }
         });
     }
 
@@ -383,6 +502,10 @@
         initEffectsToggle();
         initMenuItems();
         initZaloButton();
+        initQRLightbox();
+        initCopySTK();
+        initConfetti();
+        initMusic();
 
         console.log('✨ Menu initialized!');
     }

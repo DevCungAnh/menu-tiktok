@@ -18,173 +18,290 @@
 -->
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bảng Giá Dịch Vụ | Lên Điểm CMT</title>
-    <meta name="description" content="Bảng giá dịch vụ tăng tương tác - View, Like, Comment, Share, Follow">
-    
+    <meta
+      name="description"
+      content="Bảng giá dịch vụ tăng tương tác - View, Like, Comment, Share, Follow"
+    />
+
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
     <!-- Star Particle Background (Canvas) -->
     <canvas id="starfield" aria-hidden="true"></canvas>
-    
+
     <!-- Animated Gradient Overlay -->
     <div class="gradient-bg" aria-hidden="true"></div>
 
     <!-- Main Content -->
     <main class="main-container">
-        <!-- Menu Card -->
-        <article class="menu-card">
-            <!-- Header -->
-            <header class="card-header">
-                <h1 class="card-title">Lên Điểm CMT v1, v2</h1>
-                <p class="card-subtitle">(tính cả v ghim) có nhận đăng lại ạ</p>
-                <a href="combo.html" class="nav-button">📦 Bảng giá ck ngoài</a>
-            </header>
+      <!-- Menu Card -->
+      <article class="menu-card">
+        <!-- Header -->
+        <header class="card-header">
+          <h1 class="card-title">Lên Điểm CMT v1, v2</h1>
+          <p class="card-subtitle">(tính cả v ghim) có nhận đăng lại ạ</p>
+          <a href="combo.html" class="nav-button">📦 Bảng giá ck ngoài</a>
+        </header>
 
-            <!-- Menu List -->
-            <nav aria-label="Danh sách dịch vụ">
-                <ul class="menu-list" role="list">
-                    <!-- Item 1: 50k view -->
-                    <li class="menu-item featured" data-qty="5" data-tooltip="5k view" tabindex="0">
-                        <span class="item-qty">5</span>
-                        <span class="item-icon" aria-hidden="true"><img src="https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/eba3a9bb85c33e017f3648eaf88d7189~tplv-obj.webp" alt="Hoa hồng" style="width: 28px; height: 28px; object-fit: contain;"></span>
-                        <span class="item-text">5000 view</span>
-                    </li>
+        <!-- Menu List -->
+        <nav aria-label="Danh sách dịch vụ">
+          <ul class="menu-list" role="list">
+            <!-- Item 1: 5000 view -->
+            <li
+              class="menu-item featured"
+              data-qty="5"
+              data-tooltip="5k view"
+              data-info="Có tuột"
+              tabindex="0"
+            >
+              <span class="item-qty">5</span>
+              <span class="item-icon" aria-hidden="true"
+                ><img
+                  src="https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/eba3a9bb85c33e017f3648eaf88d7189~tplv-obj.webp"
+                  alt="Hoa hồng"
+                  style="width: 28px; height: 28px; object-fit: contain"
+              /></span>
+              <span class="item-text">10000 view</span>
+            </li>
 
-                    <!-- Divider -->
-                    <li class="divider" aria-hidden="true"></li>
+            <!-- Divider -->
+            <li class="divider" aria-hidden="true"></li>
 
-                    <!-- Item 2: 100->200 -->
-                    <li class="menu-item" data-qty="1" data-tooltip="Like tăng từ 100 đến 200" tabindex="0">
+            <!-- Item 2: 500 Tim Chậm -->
+            <li
+              class="menu-item"
+              data-qty="1"
+              data-tooltip="1000 Tim Chậm"
+              data-info="Không bảo hành"
+              tabindex="0"
+            >
+              <span class="item-qty">1</span>
+              <span class="item-icon" aria-hidden="true"
+                ><img
+                  src="https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/e45927083072ffe0015253d11e11a3b3~tplv-obj.webp"
+                  alt="Chú heo may mắn"
+                  style="width: 28px; height: 28px; object-fit: contain"
+              /></span>
+              <span class="item-text">1000 Tim Chậm</span>
+              <span class="item-badges">
+                <span class="badge-heart" aria-label="Tim">❤️</span>
+                <!-- <span class="badge-flag" aria-label="Việt Nam">🇻🇳</span> -->
+                <span class="badge-flag" aria-label="Mỹ">🇺🇸</span>
+              </span>
+            </li>
+
+            <!-- Divider -->
+            <li class="divider" aria-hidden="true"></li>
+
+            <!-- Item 2: 500 Tim Siêu Tốc -->
+            <li
+              class="menu-item"
+              data-qty="1"
+              data-tooltip="500 Tim Siêu Tốc"
+              data-info="Bảo hành 30 ngày"
+              tabindex="0"
+            >
+              <span class="item-qty">1</span>
+              <span class="item-icon" aria-hidden="true"
+                ><img
+                  src="https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/d53125bd5416e6f2f6ab61da02ddd302.png~tplv-obj.webp"
+                  alt="Chú heo may mắn"
+                  style="width: 28px; height: 28px; object-fit: contain"
+              /></span>
+              <span class="item-text">500 Tim Siêu Tốc</span>
+              <span class="item-badges">
+                <span class="badge-heart" aria-label="Tim">❤️</span>
+                <!-- <span class="badge-flag" aria-label="Việt Nam">🇻🇳</span> -->
+                <span class="badge-flag" aria-label="Mỹ">🇺🇸</span>
+              </span>
+            </li>
+
+            <li class="divider" aria-hidden="true"></li>
+
+            <!-- Item 3: 300 Tim -->
+            <li
+              class="menu-item"
+              data-qty="1"
+              data-tooltip="300 Tim Mỹ"
+              data-info="Bảo hành 365 ngày"
+              tabindex="0"
+            >
+              <span class="item-qty">1</span>
+              <span class="item-icon" aria-hidden="true"
+                ><img
+                  src="https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/eb77ead5c3abb6da6034d3cf6cfeb438~tplv-obj.webp"
+                  alt="Rosa"
+                  style="width: 28px; height: 28px; object-fit: contain"
+              /></span>
+              <span class="item-text">300 (BH 365 ngày)</span>
+              <span class="item-badges">
+                <span class="badge-heart" aria-label="Tim">❤️</span>
+                <span class="badge-flag" aria-label="Mỹ">🇺🇸</span>
+              </span>
+            </li>
+
+            <li class="divider" aria-hidden="true"></li>
+
+            <!-- Item 4: 100 FL -->
+            <li
+              class="menu-item"
+              data-qty="4"
+              data-tooltip="100 Follow"
+              tabindex="0"
+            >
+              <span class="item-qty">4</span>
+              <span class="item-icon" aria-hidden="true"
+                ><img
+                  src="https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/d53125bd5416e6f2f6ab61da02ddd302.png~tplv-obj.webp"
+                  alt="Chú heo may mắn"
+                  style="width: 28px; height: 28px; object-fit: contain"
+              /></span>
+              <span class="item-text">100 FL Không Tụt</span>
+              <span class="item-badges">
+                <span class="badge-flag" aria-label="Việt Nam">🇻🇳</span>
+              </span>
+            </li>
+
+            <li class="divider" aria-hidden="true"></li>
+
+            <!-- Item 5: 200 yêu thích / share -->
+            <li
+              class="menu-item"
+              data-qty="1"
+              data-tooltip="200 lượt yêu thích hoặc chia sẻ"
+              data-info="Không tuột"
+              tabindex="0"
+            >
+              <span class="item-qty">1</span>
+              <span class="item-icon" aria-hidden="true"
+                ><img
+                  src="https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/312f721603de550519983ca22f5cc445.png~tplv-obj.webp"
+                  alt="Cỏ bốn lá"
+                  style="width: 28px; height: 28px; object-fit: contain"
+              /></span>
+              <span class="item-text">200 yêu thích / share</span>
+            </li>
+
+            <li class="divider" aria-hidden="true"></li>
+
+            <!-- Item 6: 20 cmt -->
+            <li
+              class="menu-item"
+              data-qty="1"
+              data-tooltip="20 bình luận"
+              data-info="Khách tự viết hoặc sốp tự viết"
+              tabindex="0"
+            >
+              <span class="item-qty">1</span>
+              <span class="item-icon" aria-hidden="true"
+                ><img
+                  src="https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/4e7ad6bdf0a1d860c538f38026d4e812~tplv-obj.webp"
+                  alt="Bánh vòng"
+                  style="width: 28px; height: 28px; object-fit: contain"
+              /></span>
+              <span class="item-text">20 cmt</span>
+              <span class="item-badges">
+                <span class="badge-flag" aria-label="Việt Nam">🇻🇳</span>
+              </span>
+            </li>
+
+            <li class="divider" aria-hidden="true"></li>
+
+            <!-- Item 8: 5000 Tim -->
+            <li
+              class="menu-item premium"
+              data-qty="1"
+              data-tooltip="5000 Tim Mỹ"
+              data-info="Bảo hành 365 ngày"
+              tabindex="0"
+            >
+              <span class="item-qty">1</span>
+              <span class="item-icon" aria-hidden="true"
+                ><img
+                  src="https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/0f158a08f7886189cdabf496e8a07c21~tplv-obj.webp"
+                  alt="Hạc giấy"
+                  style="width: 28px; height: 28px; object-fit: contain"
+              /></span>
+              <span class="item-text">5000 Tim (BH 365 ngày)</span>
+              <span class="item-badges">
+                <span class="badge-heart" aria-label="Tim">❤️</span>
+                <!-- <span class="badge-flag" aria-label="Việt Nam">🇻🇳</span> -->
+                <span class="badge-flag" aria-label="Mỹ">🇺🇸</span>
+              </span>
+            </li>
+
+            <li class="divider" aria-hidden="true"></li>
+
+            <!-- Item 9: 1000 FL -->
+            <!-- <li class="menu-item premium" data-qty="1" data-tooltip="1000 Follow" data-info="Bảo hành vĩnh viễn" tabindex="0">
                         <span class="item-qty">1</span>
-                        <span class="item-icon" aria-hidden="true"><img src="https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/d53125bd5416e6f2f6ab61da02ddd302.png~tplv-obj.webp" alt="Chú heo may mắn" style="width: 28px; height: 28px; object-fit: contain;"></span>
-                        <span class="item-text">500 Tim Siêu Tốc</span>
-                        <span class="item-badges">
-                            <span class="badge-heart" aria-label="Tim">❤️</span>
-                            <!-- <span class="badge-flag" aria-label="Việt Nam">🇻🇳</span> -->
-                            <span class="badge-flag" aria-label="Mỹ">🇺🇸</span>
-                        </span>
-                    </li>
-
-                    <li class="divider" aria-hidden="true"></li>
-
-                    <!-- Item 3: 250->350 -->
-                    <li class="menu-item" data-qty="1" data-tooltip="300 Tim Mỹ" tabindex="0">
-                        <span class="item-qty">1</span>
-                        <span class="item-icon" aria-hidden="true"><img src="https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/d53125bd5416e6f2f6ab61da02ddd302.png~tplv-obj.webp" alt="Chú heo may mắn" style="width: 28px; height: 28px; object-fit: contain;"></span>
-                        <span class="item-text">300 (BH 365 ngày)</span>
-                        <span class="item-badges">
-                            <span class="badge-heart" aria-label="Tim">❤️</span>
-                            <span class="badge-flag" aria-label="Mỹ">🇺🇸</span>
-                        </span>
-                    </li>
-
-                    <li class="divider" aria-hidden="true"></li>
-
-                    <!-- Item 4: 100 FL -->
-                    <li class="menu-item" data-qty="4" data-tooltip="100 Follow" tabindex="0">
-                        <span class="item-qty">4</span>
-                        <span class="item-icon" aria-hidden="true"><img src="https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/d53125bd5416e6f2f6ab61da02ddd302.png~tplv-obj.webp" alt="Chú heo may mắn" style="width: 28px; height: 28px; object-fit: contain;"></span>
-                        <span class="item-text">100 FL Không Tụt</span>
-                        <span class="item-badges">
-                            <span class="badge-flag" aria-label="Việt Nam">🇻🇳</span>
-                        </span>
-                    </li>
-
-                    <li class="divider" aria-hidden="true"></li>
-
-                    <!-- Item 5: 200 yêu thích / share -->
-                    <li class="menu-item" data-qty="1" data-tooltip="200 lượt yêu thích hoặc chia sẻ" tabindex="0">
-                        <span class="item-qty">1</span>
-                        <span class="item-icon" aria-hidden="true"><img src="https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/312f721603de550519983ca22f5cc445.png~tplv-obj.webp" alt="Cỏ bốn lá" style="width: 28px; height: 28px; object-fit: contain;"></span>
-                        <span class="item-text">200 yêu thích / share</span>
-                    </li>
-
-                    <li class="divider" aria-hidden="true"></li>
-
-                    <!-- Item 6: 20 cmt -->
-                    <li class="menu-item" data-qty="1" data-tooltip="20 bình luận" tabindex="0">
-                        <span class="item-qty">1</span>
-                        <span class="item-icon" aria-hidden="true"><img src="https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/4e7ad6bdf0a1d860c538f38026d4e812~tplv-obj.webp" alt="Bánh vòng" style="width: 28px; height: 28px; object-fit: contain;"></span>
-                        <span class="item-text">20 cmt</span>
-                        <span class="item-badges">
-                            <span class="badge-flag" aria-label="Việt Nam">🇻🇳</span>
-                        </span>
-                    </li>
-
-                    <li class="divider" aria-hidden="true"></li>
-
-                    <!-- Item 8: 1000->1500 -->
-                    <li class="menu-item premium" data-qty="1" data-tooltip="Like tăng từ 1000 đến 1500" tabindex="0">
-                        <span class="item-qty">1</span>
-                        <span class="item-icon" aria-hidden="true"><img src="https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/c2cd98b5d3147b983fcbf35d6dd38e36.png~tplv-obj.webp" alt="Hộp quà bóng bay" style="width: 28px; height: 28px; object-fit: contain;"></span>
-                        <span class="item-text">5000 (BH 365 ngày)</span>
-                        <span class="item-badges">
-                            <span class="badge-heart" aria-label="Tim">❤️</span>
-                            <!-- <span class="badge-flag" aria-label="Việt Nam">🇻🇳</span> -->
-                            <span class="badge-flag" aria-label="Mỹ">🇺🇸</span>
-                        </span>
-                    </li>
-
-                    <li class="divider" aria-hidden="true"></li>
-
-                    <!-- Item 9: 1000 FL -->
-                    <li class="menu-item premium" data-qty="1" data-tooltip="1000 Follow" tabindex="0">
-                        <span class="item-qty">1</span>
-                        <span class="item-icon" aria-hidden="true"><img src="https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/767d7ea90f58f3676bbc5b1ae3c9851d.png~tplv-obj.webp" alt="Rocky Hạt đậu" style="width: 28px; height: 28px; object-fit: contain;"></span>
+                        <span class="item-icon" aria-hidden="true"><img src="https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/148eef0884fdb12058d1c6897d1e02b9~tplv-obj.webp" alt="Chó Corgi" style="width: 28px; height: 28px; object-fit: contain;"></span>
                         <span class="item-text">1000 FL Không Tụt</span>
                         <span class="item-badges">
                             <span class="badge-flag" aria-label="Việt Nam">🇻🇳</span>
                         </span>
-                    </li>
-                </ul> 
-            </nav>
+                    </li> -->
+          </ul>
+        </nav>
 
-            <!-- Footer -->
-            <footer class="card-footer">
-                <div class="footer-content">
-                    <p class="zalo-contact">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" alt="Zalo" style="width: 24px; height: 24px;">
-                        <span>Zalo: 0559629469</span>
-                    </p>
-                    <p class="copyright-text">
-                        <span class="copyright-icon">©</span>
-                        <span class="copyright-label">Bản quyền thuộc về</span>
-                        <span class="copyright-name">TUẤN ANH</span>
-                    </p>
-                </div>
-                <button 
-                    class="effects-toggle" 
-                    id="effectsToggle"
-                    aria-label="Bật/tắt hiệu ứng nền"
-                    aria-pressed="true"
-                    title="Bật/tắt hiệu ứng">✨</button>
-            </footer>
-        </article>
+        <!-- Footer -->
+        <footer class="card-footer">
+          <div class="footer-content">
+            <p class="zalo-contact">
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg"
+                alt="Zalo"
+                style="width: 24px; height: 24px"
+              />
+              <span>Zalo: 0559629469</span>
+            </p>
+            <p class="copyright-text">
+              <span class="copyright-icon">©</span>
+              <span class="copyright-label">Bản quyền thuộc về</span>
+              <span class="copyright-name">TUẤN ANH</span>
+            </p>
+          </div>
+          <button
+            class="effects-toggle"
+            id="effectsToggle"
+            aria-label="Bật/tắt hiệu ứng nền"
+            aria-pressed="true"
+            title="Bật/tắt hiệu ứng"
+          >
+            ✨
+          </button>
+        </footer>
+      </article>
     </main>
 
-    <!-- Popup Modal (commented out)
     <div class="popup-overlay" id="popupOverlay">
-        <div class="popup-modal">
-            <button class="popup-close" id="popupClose" aria-label="Đóng">×</button>
-            <h3 class="popup-title" id="popupTitle">Chi tiết</h3>
-            <textarea class="popup-textarea" id="popupTextarea" placeholder="Nhập ghi chú của bạn..."></textarea>
-            <div class="popup-actions">
-                <button class="popup-btn popup-btn-copy" id="popupCopy">📋 Sao chép</button>
-                <button class="popup-btn popup-btn-save" id="popupSave">💾 Lưu</button>
-            </div>
-        </div>
+      <div class="popup-modal">
+        <button class="popup-close" id="popupClose" aria-label="Đóng">×</button>
+        <h3 class="popup-title" id="popupTitle">Chi tiết</h3>
+        <p class="popup-info" id="popupInfo">Thông tin chi tiết</p>
+      </div>
     </div>
-    -->
+
+    <!-- Background Music -->
+    <audio id="bgMusic" loop>
+      <source src="music/bg.mp3" type="audio/mpeg" />
+    </audio>
+    <button class="music-toggle" id="musicToggle" title="Bật/tắt nhạc">
+      🔇
+    </button>
 
     <script src="script.js"></script>
-</body>
+  </body>
 </html>

@@ -4,138 +4,183 @@
 -->
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bảng Giá CK Ngoài | Combo TikTok</title>
-    <meta name="description" content="Bảng giá combo TikTok ưu đãi - Chiết khấu đặc biệt">
-    
+    <meta
+      name="description"
+      content="Bảng giá combo TikTok ưu đãi - Chiết khấu đặc biệt"
+    />
+
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
     <!-- Star Particle Background (Canvas) -->
     <canvas id="starfield" aria-hidden="true"></canvas>
-    
+
     <!-- Animated Gradient Overlay -->
     <div class="gradient-bg" aria-hidden="true"></div>
 
     <!-- Main Content -->
     <main class="main-container">
-        <!-- Menu Card -->
-        <article class="menu-card combo-card">
-            <!-- Header -->
-            <header class="card-header">
-                <h1 class="card-title">Bảng Giá CK Ngoài</h1>
-                <p class="card-subtitle">Combo TikTok ưu đãi - Chiết khấu đặc biệt</p>
-                <a href="index.html" class="nav-button">🏠 Quay về trang chính</a>
-            </header>
+      <!-- Menu Card -->
+      <article class="menu-card combo-card">
+        <!-- Header -->
+        <header class="card-header">
+          <h1 class="card-title">Bảng Giá CK Ngoài</h1>
+          <p class="card-subtitle">Combo TikTok ưu đãi - Chiết khấu đặc biệt</p>
+          <a href="index.html" class="nav-button">🏠 Quay về trang chính</a>
+        </header>
 
-            <!-- Warranty Banner -->
-            <div class="warranty-banner">
-                <span class="warranty-icon">🛡️</span>
-                <span class="warranty-text">Tất cả dịch vụ đều được bảo hành</span>
+        <!-- Warranty Banner -->
+        <div class="warranty-banner">
+          <span class="warranty-icon">🛡️</span>
+          <span class="warranty-text">Tất cả dịch vụ đều được bảo hành</span>
+        </div>
+
+        <!-- Combo List -->
+        <div class="combo-list">
+          <!-- Combo VIP -->
+          <div class="combo-item vip">
+            <div class="combo-header">
+              <span class="combo-badge">👑</span>
+              <h3 class="combo-title">Combo TikTok VIP*</h3>
+              <span class="combo-price">100K</span>
             </div>
+            <ul class="combo-details">
+              <li>1000 FL Chất Lượng Cao</li>
+              <li>4000 Tim (Bảo hành)</li>
+              <li>100.000 View xuhuong</li>
+              <li>50 bình luận (viết tay)</li>
+              <li>500 Yêu Thích</li>
+              <li>500 Share</li>
+            </ul>
+          </div>
 
-            <!-- Combo List -->
-            <div class="combo-list">
-
-                <!-- Combo VIP -->
-                <div class="combo-item vip">
-                    <div class="combo-header">
-                        <span class="combo-badge">👑</span>
-                        <h3 class="combo-title">Combo TikTok VIP*</h3>
-                        <span class="combo-price">100K</span>
-                    </div>
-                    <ul class="combo-details">
-                        <li>1000 FL Chất Lượng Cao</li>
-                        <li>3000 Tim (Bảo hành 365 ngày)</li>
-                        <li>100.000 View xuhuong</li>
-                        <li>50 bình luận (viết tay)</li>
-                        <li>500 Yêu Thích</li>
-                        <li>500 Share</li>
-                    </ul>
-                </div>
-
-                <!-- Combo 2 -->
-                <div class="combo-item">
-                    <div class="combo-header">
-                        <span class="combo-badge">2</span>
-                        <h3 class="combo-title">Combo TikTok 2</h3>
-                        <span class="combo-price">75K</span>
-                    </div>
-                    <ul class="combo-details">
-                        <li>500 FL Chất Lượng Cao</li>
-                        <li>2000 Tim (Bảo hành 365 ngày)</li>
-                        <li>70.000 View xuhuong</li>
-                        <li>30 bình luận (viết tay)</li>
-                        <li>500 Yêu Thích</li>
-                        <li>500 Share</li>
-                    </ul>
-                </div>
-
-                <!-- Combo 1 -->
-                <div class="combo-item">
-                    <div class="combo-header">
-                        <span class="combo-badge">1</span>
-                        <h3 class="combo-title">Combo TikTok 1</h3>
-                        <span class="combo-price">35K</span>
-                    </div>
-                    <ul class="combo-details">
-                        <li>250 FL Chất Lượng Cao</li>
-                        <li>1000 Tim (Bảo hành 365 ngày)</li>
-                        <li>50.000 View xuhuong</li>
-                        <li>20 bình luận (viết tay)</li>
-                        <li>500 Yêu Thích</li>
-                        <li>500 Share</li>
-                    </ul>
-                </div>
-
-                <!-- Combo 0 -->
-                <div class="combo-item">
-                    <div class="combo-header">
-                        <span class="combo-badge">0</span>
-                        <h3 class="combo-title">Combo TikTok 0</h3>
-                        <span class="combo-price">20K</span>
-                    </div>
-                    <ul class="combo-details">
-                        <li>1000 Tim (Bảo hành 365 ngày)</li>
-                        <li>25.000 View xuhuong</li>
-                        <li>20 bình luận (viết tay)</li>
-                        <li>200 Yêu Thích</li>
-                        <li>200 Share</li>
-                    </ul>
-                </div>
-
+          <!-- Combo 2 -->
+          <div class="combo-item">
+            <div class="combo-header">
+              <span class="combo-badge">2</span>
+              <h3 class="combo-title">Combo TikTok 2</h3>
+              <span class="combo-price">75K</span>
             </div>
+            <ul class="combo-details">
+              <li>500 FL Chất Lượng Cao</li>
+              <li>3000 Tim (Bảo hành)</li>
+              <li>70.000 View xuhuong</li>
+              <li>30 bình luận (viết tay)</li>
+              <li>500 Yêu Thích</li>
+              <li>500 Share</li>
+            </ul>
+          </div>
 
-            <!-- Footer -->
-            <footer class="card-footer">
-                <div class="footer-content">
-                    <p class="zalo-contact">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" alt="Zalo" style="width: 24px; height: 24px;">
-                        <span>Zalo: 0559629469</span>
-                    </p>
-                    <p class="copyright-text">
-                        <span class="copyright-icon">©</span>
-                        <span class="copyright-label">Bản quyền thuộc về</span>
-                        <span class="copyright-name">TUẤN ANH</span>
-                    </p>
-                </div>
-                <button 
-                    class="effects-toggle" 
-                    id="effectsToggle"
-                    aria-label="Bật/tắt hiệu ứng nền"
-                    aria-pressed="true"
-                    title="Bật/tắt hiệu ứng">✨</button>
-            </footer>
-        </article>
+          <!-- Combo 1 -->
+          <div class="combo-item">
+            <div class="combo-header">
+              <span class="combo-badge">1</span>
+              <h3 class="combo-title">Combo TikTok 1</h3>
+              <span class="combo-price">35K</span>
+            </div>
+            <ul class="combo-details">
+              <li>250 FL Chất Lượng Cao</li>
+              <li>2000 Tim (Bảo hành)</li>
+              <li>50.000 View xuhuong</li>
+              <li>20 bình luận (viết tay)</li>
+              <li>500 Yêu Thích</li>
+              <li>500 Share</li>
+            </ul>
+          </div>
+
+          <!-- Combo 0 -->
+          <div class="combo-item">
+            <div class="combo-header">
+              <span class="combo-badge">0</span>
+              <h3 class="combo-title">Combo TikTok 0</h3>
+              <span class="combo-price">20K</span>
+            </div>
+            <ul class="combo-details">
+              <li>1000 Tim (Bảo hành)</li>
+              <li>25.000 View xuhuong</li>
+              <li>20 bình luận (viết tay)</li>
+              <li>200 Yêu Thích</li>
+              <li>200 Share</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Bank Info -->
+        <div class="bank-info">
+          <h3 class="bank-title">💳 Thông tin chuyển khoản</h3>
+          <div class="bank-qr">
+            <img src="img/qr.jpg" alt="QR Code" class="qr-image" id="qrImage" />
+          </div>
+          <div class="bank-details">
+            <p class="bank-number" id="bankNumber" data-stk="0325687430">
+              STK: <strong>0325687430</strong>
+              <span class="copy-btn" id="copyStk">📋</span>
+            </p>
+            <p class="bank-name">Nguyễn Tuấn Anh</p>
+          </div>
+          <p class="copy-toast" id="copyToast">✅ Đã sao chép!</p>
+        </div>
+
+        <!-- QR Lightbox -->
+        <div class="qr-lightbox" id="qrLightbox">
+          <img src="img/qr.jpg" alt="QR Code" class="qr-lightbox-image" />
+        </div>
+
+        <!-- Footer -->
+        <footer class="card-footer">
+          <div class="footer-content">
+            <a
+              href="https://zalo.me/0559629469"
+              target="_blank"
+              class="zalo-contact"
+              id="zaloLink"
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg"
+                alt="Zalo"
+                style="width: 24px; height: 24px"
+              />
+              <span>Zalo: 0559629469</span>
+            </a>
+            <p class="copyright-text">
+              <span class="copyright-icon">©</span>
+              <span class="copyright-label">Bản quyền thuộc về</span>
+              <span class="copyright-name">TUẤN ANH</span>
+            </p>
+          </div>
+          <button
+            class="effects-toggle"
+            id="effectsToggle"
+            aria-label="Bật/tắt hiệu ứng nền"
+            aria-pressed="true"
+            title="Bật/tắt hiệu ứng"
+          >
+            ✨
+          </button>
+        </footer>
+      </article>
     </main>
 
+    <!-- Background Music -->
+    <audio id="bgMusic" loop>
+      <source src="music/bg.mp3" type="audio/mpeg" />
+    </audio>
+    <button class="music-toggle" id="musicToggle" title="Bật/tắt nhạc">
+      🔇
+    </button>
+
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
