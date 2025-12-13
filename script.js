@@ -249,7 +249,7 @@
                 if (popupOverlay && info) {
                     const itemText = this.querySelector('.item-text')?.textContent || 'Chi tiết';
                     popupTitle.textContent = itemText;
-                    popupInfo.textContent = info;
+                    popupInfo.innerHTML = info;
                     popupOverlay.classList.add('active');
                 }
             });
