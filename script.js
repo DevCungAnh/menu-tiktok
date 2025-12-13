@@ -1,11 +1,14 @@
 /**
- * MENU SCRIPT - Floating Bubbles & Effects
- * =========================================
- * 
- * Các phần chính:
- * 1. Floating Bubbles (canvas) - Bong bóng bay lên
- * 2. Parallax Effect - Di chuyển theo chuột
- * 3. Effects Toggle - Bật/tắt hiệu ứng
+ * ╔══════════════════════════════════════════════════════════════╗
+ * ║                    BẢN QUYỀN THUỘC VỀ                        ║
+ * ║                   NGUYỄN TUẤN ANH                            ║
+ * ║                                                              ║
+ * ║  © 2024-2025 All Rights Reserved                            ║
+ * ║  Zalo: 0559629469                                            ║
+ * ║                                                              ║
+ * ║  NGHIÊM CẤM SAO CHÉP, PHÂN PHỐI HOẶC SỬ DỤNG                ║
+ * ║  MÀ KHÔNG CÓ SỰ CHO PHÉP CỦA TÁC GIẢ                        ║
+ * ╚══════════════════════════════════════════════════════════════╝
  */
 
 (function() {
