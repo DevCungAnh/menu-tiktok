@@ -11,7 +11,7 @@
  * ╚══════════════════════════════════════════════════════════════╝
  */
 
-(function() {
+(function () {
     'use strict';
 
     // ===== Configuration =====
@@ -50,12 +50,12 @@
             this.y = initial ? Math.random() * canvas.height : canvas.height + this.size;
             this.speed = Math.random() * (CONFIG.MAX_SPEED - CONFIG.MIN_SPEED) + CONFIG.MIN_SPEED;
             this.color = CONFIG.BUBBLE_COLORS[Math.floor(Math.random() * CONFIG.BUBBLE_COLORS.length)];
-            
+
             // Horizontal drift
             this.drift = (Math.random() - 0.5) * 0.5;
             this.driftAngle = Math.random() * Math.PI * 2;
             this.driftSpeed = Math.random() * 0.02 + 0.01;
-            
+
             // Opacity animation
             this.opacity = Math.random() * 0.5 + 0.3;
             this.opacityDirection = Math.random() > 0.5 ? 1 : -1;
@@ -64,16 +64,16 @@
         update() {
             // Rise up
             this.y -= this.speed;
-            
+
             // Horizontal drift (sine wave)
             this.driftAngle += this.driftSpeed;
             this.x += Math.sin(this.driftAngle) * this.drift;
-            
+
             // Opacity pulse
             this.opacity += 0.005 * this.opacityDirection;
             if (this.opacity >= 0.8) this.opacityDirection = -1;
             if (this.opacity <= 0.2) this.opacityDirection = 1;
-            
+
             // Reset when off screen
             if (this.y < -this.size * 2) {
                 this.reset();
@@ -83,7 +83,7 @@
         draw() {
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            
+
             // Gradient fill for 3D effect
             const gradient = ctx.createRadialGradient(
                 this.x - this.size * 0.3, this.y - this.size * 0.3, 0,
@@ -92,10 +92,10 @@
             gradient.addColorStop(0, 'rgba(255, 255, 255, ' + (this.opacity * 0.8) + ')');
             gradient.addColorStop(0.4, this.color);
             gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-            
+
             ctx.fillStyle = gradient;
             ctx.fill();
-            
+
             // Highlight
             ctx.beginPath();
             ctx.arc(this.x - this.size * 0.25, this.y - this.size * 0.25, this.size * 0.2, 0, Math.PI * 2);
@@ -108,7 +108,7 @@
     function initCanvas() {
         canvas = document.getElementById('starfield');
         if (!canvas) return false;
-        
+
         ctx = canvas.getContext('2d');
         resizeCanvas();
         return true;
@@ -118,7 +118,7 @@
     function resizeCanvas() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        
+
         // Recreate bubbles on resize
         createBubbles();
     }
@@ -166,7 +166,7 @@
     let mouseMoveTimeout;
     function handleMouseMove(e) {
         if (mouseMoveTimeout) return;
-        
+
         mouseMoveTimeout = setTimeout(() => {
             mouseX = e.clientX;
             mouseY = e.clientY;
@@ -216,15 +216,15 @@
         const popupClose = document.getElementById('popupClose');
         const popupTitle = document.getElementById('popupTitle');
         const popupInfo = document.getElementById('popupInfo');
-        
+
         // Staggered entrance animation
         menuItems.forEach((item, idx) => {
             setTimeout(() => item.classList.add('show'), idx * 80);
         });
-        
+
         // Open popup on click
-        menuItems.forEach((item, idx) => { 
-            item.addEventListener('click', function(e) {
+        menuItems.forEach((item, idx) => {
+            item.addEventListener('click', function (e) {
                 // Ripple effect
                 if (effectsEnabled) {
                     const ripple = document.createElement('span');
@@ -236,17 +236,17 @@
                         animation: ripple 0.6s ease-out forwards;
                         pointer-events: none;
                     `;
-                    
+
                     const rect = this.getBoundingClientRect();
                     const size = Math.max(rect.width, rect.height);
                     ripple.style.width = ripple.style.height = size + 'px';
                     ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
                     ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
-                    
+
                     this.appendChild(ripple);
                     setTimeout(() => ripple.remove(), 600);
                 }
-                
+
                 // Open popup if item has data-info
                 const info = this.dataset.info;
                 if (popupOverlay && info) {
@@ -258,33 +258,33 @@
             });
 
             // Keyboard support
-            item.addEventListener('keydown', function(e) {
+            item.addEventListener('keydown', function (e) {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
                     this.click();
                 }
             });
         });
-        
+
         // Close popup
         function closePopup() {
             if (popupOverlay) {
                 popupOverlay.classList.remove('active');
             }
         }
-        
+
         if (popupClose) {
             popupClose.addEventListener('click', closePopup);
         }
-        
+
         if (popupOverlay) {
-            popupOverlay.addEventListener('click', function(e) {
+            popupOverlay.addEventListener('click', function (e) {
                 if (e.target === this) closePopup();
             });
         }
-        
+
         // Close on Escape key
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape' && popupOverlay?.classList.contains('active')) {
                 closePopup();
             }
@@ -296,7 +296,7 @@
         const zaloBtn = document.querySelector('.zalo-contact');
         if (!zaloBtn) return;
 
-        zaloBtn.addEventListener('click', function(e) {
+        zaloBtn.addEventListener('click', function (e) {
             // Add ripple effect
             this.style.transform = 'scale(0.95)';
             setTimeout(() => {
@@ -309,21 +309,21 @@
     function initQRLightbox() {
         const qrImage = document.getElementById('qrImage');
         const qrLightbox = document.getElementById('qrLightbox');
-        
+
         if (!qrImage || !qrLightbox) return;
-        
+
         // Click to open
-        qrImage.addEventListener('click', function() {
+        qrImage.addEventListener('click', function () {
             qrLightbox.classList.add('active');
         });
-        
+
         // Click to close
-        qrLightbox.addEventListener('click', function() {
+        qrLightbox.addEventListener('click', function () {
             qrLightbox.classList.remove('active');
         });
-        
+
         // Escape to close
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape' && qrLightbox.classList.contains('active')) {
                 qrLightbox.classList.remove('active');
             }
@@ -335,12 +335,12 @@
         const copyBtn = document.getElementById('copyStk');
         const bankNumber = document.getElementById('bankNumber');
         const copyToast = document.getElementById('copyToast');
-        
+
         if (!copyBtn || !bankNumber) return;
-        
-        copyBtn.addEventListener('click', function() {
+
+        copyBtn.addEventListener('click', function () {
             const stk = bankNumber.dataset.stk;
-            
+
             // Copy to clipboard
             navigator.clipboard.writeText(stk).then(() => {
                 // Show toast
@@ -350,7 +350,7 @@
                         copyToast.classList.remove('show');
                     }, 2000);
                 }
-                
+
                 // Change button text temporarily
                 this.textContent = '✅';
                 setTimeout(() => {
@@ -364,7 +364,7 @@
                 textArea.select();
                 document.execCommand('copy');
                 document.body.removeChild(textArea);
-                
+
                 if (copyToast) {
                     copyToast.classList.add('show');
                     setTimeout(() => {
@@ -379,8 +379,8 @@
     function initConfetti() {
         const vipCombo = document.querySelector('.combo-item.vip');
         if (!vipCombo) return;
-        
-        vipCombo.addEventListener('click', function() {
+
+        vipCombo.addEventListener('click', function () {
             createConfetti();
         });
     }
@@ -388,7 +388,7 @@
     function createConfetti() {
         const colors = ['#ff6b9d', '#c471ed', '#00f5ff', '#ffd700', '#ff4757', '#00e676'];
         const confettiCount = 50;
-        
+
         for (let i = 0; i < confettiCount; i++) {
             const confetti = document.createElement('div');
             confetti.className = 'confetti';
@@ -400,9 +400,9 @@
             confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
             confetti.style.animationDuration = Math.random() * 2 + 2 + 's';
             confetti.style.animationDelay = Math.random() * 0.5 + 's';
-            
+
             document.body.appendChild(confetti);
-            
+
             // Remove after animation
             setTimeout(() => confetti.remove(), 4000);
         }
@@ -412,38 +412,38 @@
     function initMusic() {
         const bgMusic = document.getElementById('bgMusic');
         const musicToggle = document.getElementById('musicToggle');
-        
+
         if (!bgMusic || !musicToggle) return;
-        
+
         // Set volume
         bgMusic.volume = 0.3;
-        
+
         // Check if user explicitly disabled music (default is ON)
         const musicDisabled = localStorage.getItem('musicEnabled') === 'false';
-        
+
         // Update button state
         function updateButton(playing) {
             musicToggle.textContent = playing ? '🔊' : '🔇';
             musicToggle.classList.toggle('playing', playing);
         }
-        
+
         // Auto-play on first user interaction (unless user disabled it)
         if (!musicDisabled) {
             const playOnInteraction = () => {
                 bgMusic.play().then(() => {
                     updateButton(true);
-                }).catch(() => {});
+                }).catch(() => { });
                 document.removeEventListener('click', playOnInteraction);
                 document.removeEventListener('touchstart', playOnInteraction);
             };
             document.addEventListener('click', playOnInteraction);
             document.addEventListener('touchstart', playOnInteraction);
         }
-        
+
         // Toggle music on button click
-        musicToggle.addEventListener('click', function(e) {
+        musicToggle.addEventListener('click', function (e) {
             e.stopPropagation();
-            
+
             if (bgMusic.paused) {
                 bgMusic.play().then(() => {
                     updateButton(true);

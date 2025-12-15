@@ -16,28 +16,28 @@
     /* Background colors */
     --bg1: #0d0d14;
     --bg2: #1a1a2e;
-    
+
     /* Accent colors - Neon */
     --accent: #ff6b9d;
     --neon-pink: #ff2d75;
     --neon-cyan: #00f5ff;
     --neon-red: #ff4757;
     --neon-purple: #c471ed;
-    
+
     /* Text colors */
     --text-white: #ffffff;
     --text-muted: #a0a0b0;
     --muted: #666680;
-    
+
     /* Card */
     --card-bg: rgba(26, 26, 46, 0.85);
     --card-border: rgba(255, 255, 255, 0.1);
-    
+
     /* Shadows & Glows */
     --glow-pink: 0 0 20px rgba(255, 45, 117, 0.5);
     --glow-cyan: 0 0 20px rgba(0, 245, 255, 0.5);
     --shadow-soft: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    
+
     /* Spacing */
     --radius-lg: 24px;
     --radius-md: 16px;
@@ -46,7 +46,9 @@
 }
 
 /* ===== Reset & Base ===== */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -89,22 +91,27 @@ body {
     height: 100%;
     z-index: 1;
     pointer-events: none;
-    background: linear-gradient(
-        135deg,
-        var(--bg1) 0%,
-        var(--bg2) 25%,
-        #0f3460 50%,
-        var(--bg2) 75%,
-        var(--bg1) 100%
-    );
+    background: linear-gradient(135deg,
+            var(--bg1) 0%,
+            var(--bg2) 25%,
+            #0f3460 50%,
+            var(--bg2) 75%,
+            var(--bg1) 100%);
     background-size: 400% 400%;
     animation: gradientShift 20s ease infinite;
     opacity: 0.7;
 }
 
 @keyframes gradientShift {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
 }
 
 /* Reduced motion: disable animations */
@@ -113,11 +120,11 @@ body {
         animation: none;
         background-position: 50% 50%;
     }
-    
+
     #starfield {
         display: none;
     }
-    
+
     .menu-item {
         transition: none !important;
     }
@@ -156,11 +163,9 @@ body {
 .card-header {
     text-align: center;
     padding: 15px 15px 10px;
-    background: linear-gradient(
-        180deg,
-        rgba(255, 107, 157, 0.1) 0%,
-        transparent 100%
-    );
+    background: linear-gradient(180deg,
+            rgba(255, 107, 157, 0.1) 0%,
+            transparent 100%);
     border-bottom: 1px solid var(--card-border);
     flex-shrink: 0;
 }
@@ -223,14 +228,12 @@ nav[aria-label="Danh sách dịch vụ"] {
 .divider {
     height: 1px;
     margin: 0 15px;
-    background: linear-gradient(
-        90deg,
-        transparent 0%,
-        var(--card-border) 20%,
-        rgba(255, 107, 157, 0.3) 50%,
-        var(--card-border) 80%,
-        transparent 100%
-    );
+    background: linear-gradient(90deg,
+            transparent 0%,
+            var(--card-border) 20%,
+            rgba(255, 107, 157, 0.3) 50%,
+            var(--card-border) 80%,
+            transparent 100%);
 }
 
 /* ===== Menu Item ===== */
@@ -238,18 +241,18 @@ nav[aria-label="Danh sách dịch vụ"] {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 10px 15px;
+    padding: 14px 15px 10px 15px;
     margin: 0;
     background: transparent;
     border-left: 3px solid transparent;
     cursor: pointer;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     /* Staggered entrance */
     opacity: 0;
     transform: translateY(15px);
-    transition: 
-        transform 0.35s cubic-bezier(.2,.9,.3,1),
+    transition:
+        transform 0.35s cubic-bezier(.2, .9, .3, 1),
         opacity 0.35s ease,
         background 0.25s ease,
         border-color 0.25s ease,
@@ -274,7 +277,7 @@ nav[aria-label="Danh sách dịch vụ"] {
     background: linear-gradient(180deg, var(--neon-pink), var(--neon-purple));
     transform: scaleY(0);
     transform-origin: bottom;
-    transition: transform 0.3s cubic-bezier(.2,.9,.3,1);
+    transition: transform 0.3s cubic-bezier(.2, .9, .3, 1);
 }
 
 .menu-item:hover::before,
@@ -288,35 +291,31 @@ nav[aria-label="Danh sách dịch vụ"] {
     transform: translateY(-6px);
     background: rgba(255, 107, 157, 0.08);
     border-left-color: transparent;
-    box-shadow: 
+    box-shadow:
         0 12px 35px rgba(255, 45, 117, 0.2),
         0 0 40px rgba(109, 93, 252, 0.08) inset;
     outline: none;
 }
 
 .menu-item:focus {
-    box-shadow: 
+    box-shadow:
         0 12px 35px rgba(255, 45, 117, 0.2),
         0 0 0 2px var(--neon-cyan);
 }
 
 /* Featured Item */
 .menu-item.featured {
-    background: linear-gradient(
-        90deg,
-        rgba(255, 45, 117, 0.1) 0%,
-        transparent 100%
-    );
+    background: linear-gradient(90deg,
+            rgba(255, 45, 117, 0.1) 0%,
+            transparent 100%);
     border-left-color: var(--neon-pink);
 }
 
 /* Premium Item */
 .menu-item.premium {
-    background: linear-gradient(
-        90deg,
-        rgba(255, 215, 0, 0.08) 0%,
-        transparent 100%
-    );
+    background: linear-gradient(90deg,
+            rgba(255, 215, 0, 0.08) 0%,
+            transparent 100%);
     border-left-color: gold;
 }
 
@@ -337,8 +336,17 @@ nav[aria-label="Danh sách dịch vụ"] {
 }
 
 @keyframes badgePulse {
-    0%, 100% { transform: scale(1); box-shadow: 0 4px 15px rgba(216, 79, 209, 0.3); }
-    50% { transform: scale(1.05); box-shadow: 0 8px 25px rgba(216, 79, 209, 0.5); }
+
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 4px 15px rgba(216, 79, 209, 0.3);
+    }
+
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(216, 79, 209, 0.5);
+    }
 }
 
 .menu-item:hover .item-qty,
@@ -408,8 +416,97 @@ nav[aria-label="Danh sách dịch vụ"] {
 }
 
 @keyframes pulse {
-    from { transform: scale(1); }
-    to { transform: scale(1.2); }
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.2);
+    }
+}
+
+/* ===== HOT / NEW Badge (Simple + Shiny) ===== */
+.badge-hot,
+.badge-new {
+    position: absolute;
+    top: -4px;
+    right: 12px;
+    padding: 4px 10px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 20px;
+    z-index: 20;
+    white-space: nowrap;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* Shiny shimmer effect */
+.badge-hot::before,
+.badge-new::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.4),
+            transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        left: -100%;
+    }
+
+    100% {
+        left: 100%;
+    }
+}
+
+.badge-hot {
+    background: linear-gradient(135deg, #ff4757, #ff6b81);
+    color: white;
+    box-shadow: 0 3px 12px rgba(255, 71, 87, 0.4);
+}
+
+.badge-new {
+    background: linear-gradient(135deg, #00f5ff, #00d4aa);
+    color: #0d0d14;
+    box-shadow: 0 3px 12px rgba(0, 245, 255, 0.4);
+}
+
+/* ===== Order Button (Đặt ngay) ===== */
+.order-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+    padding: 6px 12px;
+    background: linear-gradient(135deg, #00c853, #00e676);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(0, 200, 83, 0.3);
+    flex-shrink: 0;
+}
+
+.order-btn:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 200, 83, 0.5);
+    background: linear-gradient(135deg, #00e676, #69f0ae);
+}
+
+.order-btn:active {
+    transform: scale(0.95);
 }
 
 /* ===== Tooltip ===== */
@@ -428,27 +525,13 @@ nav[aria-label="Danh sách dịch vụ"] {
     white-space: nowrap;
     opacity: 0;
     visibility: hidden;
-    transition: 
+    transition:
         opacity 0.25s ease,
         transform 0.25s ease;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
     border: 1px solid var(--card-border);
     z-index: 100;
     pointer-events: none;
-}
-
-.menu-item::before {
-    content: '';
-    position: absolute;
-    bottom: calc(100% + 2px);
-    left: 50%;
-    transform: translateX(-50%);
-    border: 6px solid transparent;
-    border-top-color: var(--bg2);
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.25s ease;
-    z-index: 101;
 }
 
 .menu-item:hover::after,
@@ -458,12 +541,6 @@ nav[aria-label="Danh sách dịch vụ"] {
     transform: translateX(-50%) translateY(0);
 }
 
-.menu-item:hover::before,
-.menu-item:focus::before {
-    opacity: 1;
-    visibility: visible;
-}
-
 /* ===== Card Footer ===== */
 .card-footer {
     padding: 12px 15px;
@@ -471,11 +548,9 @@ nav[aria-label="Danh sách dịch vụ"] {
     align-items: center;
     justify-content: space-between;
     position: relative;
-    background: linear-gradient(
-        0deg,
-        rgba(255, 107, 157, 0.05) 0%,
-        transparent 100%
-    );
+    background: linear-gradient(0deg,
+            rgba(255, 107, 157, 0.05) 0%,
+            transparent 100%);
     border-top: 1px solid var(--card-border);
     flex-shrink: 0;
 }
@@ -539,11 +614,14 @@ nav[aria-label="Danh sách dịch vụ"] {
 }
 
 @keyframes copyrightPulse {
-    0%, 100% { 
+
+    0%,
+    100% {
         opacity: 0.7;
         transform: scale(1);
     }
-    50% { 
+
+    50% {
         opacity: 1;
         transform: scale(1.1);
     }
@@ -567,8 +645,15 @@ nav[aria-label="Danh sách dịch vụ"] {
 }
 
 @keyframes gradientFlow {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
 }
 
 .warning-icon {
@@ -577,9 +662,22 @@ nav[aria-label="Danh sách dịch vụ"] {
 }
 
 @keyframes shake {
-    0%, 50%, 100% { transform: rotate(0deg); }
-    10%, 30% { transform: rotate(-8deg); }
-    20%, 40% { transform: rotate(8deg); }
+
+    0%,
+    50%,
+    100% {
+        transform: rotate(0deg);
+    }
+
+    10%,
+    30% {
+        transform: rotate(-8deg);
+    }
+
+    20%,
+    40% {
+        transform: rotate(8deg);
+    }
 }
 
 /* ===== Effects Toggle Button ===== */
@@ -653,8 +751,15 @@ nav[aria-label="Danh sách dịch vụ"] {
 }
 
 @keyframes musicPulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
 }
 
 /* ===== Effects Disabled State ===== */
@@ -804,10 +909,13 @@ body.effects-off #starfield {
 }
 
 @keyframes warrantyGlow {
-    0%, 100% {
+
+    0%,
+    100% {
         box-shadow: 0 0 15px rgba(0, 245, 255, 0.2);
         border-color: rgba(0, 245, 255, 0.3);
     }
+
     50% {
         box-shadow: 0 0 25px rgba(196, 113, 237, 0.3);
         border-color: rgba(196, 113, 237, 0.4);
@@ -828,8 +936,15 @@ body.effects-off #starfield {
 }
 
 @keyframes iconPulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.2); }
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
 }
 
 .warranty-text {
@@ -844,8 +959,13 @@ body.effects-off #starfield {
 }
 
 @keyframes textShine {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 300% 50%; }
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 300% 50%;
+    }
 }
 
 /* ===== Bank Info ===== */
@@ -998,6 +1118,7 @@ a.zalo-contact {
         transform: translateY(0) rotate(0deg);
         opacity: 1;
     }
+
     100% {
         transform: translateY(100vh) rotate(720deg);
         opacity: 0;
@@ -1163,86 +1284,86 @@ a.zalo-contact {
     .menu-card {
         max-width: 580px;
     }
-    
+
     .card-header {
         padding: 30px 30px 25px;
     }
-    
+
     .card-title {
         font-size: 1.6rem;
     }
-    
+
     .card-subtitle {
         font-size: 0.95rem;
     }
-    
+
     .menu-list {
         padding: 15px 0;
     }
-    
+
     .menu-item {
         padding: 18px 30px;
         gap: 18px;
     }
-    
+
     /* Enhanced hover on desktop */
     .menu-item:hover {
         transform: translateY(-8px);
-        box-shadow: 
+        box-shadow:
             0 16px 45px rgba(255, 45, 117, 0.25),
             0 0 50px rgba(109, 93, 252, 0.1) inset;
     }
-    
+
     .item-qty {
         width: 52px;
         height: 52px;
         font-size: 1.2rem;
     }
-    
+
     .item-icon {
         width: 56px;
         height: 56px;
         font-size: 1.8rem;
     }
-    
+
     .item-text {
         font-size: 1.15rem;
     }
-    
+
     .item-note {
         font-size: 0.9rem;
     }
-    
+
     .item-badges {
         font-size: 1.3rem;
         gap: 8px;
     }
-    
+
     .divider {
         margin: 0 30px;
     }
-    
+
     .card-footer {
         padding: 20px 30px;
     }
-    
+
     .footer-content {
         gap: 10px;
     }
-    
+
     .zalo-contact {
         padding: 12px 24px;
         font-size: 0.95rem;
     }
-    
+
     .copyright-text {
         font-size: 0.85rem;
     }
-    
+
     .copyright-name {
         font-size: 0.95rem;
     }
-    
+
     .effects-toggle {
         width: 46px;
         height: 46px;
@@ -1255,77 +1376,77 @@ a.zalo-contact {
     .menu-card {
         max-width: 720px;
     }
-    
+
     .card-header {
         padding: 28px 28px 22px;
     }
-    
+
     .card-title {
         font-size: 1.5rem;
     }
-    
+
     .card-subtitle {
         font-size: 0.9rem;
     }
-    
+
     .menu-list {
         padding: 12px 0;
     }
-    
+
     .menu-item {
         padding: 16px 25px;
         gap: 16px;
     }
-    
+
     .item-qty {
         width: 48px;
         height: 48px;
         font-size: 1.1rem;
     }
-    
+
     .item-icon {
         width: 52px;
         height: 52px;
         font-size: 1.6rem;
     }
-    
+
     .item-text {
         font-size: 1.05rem;
     }
-    
+
     .item-note {
         font-size: 0.85rem;
     }
-    
+
     .item-badges {
         font-size: 1.2rem;
     }
-    
+
     .divider {
         margin: 0 25px;
     }
-    
+
     .card-footer {
         padding: 18px 25px;
     }
-    
+
     .footer-content {
         gap: 9px;
     }
-    
+
     .zalo-contact {
         padding: 10px 20px;
         font-size: 0.9rem;
     }
-    
+
     .copyright-text {
         font-size: 0.8rem;
     }
-    
+
     .copyright-name {
         font-size: 0.9rem;
     }
-    
+
     .effects-toggle {
         width: 42px;
         height: 42px;
@@ -1339,109 +1460,113 @@ a.zalo-contact {
         padding: 15px 10px;
         justify-content: flex-start;
     }
-    
+
     .menu-card {
         width: 96%;
         max-width: 450px;
         border-radius: var(--radius-lg);
     }
-    
+
     .card-header {
         padding: 16px 16px 12px;
     }
-    
+
     .card-title {
         font-size: 1.25rem;
     }
-    
+
     .card-subtitle {
         font-size: 0.75rem;
     }
-    
+
     .menu-list {
         padding: 6px 0;
     }
-    
+
     .menu-item {
         padding: 14px 16px;
         gap: 12px;
-        min-height: 48px; /* Touch-friendly */
+        min-height: 48px;
+        /* Touch-friendly */
     }
-    
+
     .item-qty {
         width: 44px;
         height: 44px;
         font-size: 1rem;
-        min-width: 44px; /* Touch-friendly */
+        min-width: 44px;
+        /* Touch-friendly */
     }
-    
+
     .item-icon {
         width: 44px;
         height: 44px;
         font-size: 1.4rem;
     }
-    
+
     .item-text {
         flex: 1;
         font-size: 0.95rem;
     }
-    
+
     .item-note {
         font-size: 0.7rem;
     }
-    
+
     .item-badges {
         font-size: 1rem;
         gap: 4px;
         min-width: 40px;
         justify-content: flex-end;
     }
-    
+
     .divider {
         margin: 0 16px;
     }
-    
+
     .card-footer {
         padding: 12px 12px;
         flex-direction: column;
         gap: 10px;
         align-items: stretch;
     }
-    
+
     .footer-content {
         width: 100%;
         gap: 8px;
     }
-    
+
     /* Full-width Zalo button on mobile */
     .zalo-contact {
         width: 100%;
         justify-content: center;
         padding: 10px 16px;
         font-size: 0.85rem;
-        min-height: 44px; /* Touch-friendly */
+        min-height: 44px;
+        /* Touch-friendly */
         border-radius: 999px;
         align-self: stretch;
     }
-    
+
     .copyright-text {
         font-size: 0.7rem;
         justify-content: center;
         width: 100%;
     }
-    
+
     .copyright-name {
         font-size: 0.8rem;
     }
-    
+
     .effects-toggle {
         width: 44px;
         height: 44px;
         font-size: 1.1rem;
-        min-width: 44px; /* Touch-friendly */
+        min-width: 44px;
+        /* Touch-friendly */
         align-self: center;
     }
-    
+
     /* Hide tooltip on mobile */
     .menu-item::after,
     .menu-item::before {
@@ -1454,40 +1579,40 @@ a.zalo-contact {
     .main-container {
         padding: 8px;
     }
-    
+
     .menu-card {
         width: 100%;
     }
-    
+
     .card-header {
         padding: 14px 14px 10px;
     }
-    
+
     .card-title {
         font-size: 1.1rem;
     }
-    
+
     .menu-item {
         padding: 10px 12px;
         gap: 10px;
     }
-    
+
     .item-qty {
         width: 40px;
         height: 40px;
         font-size: 0.9rem;
     }
-    
+
     .item-icon {
         width: 38px;
         height: 38px;
         font-size: 1.2rem;
     }
-    
+
     .item-text {
         font-size: 0.85rem;
     }
-    
+
     .item-badges {
         font-size: 0.9rem;
     }
