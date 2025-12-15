@@ -408,55 +408,194 @@
         }
     }
 
-    // ===== Background Music =====
+    // ===== YouTube Music Player =====
+    let ytPlayer = null;
+    let isPlaying = false;
+    let saveTimeInterval = null;
+
     function initMusic() {
-        const bgMusic = document.getElementById('bgMusic');
         const musicToggle = document.getElementById('musicToggle');
+        const musicPanel = document.getElementById('musicPanel');
+        const musicPanelClose = document.getElementById('musicPanelClose');
+        const youtubeUrlInput = document.getElementById('youtubeUrlInput');
+        const playYoutubeBtn = document.getElementById('playYoutubeBtn');
+        const playlistItems = document.querySelectorAll('.playlist-item');
+        const nowPlaying = document.getElementById('nowPlaying');
 
-        if (!bgMusic || !musicToggle) return;
+        if (!musicToggle || !musicPanel) return;
 
-        // Set volume
-        bgMusic.volume = 0.3;
+        // Load YouTube IFrame API
+        const tag = document.createElement('script');
+        tag.src = 'https://www.youtube.com/iframe_api';
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-        // Check if user explicitly disabled music (default is ON)
-        const musicDisabled = localStorage.getItem('musicEnabled') === 'false';
+        // YouTube API ready callback
+        window.onYouTubeIframeAPIReady = function () {
+            // Default video: Darling Ohayou x High Fashion
+            const DEFAULT_VIDEO_ID = 'jDthigR1e3U';
+            const DEFAULT_VIDEO_NAME = 'Darling Ohayou x High Fashion';
 
-        // Update button state
-        function updateButton(playing) {
-            musicToggle.textContent = playing ? '🔊' : '🔇';
-            musicToggle.classList.toggle('playing', playing);
+            // Load saved video from localStorage, or use default
+            let savedVideoId = localStorage.getItem('ytVideoId');
+            if (!savedVideoId) {
+                savedVideoId = DEFAULT_VIDEO_ID;
+                localStorage.setItem('ytVideoId', DEFAULT_VIDEO_ID);
+                localStorage.setItem('ytVideoName', DEFAULT_VIDEO_NAME);
+            }
+            createPlayer(savedVideoId);
+        };
+
+        function createPlayer(videoId) {
+            if (ytPlayer) {
+                ytPlayer.destroy();
+            }
+
+            ytPlayer = new YT.Player('ytPlayer', {
+                height: '0',
+                width: '0',
+                videoId: videoId,
+                playerVars: {
+                    autoplay: 1,
+                    loop: 1,
+                    playlist: videoId
+                },
+                events: {
+                    onReady: onPlayerReady,
+                    onStateChange: onPlayerStateChange
+                }
+            });
         }
 
-        // Auto-play on first user interaction (unless user disabled it)
-        if (!musicDisabled) {
-            const playOnInteraction = () => {
-                bgMusic.play().then(() => {
-                    updateButton(true);
-                }).catch(() => { });
-                document.removeEventListener('click', playOnInteraction);
-                document.removeEventListener('touchstart', playOnInteraction);
-            };
-            document.addEventListener('click', playOnInteraction);
-            document.addEventListener('touchstart', playOnInteraction);
+        function onPlayerReady(event) {
+            event.target.setVolume(30);
+
+            // Restore saved playback time
+            const savedTime = parseFloat(localStorage.getItem('ytCurrentTime') || '0');
+            if (savedTime > 0) {
+                event.target.seekTo(savedTime, true);
+            }
+
+            event.target.playVideo();
+            updateNowPlaying();
+
+            // Start saving current time every second
+            if (saveTimeInterval) clearInterval(saveTimeInterval);
+            saveTimeInterval = setInterval(() => {
+                if (ytPlayer && ytPlayer.getCurrentTime) {
+                    localStorage.setItem('ytCurrentTime', ytPlayer.getCurrentTime().toString());
+                }
+            }, 1000);
         }
 
-        // Toggle music on button click
+        function onPlayerStateChange(event) {
+            isPlaying = event.data === YT.PlayerState.PLAYING;
+            updateButton();
+        }
+
+        // Save time before leaving page
+        window.addEventListener('beforeunload', function () {
+            if (ytPlayer && ytPlayer.getCurrentTime) {
+                localStorage.setItem('ytCurrentTime', ytPlayer.getCurrentTime().toString());
+            }
+        });
+
+        function updateButton() {
+            musicToggle.textContent = isPlaying ? '🔊' : '🎵';
+            musicToggle.classList.toggle('playing', isPlaying);
+        }
+
+        function updateNowPlaying() {
+            const savedName = localStorage.getItem('ytVideoName') || 'Đang phát nhạc...';
+            if (nowPlaying) {
+                nowPlaying.textContent = '🎵 ' + savedName;
+            }
+        }
+
+        function extractVideoId(url) {
+            const regex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+            const match = url.match(regex);
+            return match ? match[1] : null;
+        }
+
+        // Toggle music panel
         musicToggle.addEventListener('click', function (e) {
             e.stopPropagation();
 
-            if (bgMusic.paused) {
-                bgMusic.play().then(() => {
-                    updateButton(true);
-                    localStorage.setItem('musicEnabled', 'true');
-                }).catch(err => {
-                    console.log('Could not play music:', err);
-                });
+            if (musicPanel.classList.contains('active')) {
+                // If panel is open, toggle play/pause
+                if (ytPlayer && ytPlayer.getPlayerState) {
+                    if (isPlaying) {
+                        ytPlayer.pauseVideo();
+                    } else {
+                        ytPlayer.playVideo();
+                    }
+                }
             } else {
-                bgMusic.pause();
-                updateButton(false);
-                localStorage.setItem('musicEnabled', 'false');
+                // Open panel
+                musicPanel.classList.add('active');
             }
         });
+
+        // Close panel
+        if (musicPanelClose) {
+            musicPanelClose.addEventListener('click', function () {
+                musicPanel.classList.remove('active');
+            });
+        }
+
+        // Play from URL input
+        if (playYoutubeBtn && youtubeUrlInput) {
+            playYoutubeBtn.addEventListener('click', function () {
+                const url = youtubeUrlInput.value.trim();
+                const videoId = extractVideoId(url);
+
+                if (videoId) {
+                    localStorage.setItem('ytVideoId', videoId);
+                    localStorage.setItem('ytVideoName', 'Custom YouTube');
+                    createPlayer(videoId);
+                    youtubeUrlInput.value = '';
+
+                    // Remove active from playlist items
+                    playlistItems.forEach(item => item.classList.remove('active'));
+                } else {
+                    alert('Link YouTube không hợp lệ!');
+                }
+            });
+        }
+
+        // Playlist items
+        playlistItems.forEach(item => {
+            item.addEventListener('click', function () {
+                const videoId = this.dataset.videoid;
+                const songName = this.textContent.replace('🎵 ', '');
+
+                localStorage.setItem('ytVideoId', videoId);
+                localStorage.setItem('ytVideoName', songName);
+                createPlayer(videoId);
+
+                // Update active state
+                playlistItems.forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Close panel when clicking outside
+        document.addEventListener('click', function (e) {
+            if (!musicPanel.contains(e.target) && !musicToggle.contains(e.target)) {
+                musicPanel.classList.remove('active');
+            }
+        });
+
+        // Highlight active song on load
+        const savedVideoId = localStorage.getItem('ytVideoId');
+        if (savedVideoId) {
+            playlistItems.forEach(item => {
+                if (item.dataset.videoid === savedVideoId) {
+                    item.classList.add('active');
+                }
+            });
+        }
     }
 
     // ===== Add Dynamic Styles =====

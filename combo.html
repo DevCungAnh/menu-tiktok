@@ -191,12 +191,33 @@
       </article>
     </main>
 
-    <!-- Background Music -->
-    <audio id="bgMusic" loop>
-      <source src="music/bg.mp3" type="audio/mpeg" />
-    </audio>
+    <!-- YouTube Music Player -->
+    <div id="ytPlayer" style="position: fixed; bottom: -1000px; left: 0; pointer-events: none;"></div>
+    
+    <!-- Music Control Panel -->
+    <div class="music-panel" id="musicPanel">
+      <div class="music-panel-header">
+        <h4>🎵 Chọn nhạc nền</h4>
+        <button class="music-panel-close" id="musicPanelClose">×</button>
+      </div>
+      <div class="music-panel-body">
+        <div class="music-input-group">
+          <input type="text" id="youtubeUrlInput" placeholder="Paste link YouTube..." class="music-input" />
+          <button id="playYoutubeBtn" class="music-play-btn">▶</button>
+        </div>
+        <p class="music-hint">Hoặc chọn bài hát:</p>
+        <div class="music-playlist" id="musicPlaylist">
+          <button class="playlist-item" data-videoid="jDthigR1e3U">🎵 Darling Ohayou x High Fashion</button>
+          <button class="playlist-item" data-videoid="60ItHLz5WEA">🎵 Alan Walker - Faded</button>
+          <button class="playlist-item" data-videoid="K4DyBUG242c">🎵 Cartoon - On & On</button>
+          <button class="playlist-item" data-videoid="J2X5mJ3HDYE">🎵 DEAF KEV - Invincible</button>
+        </div>
+        <p class="music-now-playing" id="nowPlaying">Chưa phát nhạc</p>
+      </div>
+    </div>
+    
     <button class="music-toggle" id="musicToggle" title="Bật/tắt nhạc">
-      🔇
+      🎵
     </button>
 
     <script src="script.js"></script>
