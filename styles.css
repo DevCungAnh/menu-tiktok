@@ -1903,3 +1903,514 @@ a.zalo-contact {
   outline: 2px solid var(--neon-cyan);
   outline-offset: 2px;
 }
+
+/* ===== Order Form Modal ===== */
+.order-form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.order-form-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.order-form-modal {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  width: 95%;
+  max-width: 380px;
+  max-height: 90vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+
+.order-form-overlay.active .order-form-modal {
+  transform: scale(1);
+}
+
+.order-form-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-white);
+  font-size: 1.2rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.order-form-close:hover {
+  background: var(--neon-pink);
+}
+
+.order-form-title {
+  text-align: center;
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  color: var(--text-white);
+}
+
+.form-group {
+  margin-bottom: 15px;
+  width: 100%;
+  max-width: 100%;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.form-hint {
+  color: var(--neon-cyan);
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-sm);
+  color: var(--text-white);
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.form-group select {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 12px 40px 12px 15px;
+  background: #0d0d14;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-sm);
+  color: var(--text-white);
+  font-size: 0.9rem;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--neon-cyan);
+  outline: none;
+  box-shadow: 0 0 10px rgba(0, 245, 255, 0.2);
+}
+
+/* Custom Dropdown */
+.custom-dropdown {
+  position: relative;
+  width: 100%;
+  z-index: 10;
+}
+
+.custom-dropdown.open {
+  z-index: 200;
+}
+
+.dropdown-selected {
+  width: 100%;
+  padding: 12px 15px;
+  background: #0d0d14;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-sm);
+  color: var(--text-white);
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.dropdown-selected::after {
+  content: '▼';
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  transition: transform 0.2s;
+}
+
+.custom-dropdown.open .dropdown-selected::after {
+  transform: rotate(180deg);
+}
+
+.dropdown-selected:hover {
+  border-color: var(--neon-cyan);
+}
+
+.dropdown-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #0d0d14;
+  border: 1px solid var(--card-border);
+  border-top: none;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 100;
+  display: none;
+}
+
+.custom-dropdown.open .dropdown-options {
+  display: block;
+}
+
+.dropdown-option {
+  padding: 12px 15px;
+  color: var(--text-white);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.dropdown-option:hover {
+  background: rgba(255, 107, 157, 0.2);
+}
+
+.dropdown-option.selected {
+  background: rgba(0, 245, 255, 0.15);
+  color: var(--neon-cyan);
+}
+
+/* Combo Details Section */
+.combo-details-section {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-sm);
+  margin-bottom: 15px;
+  overflow: hidden;
+}
+
+.combo-details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  background: rgba(255, 107, 157, 0.1);
+  border-bottom: 1px solid var(--card-border);
+}
+
+.combo-details-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--neon-pink);
+}
+
+.combo-details-toggle {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s;
+}
+
+.combo-details-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-white);
+}
+
+.combo-details-content {
+  padding: 10px 12px;
+  transition: all 0.3s ease;
+}
+
+.combo-details-content.collapsed {
+  display: none;
+}
+
+.combo-details-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.combo-details-list li {
+  padding: 6px 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.combo-details-list li:last-child {
+  border-bottom: none;
+}
+
+.combo-details-list li::before {
+  content: '✓';
+  color: var(--neon-cyan);
+  font-size: 0.7rem;
+}
+.order-submit-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+  border: none;
+  border-radius: var(--radius-full);
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.order-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 45, 117, 0.4);
+}
+
+.order-form-note {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 15px;
+}
+
+/* ===== Order FAB Button ===== */
+.order-fab {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, #00c853, #00e676);
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 100;
+  box-shadow: 0 4px 20px rgba(0, 200, 83, 0.4);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fabPulse 2s ease-in-out infinite;
+}
+
+@keyframes fabPulse {
+  0%, 100% {
+    box-shadow: 0 4px 20px rgba(0, 200, 83, 0.4);
+  }
+  50% {
+    box-shadow: 0 4px 30px rgba(0, 200, 83, 0.6);
+  }
+}
+
+.order-fab:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 25px rgba(0, 200, 83, 0.5);
+}
+
+/* ===== Orders Panel ===== */
+.orders-panel {
+  position: fixed;
+  right: -320px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 300px;
+  max-height: 70vh;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+  z-index: 200;
+  transition: right 0.3s ease;
+  overflow: hidden;
+}
+
+.orders-panel.active {
+  right: 0;
+}
+
+.orders-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  border-bottom: 1px solid var(--card-border);
+  background: linear-gradient(180deg, rgba(255, 107, 157, 0.1), transparent);
+}
+
+.orders-panel-header h4 {
+  font-size: 1rem;
+  color: var(--text-white);
+  margin: 0;
+}
+
+.orders-panel-close {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-white);
+  font-size: 1.2rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.orders-panel-close:hover {
+  background: var(--neon-pink);
+}
+
+.orders-list {
+  padding: 10px;
+  max-height: calc(70vh - 60px);
+  overflow-y: auto;
+}
+
+.no-orders {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  padding: 20px;
+}
+
+.order-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  margin-bottom: 10px;
+  transition: all 0.2s ease;
+}
+
+.order-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--neon-pink);
+}
+
+.order-item.completed {
+  border-color: rgba(0, 200, 83, 0.4);
+}
+
+.order-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.order-name {
+  font-weight: 600;
+  color: var(--text-white);
+  font-size: 0.9rem;
+}
+
+.order-status {
+  font-size: 0.7rem;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 193, 7, 0.2);
+  color: #ffc107;
+}
+
+.order-item.completed .order-status {
+  background: rgba(0, 200, 83, 0.2);
+  color: #00c853;
+}
+
+.order-service {
+  font-size: 0.85rem;
+  color: var(--neon-cyan);
+  margin-bottom: 5px;
+}
+
+.order-time {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* ===== Orders Toggle Button ===== */
+.orders-toggle {
+  position: fixed;
+  bottom: 150px;
+  right: 20px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  z-index: 100;
+  box-shadow: 0 4px 15px rgba(0, 245, 255, 0.3);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.orders-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 245, 255, 0.4);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 480px) {
+  .order-fab {
+    bottom: 70px;
+    right: 15px;
+    width: 50px;
+    height: 50px;
+  }
+
+  .orders-toggle {
+    bottom: 130px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .orders-panel {
+    width: 280px;
+    right: -290px;
+  }
+}

@@ -1,0 +1,433 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║                    BẢN QUYỀN THUỘC VỀ                        ║
+  ║                   NGUYỄN TUẤN ANH                            ║
+  ║  © 2024-2025 All Rights Reserved                             ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lịch Sử Đơn Hàng</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .history-container {
+        position: relative;
+        z-index: 10;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        min-height: 100vh;
+      }
+
+      .history-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--card-border);
+        box-shadow: var(--shadow-soft);
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+
+      .history-header {
+        text-align: center;
+        margin-bottom: 25px;
+      }
+
+      .history-title {
+        font-size: 1.5rem;
+        color: var(--text-white);
+        margin-bottom: 10px;
+      }
+
+      .history-subtitle {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+      }
+
+      .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 20px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid var(--card-border);
+        border-radius: var(--radius-full);
+        color: var(--text-white);
+        text-decoration: none;
+        font-size: 0.85rem;
+        margin-bottom: 20px;
+        transition: all 0.2s;
+      }
+
+      .back-btn:hover {
+        background: rgba(255, 107, 157, 0.2);
+        border-color: var(--neon-pink);
+      }
+
+      .orders-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .order-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: var(--radius-md);
+        padding: 15px;
+        transition: all 0.2s;
+      }
+
+      .order-card:hover {
+        border-color: var(--neon-pink);
+      }
+
+      .order-card.pending {
+        border-left: 3px solid #ffc107;
+      }
+
+      .order-card.completed {
+        border-left: 3px solid #00c853;
+      }
+
+      .order-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .order-customer {
+        font-weight: 600;
+        color: var(--text-white);
+        font-size: 1rem;
+      }
+
+      .order-status-badge {
+        padding: 4px 10px;
+        border-radius: var(--radius-full);
+        font-size: 0.7rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .order-status-badge.pending {
+        background: rgba(255, 193, 7, 0.2);
+        color: #ffc107;
+      }
+
+      .order-status-badge.completed {
+        background: rgba(0, 200, 83, 0.2);
+        color: #00c853;
+      }
+
+      .order-status-badge:hover {
+        transform: scale(1.05);
+      }
+
+      .order-info {
+        display: grid;
+        gap: 8px;
+      }
+
+      .order-info-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.85rem;
+      }
+
+      .order-info-label {
+        color: var(--text-muted);
+      }
+
+      .order-info-value {
+        color: var(--text-white);
+        text-align: right;
+        max-width: 60%;
+        word-break: break-word;
+      }
+
+      .order-info-value.highlight {
+        color: var(--neon-cyan);
+      }
+
+      .order-note {
+        margin-top: 10px;
+        padding: 8px;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: var(--radius-sm);
+        font-size: 0.8rem;
+        color: var(--text-muted);
+      }
+
+      .order-time {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        margin-top: 10px;
+        text-align: right;
+      }
+
+      .loading {
+        text-align: center;
+        padding: 40px;
+        color: var(--text-muted);
+      }
+
+      .no-orders {
+        text-align: center;
+        padding: 40px;
+        color: var(--text-muted);
+      }
+
+      .stats-bar {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+
+      .stat-item {
+        flex: 1;
+        min-width: 100px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--card-border);
+        border-radius: var(--radius-sm);
+        padding: 12px;
+        text-align: center;
+      }
+
+      .stat-number {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--neon-cyan);
+      }
+
+      .stat-label {
+        font-size: 0.7rem;
+        color: var(--text-muted);
+        margin-top: 4px;
+      }
+
+      .filter-bar {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      .filter-btn {
+        flex: 1;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--card-border);
+        border-radius: var(--radius-sm);
+        color: var(--text-muted);
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .filter-btn.active {
+        background: rgba(255, 107, 157, 0.2);
+        border-color: var(--neon-pink);
+        color: var(--neon-pink);
+      }
+
+      .filter-btn:hover {
+        border-color: var(--neon-pink);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Star Particle Background (Canvas) -->
+    <canvas id="starfield" aria-hidden="true"></canvas>
+
+    <!-- Animated Gradient Overlay -->
+    <div class="gradient-bg" aria-hidden="true"></div>
+
+    <div class="history-container">
+      <!-- Back Button -->
+      <a href="index.html" class="back-btn">← Quay lại</a>
+
+      <!-- History Card -->
+      <div class="history-card">
+        <!-- Header -->
+        <div class="history-header">
+          <h1 class="history-title">📋 Lịch Sử Đơn Hàng</h1>
+          <p class="history-subtitle">Quản lý và theo dõi đơn hàng</p>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-bar">
+          <div class="stat-item">
+            <div class="stat-number" id="totalOrders">0</div>
+            <div class="stat-label">Tổng đơn</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" id="pendingOrders">0</div>
+            <div class="stat-label">Chờ xử lý</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" id="completedOrders">0</div>
+            <div class="stat-label">Đã xong</div>
+          </div>
+        </div>
+
+        <!-- Filter -->
+        <div class="filter-bar">
+          <button class="filter-btn active" data-filter="all">Tất cả</button>
+          <button class="filter-btn" data-filter="pending">⏳ Chờ xử lý</button>
+          <button class="filter-btn" data-filter="completed">✅ Đã xong</button>
+        </div>
+
+        <!-- Orders List -->
+        <div class="orders-container" id="ordersContainer">
+          <div class="loading">Đang tải...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        onValue,
+        update,
+      } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+
+      // Firebase config
+      const firebaseConfig = {
+        apiKey: "AIzaSyAnIU9HB0Aqw8mxWfxxVrcaus51Mx_8QTk",
+        authDomain: "menu-tikkok.firebaseapp.com",
+        databaseURL:
+          "https://menu-tikkok-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "menu-tikkok",
+        storageBucket: "menu-tikkok.firebasestorage.app",
+        messagingSenderId: "889648179170",
+        appId: "1:889648179170:web:28ac6df4d713ade38b3bbb",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const database = getDatabase(app);
+
+      let allOrders = [];
+      let currentFilter = "all";
+
+      // DOM Elements
+      const ordersContainer = document.getElementById("ordersContainer");
+      const totalOrdersEl = document.getElementById("totalOrders");
+      const pendingOrdersEl = document.getElementById("pendingOrders");
+      const completedOrdersEl = document.getElementById("completedOrders");
+      const filterBtns = document.querySelectorAll(".filter-btn");
+
+      // Filter buttons
+      filterBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          filterBtns.forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          currentFilter = btn.dataset.filter;
+          renderOrders();
+        });
+      });
+
+      // Toggle order status
+      function toggleStatus(orderId, currentStatus) {
+        const newStatus = currentStatus === "pending" ? "completed" : "pending";
+        const orderRef = ref(database, `orders/${orderId}`);
+        update(orderRef, { status: newStatus });
+      }
+
+      // Render orders
+      function renderOrders() {
+        let filteredOrders = allOrders;
+
+        if (currentFilter !== "all") {
+          filteredOrders = allOrders.filter((o) => o.status === currentFilter);
+        }
+
+        if (filteredOrders.length === 0) {
+          ordersContainer.innerHTML =
+            '<div class="no-orders">Không có đơn hàng nào</div>';
+          return;
+        }
+
+        ordersContainer.innerHTML = filteredOrders
+          .map(
+            (order) => `
+          <div class="order-card ${order.status}">
+            <div class="order-header">
+              <span class="order-customer">${order.name}</span>
+              <span class="order-status-badge ${
+                order.status
+              }" onclick="window.toggleStatus('${order.id}', '${
+              order.status
+            }')">
+                ${order.status === "pending" ? "⏳ Chờ xử lý" : "✅ Đã xong"}
+              </span>
+            </div>
+            <div class="order-info">
+              <div class="order-info-row">
+                <span class="order-info-label">Loại:</span>
+                <span class="order-info-value">${
+                  order.category === "free" ? "🎁 Free" : "💎 Combo"
+                }</span>
+              </div>
+              <div class="order-info-row">
+                <span class="order-info-label">Dịch vụ:</span>
+                <span class="order-info-value highlight">${order.service}</span>
+              </div>
+            </div>
+            <div class="order-time">${new Date(order.createdAt).toLocaleString(
+              "vi-VN"
+            )}</div>
+          </div>
+        `
+          )
+          .join("");
+      }
+
+      // Make toggleStatus global
+      window.toggleStatus = toggleStatus;
+
+      // Load orders realtime
+      const ordersRef = ref(database, "orders");
+      onValue(ordersRef, (snapshot) => {
+        allOrders = [];
+        snapshot.forEach((child) => {
+          allOrders.push({ id: child.key, ...child.val() });
+        });
+
+        // Sort newest first
+        allOrders.sort((a, b) => b.createdAt - a.createdAt);
+
+        // Update stats
+        totalOrdersEl.textContent = allOrders.length;
+        pendingOrdersEl.textContent = allOrders.filter(
+          (o) => o.status === "pending"
+        ).length;
+        completedOrdersEl.textContent = allOrders.filter(
+          (o) => o.status === "completed"
+        ).length;
+
+        renderOrders();
+      });
+    </script>
+    <script src="script.js"></script>
+  </body>
+</html>

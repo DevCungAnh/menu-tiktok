@@ -49,6 +49,9 @@
           <a href="combo.html" class="nav-button"
             >📦 Bảng giá chuyển khoản ngoài</a
           >
+          <a href="history.html" class="nav-button history-btn"
+            >📋 Lịch sử giao dịch</a
+          >
         </header>
 
         <!-- Menu List -->
@@ -454,6 +457,480 @@
     <button class="music-toggle" id="musicToggle" title="Bật/tắt nhạc">
       🎵
     </button>
+
+    <!-- Order Form Modal -->
+    <div class="order-form-overlay" id="orderFormOverlay">
+      <div class="order-form-modal">
+        <button class="order-form-close" id="orderFormClose">×</button>
+        <h3 class="order-form-title">📝 Đặt Dịch Vụ</h3>
+        <form id="orderForm">
+          <div class="form-group">
+            <label for="customerName">Tên của bạn *</label>
+            <input
+              type="text"
+              id="customerName"
+              name="customerName"
+              placeholder="Nhập tên..."
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="customerPhone"
+              >Số điện thoại *
+              <span class="form-hint">(dùng Zalo số này)</span></label
+            >
+            <input
+              type="tel"
+              id="customerPhone"
+              name="customerPhone"
+              placeholder="Nhập SĐT Zalo..."
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label>Loại dịch vụ *</label>
+            <div class="custom-dropdown" id="categoryDropdown">
+              <div class="dropdown-selected" data-value="">-- Chọn --</div>
+              <div class="dropdown-options">
+                <div class="dropdown-option" data-value="free">
+                  🎁 Free hữu duyên
+                </div>
+                <div class="dropdown-option" data-value="combo">
+                  💎 Combo chuyển khoản
+                </div>
+              </div>
+            </div>
+            <input
+              type="hidden"
+              id="serviceCategory"
+              name="serviceCategory"
+              required
+            />
+          </div>
+          <div class="form-group" id="serviceTypeGroup" style="display: none">
+            <label>Chọn dịch vụ *</label>
+            <div class="custom-dropdown" id="serviceDropdown">
+              <div class="dropdown-selected" data-value="">-- Chọn --</div>
+              <div class="dropdown-options" id="serviceOptions"></div>
+            </div>
+            <input type="hidden" id="serviceType" name="serviceType" />
+          </div>
+          <!-- Combo Details -->
+          <div
+            class="combo-details-section"
+            id="comboDetailsSection"
+            style="display: none"
+          >
+            <div class="combo-details-header">
+              <span class="combo-details-title">📦 Chi tiết combo</span>
+              <button
+                type="button"
+                class="combo-details-toggle"
+                id="comboDetailsToggle"
+              >
+                Thu gọn ▲
+              </button>
+            </div>
+            <div class="combo-details-content" id="comboDetailsContent">
+              <ul class="combo-details-list" id="comboDetailsList"></ul>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="orderNote">Ghi chú (link video, yêu cầu...)</label>
+            <textarea
+              id="orderNote"
+              name="orderNote"
+              placeholder="Nhập link video hoặc ghi chú..."
+              rows="3"
+            ></textarea>
+          </div>
+          <button type="submit" class="order-submit-btn">
+            🚀 Gửi Đơn Hàng
+          </button>
+        </form>
+        <p class="order-form-note">
+          * Sau khi gửi, vui lòng chuyển khoản theo thông tin bên dưới
+        </p>
+      </div>
+    </div>
+
+    <!-- Order Button -->
+    <button class="order-fab" id="orderFab" title="Đặt dịch vụ">🛒</button>
+
+    <!-- Orders List Section -->
+    <div class="orders-panel" id="ordersPanel">
+      <div class="orders-panel-header">
+        <h4>📋 Đơn Hàng Gần Đây</h4>
+        <div style="display: flex; gap: 8px; align-items: center">
+          <a
+            href="history.html"
+            style="
+              font-size: 0.7rem;
+              color: var(--neon-cyan);
+              text-decoration: none;
+            "
+            >Xem tất cả →</a
+          >
+          <button class="orders-panel-close" id="ordersPanelClose">×</button>
+        </div>
+      </div>
+      <div class="orders-list" id="ordersList">
+        <p class="no-orders">Chưa có đơn hàng nào</p>
+      </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        push,
+        onValue,
+        serverTimestamp,
+      } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+
+      // Firebase config
+      const firebaseConfig = {
+        apiKey: "AIzaSyAnIU9HB0Aqw8mxWfxxVrcaus51Mx_8QTk",
+        authDomain: "menu-tikkok.firebaseapp.com",
+        databaseURL:
+          "https://menu-tikkok-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "menu-tikkok",
+        storageBucket: "menu-tikkok.firebasestorage.app",
+        messagingSenderId: "889648179170",
+        appId: "1:889648179170:web:28ac6df4d713ade38b3bbb",
+        measurementId: "G-EBLVSBWCJD",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const database = getDatabase(app);
+
+      // DOM Elements
+      const orderForm = document.getElementById("orderForm");
+      const orderFormOverlay = document.getElementById("orderFormOverlay");
+      const orderFormClose = document.getElementById("orderFormClose");
+      const orderFab = document.getElementById("orderFab");
+      const ordersPanel = document.getElementById("ordersPanel");
+      const ordersPanelClose = document.getElementById("ordersPanelClose");
+      const ordersList = document.getElementById("ordersList");
+      const serviceCategoryInput = document.getElementById("serviceCategory");
+      const serviceTypeGroup = document.getElementById("serviceTypeGroup");
+      const serviceTypeInput = document.getElementById("serviceType");
+      const categoryDropdown = document.getElementById("categoryDropdown");
+      const serviceDropdown = document.getElementById("serviceDropdown");
+      const serviceOptionsContainer = document.getElementById("serviceOptions");
+      const comboDetailsSection = document.getElementById(
+        "comboDetailsSection"
+      );
+      const comboDetailsList = document.getElementById("comboDetailsList");
+      const comboDetailsToggle = document.getElementById("comboDetailsToggle");
+      const comboDetailsContent = document.getElementById(
+        "comboDetailsContent"
+      );
+
+      // Service options data
+      const serviceOptionsData = {
+        free: [
+          { value: "50 Tim FREE", label: "🎁 50 Tim" },
+          { value: "5000 View FREE", label: "🎁 5000 View" },
+        ],
+        combo: [
+          { value: "Combo 1 - 10K", label: "💎 Combo 1 - 10K" },
+          { value: "Combo 2 - 20K", label: "💎 Combo 2 - 20K" },
+          { value: "Combo 3 - 35K", label: "💎 Combo 3 - 35K" },
+          { value: "Combo 4 - 50K", label: "💎 Combo 4 - 50K" },
+          { value: "Combo 5 - 75K", label: "💎 Combo 5 - 75K" },
+          { value: "Combo VIP - 100K", label: "👑 Combo VIP - 100K" },
+        ],
+      };
+
+      // Combo details data (giống combo.html)
+      const comboDetailsData = {
+        "Combo 1 - 10K": [
+          "200 Tim (Không tụt)",
+          "5.000 View xuhuong",
+          "5 bình luận (viết tay)",
+          "100 Yêu Thích",
+          "100 Share",
+        ],
+        "Combo 2 - 20K": [
+          "100 FL Chất Lượng Cao",
+          "500 Tim (Không tụt)",
+          "10.000 View xuhuong",
+          "10 bình luận (viết tay)",
+          "200 Yêu Thích",
+          "200 Share",
+        ],
+        "Combo 3 - 35K": [
+          "250 FL Chất Lượng Cao",
+          "1000 Tim (Không tụt)",
+          "25.000 View xuhuong",
+          "20 bình luận (viết tay)",
+          "500 Yêu Thích",
+          "500 Share",
+        ],
+        "Combo 4 - 50K": [
+          "350 FL Chất Lượng Cao",
+          "1500 Tim (Không tụt)",
+          "35.000 View xuhuong",
+          "25 bình luận (viết tay)",
+          "400 Yêu Thích",
+          "400 Share",
+        ],
+        "Combo 5 - 75K": [
+          "500 FL Chất Lượng Cao",
+          "2000 Tim (Không tụt)",
+          "50.000 View xuhuong",
+          "30 bình luận (viết tay)",
+          "500 Yêu Thích",
+          "500 Share",
+        ],
+        "Combo VIP - 100K": [
+          "1000 FL Chất Lượng Cao",
+          "3000 Tim (Không tụt)",
+          "70.000 View xuhuong",
+          "50 bình luận (viết tay)",
+          "500 Yêu Thích",
+          "500 Share",
+        ],
+      };
+
+      // Toggle combo details
+      comboDetailsToggle.addEventListener("click", () => {
+        comboDetailsContent.classList.toggle("collapsed");
+        comboDetailsToggle.textContent = comboDetailsContent.classList.contains(
+          "collapsed"
+        )
+          ? "Mở rộng ▼"
+          : "Thu gọn ▲";
+      });
+
+      // Custom dropdown functionality
+      function initDropdown(dropdown, hiddenInput, onChange) {
+        const selected = dropdown.querySelector(".dropdown-selected");
+        const options = dropdown.querySelectorAll(".dropdown-option");
+
+        selected.addEventListener("click", (e) => {
+          e.stopPropagation();
+          // Close other dropdowns
+          document.querySelectorAll(".custom-dropdown.open").forEach((d) => {
+            if (d !== dropdown) d.classList.remove("open");
+          });
+          dropdown.classList.toggle("open");
+        });
+
+        options.forEach((option) => {
+          option.addEventListener("click", () => {
+            const value = option.dataset.value;
+            const text = option.textContent;
+            selected.textContent = text;
+            selected.dataset.value = value;
+            hiddenInput.value = value;
+            dropdown.classList.remove("open");
+            options.forEach((o) => o.classList.remove("selected"));
+            option.classList.add("selected");
+            if (onChange) onChange(value);
+          });
+        });
+      }
+
+      // Close dropdowns when clicking outside
+      document.addEventListener("click", () => {
+        document.querySelectorAll(".custom-dropdown.open").forEach((d) => {
+          d.classList.remove("open");
+        });
+      });
+
+      // Init category dropdown
+      initDropdown(categoryDropdown, serviceCategoryInput, (value) => {
+        if (value && serviceOptionsData[value]) {
+          serviceTypeGroup.style.display = "block";
+          // Populate service options
+          serviceOptionsContainer.innerHTML = serviceOptionsData[value]
+            .map(
+              (opt) =>
+                `<div class="dropdown-option" data-value="${opt.value}">${opt.label}</div>`
+            )
+            .join("");
+          // Reset service dropdown
+          const serviceSelected =
+            serviceDropdown.querySelector(".dropdown-selected");
+          serviceSelected.textContent = "-- Chọn --";
+          serviceSelected.dataset.value = "";
+          serviceTypeInput.value = "";
+          // Hide combo details when changing category
+          comboDetailsSection.style.display = "none";
+          // Init service dropdown options
+          serviceDropdown
+            .querySelectorAll(".dropdown-option")
+            .forEach((option) => {
+              option.addEventListener("click", () => {
+                const val = option.dataset.value;
+                serviceSelected.textContent = option.textContent;
+                serviceSelected.dataset.value = val;
+                serviceTypeInput.value = val;
+                serviceDropdown.classList.remove("open");
+                serviceDropdown
+                  .querySelectorAll(".dropdown-option")
+                  .forEach((o) => o.classList.remove("selected"));
+                option.classList.add("selected");
+
+                // Show combo details if combo selected
+                if (comboDetailsData[val]) {
+                  comboDetailsList.innerHTML = comboDetailsData[val]
+                    .map((item) => `<li>${item}</li>`)
+                    .join("");
+                  comboDetailsSection.style.display = "block";
+                  comboDetailsContent.classList.remove("collapsed");
+                  comboDetailsToggle.textContent = "Thu gọn ▲";
+                } else {
+                  comboDetailsSection.style.display = "none";
+                }
+              });
+            });
+        } else {
+          serviceTypeGroup.style.display = "none";
+          serviceTypeInput.value = "";
+          comboDetailsSection.style.display = "none";
+        }
+      });
+
+      // Service dropdown click
+      serviceDropdown
+        .querySelector(".dropdown-selected")
+        .addEventListener("click", (e) => {
+          e.stopPropagation();
+          document.querySelectorAll(".custom-dropdown.open").forEach((d) => {
+            if (d !== serviceDropdown) d.classList.remove("open");
+          });
+          serviceDropdown.classList.toggle("open");
+        });
+
+      // Open/Close Order Form
+      orderFab.addEventListener("click", () => {
+        orderFormOverlay.classList.add("active");
+      });
+
+      orderFormClose.addEventListener("click", () => {
+        orderFormOverlay.classList.remove("active");
+      });
+
+      orderFormOverlay.addEventListener("click", (e) => {
+        if (e.target === orderFormOverlay) {
+          orderFormOverlay.classList.remove("active");
+        }
+      });
+
+      ordersPanelClose.addEventListener("click", () => {
+        ordersPanel.classList.remove("active");
+      });
+
+      // Submit Order
+      orderForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        // Validate required fields
+        const name = document.getElementById("customerName").value.trim();
+        const phone = document.getElementById("customerPhone").value.trim();
+        const category = document.getElementById("serviceCategory").value;
+        const service = document.getElementById("serviceType").value;
+
+        if (!name) {
+          alert("❌ Vui lòng nhập tên của bạn!");
+          return;
+        }
+        if (!phone) {
+          alert("❌ Vui lòng nhập số điện thoại!");
+          return;
+        }
+        if (!category) {
+          alert("❌ Vui lòng chọn loại dịch vụ!");
+          return;
+        }
+        if (!service) {
+          alert("❌ Vui lòng chọn dịch vụ cụ thể!");
+          return;
+        }
+
+        const note = document.getElementById("orderNote").value.trim();
+        if (!note) {
+          alert("❌ Vui lòng nhập link video vào ghi chú!");
+          return;
+        }
+        if (!note.includes("tiktok.com")) {
+          alert("❌ Link phải là link TikTok (https://www.tiktok.com/...)");
+          return;
+        }
+
+        const orderData = {
+          name: name,
+          phone: phone,
+          category: category,
+          service: service,
+          note: note,
+          status: "pending",
+          createdAt: Date.now(),
+        };
+
+        try {
+          const ordersRef = ref(database, "orders");
+          await push(ordersRef, orderData);
+
+          // Reset form and hide service type
+          orderForm.reset();
+          serviceTypeGroup.style.display = "none";
+          orderFormOverlay.classList.remove("active");
+
+          // Show success message
+          alert(
+            "✅ Đã gửi đơn hàng thành công! Vui lòng chuyển khoản theo thông tin trên trang."
+          );
+        } catch (error) {
+          console.error("Error:", error);
+          alert("❌ Có lỗi xảy ra. Vui lòng thử lại!");
+        }
+      });
+
+      // Load Orders Realtime
+      const ordersRef = ref(database, "orders");
+      onValue(ordersRef, (snapshot) => {
+        const orders = [];
+        snapshot.forEach((child) => {
+          orders.push({ id: child.key, ...child.val() });
+        });
+
+        // Sort by newest first
+        orders.sort((a, b) => b.createdAt - a.createdAt);
+
+        // Render orders
+        if (orders.length === 0) {
+          ordersList.innerHTML =
+            '<p class="no-orders">Chưa có đơn hàng nào</p>';
+        } else {
+          ordersList.innerHTML = orders
+            .slice(0, 10)
+            .map(
+              (order) => `
+            <div class="order-item ${order.status}">
+              <div class="order-item-header">
+                <span class="order-name">${order.name}</span>
+                <span class="order-status">${
+                  order.status === "pending" ? "⏳ Chờ xử lý" : "✅ Đã xong"
+                }</span>
+              </div>
+              <div class="order-service">${order.service}</div>
+              <div class="order-time">${new Date(
+                order.createdAt
+              ).toLocaleString("vi-VN")}</div>
+            </div>
+          `
+            )
+            .join("");
+        }
+      });
+    </script>
 
     <script src="script.js"></script>
   </body>
