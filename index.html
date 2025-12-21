@@ -578,6 +578,9 @@
       </div>
     </div>
 
+    <!-- Firebase Config (injected by Netlify) -->
+    <script src="firebase-config.js"></script>
+
     <!-- Firebase SDK -->
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
@@ -589,9 +592,9 @@
         serverTimestamp,
       } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
 
-      // Firebase config
-      const firebaseConfig = {
-        apiKey: "AIzaSyAnIU9HB0Aqw8mxWfxxVrcaus51Mx_8QTk",
+      // Firebase config - loaded from firebase-config.js
+      const firebaseConfig = window.FIREBASE_CONFIG || {
+        apiKey: "__GOOGLE_API_KEY__",
         authDomain: "menu-tikkok.firebaseapp.com",
         databaseURL:
           "https://menu-tikkok-default-rtdb.asia-southeast1.firebasedatabase.app",
