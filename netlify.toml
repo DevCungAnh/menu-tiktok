@@ -1,6 +1,6 @@
 [build]
   publish = "."
-  command = "npm install && sed -i 's/__GOOGLE_API_KEY__/'$GOOGLE_API_KEY'/g' firebase-config.js && sed -i 's/__GOOGLE_API_KEY__/'$GOOGLE_API_KEY'/g' history.html"
+  command = "npm install"
 
 [build.environment]
   NODE_VERSION = "18"

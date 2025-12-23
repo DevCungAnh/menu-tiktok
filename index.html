@@ -887,7 +887,7 @@
           const response = await fetch('/.netlify/functions/orders');
           const orders = await response.json();
 
-          // Render orders
+          // Render orders (only show name, service, status - no phone/note for privacy)
           if (!orders || orders.length === 0) {
             ordersList.innerHTML =
               '<p class="no-orders">Chưa có đơn hàng nào</p>';
