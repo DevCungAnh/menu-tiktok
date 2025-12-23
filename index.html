@@ -163,9 +163,9 @@
               required
             />
           </div>
-          <div class="form-group">
-            <label for="customerPhone"
-              >Số điện thoại *
+          <div class="form-group" id="phoneGroup">
+            <label for="customerPhone" id="phoneLabel"
+              >Số điện thoại
               <span class="form-hint">(dùng Zalo số này)</span></label
             >
             <input
@@ -173,20 +173,14 @@
               id="customerPhone"
               name="customerPhone"
               placeholder="Nhập SĐT Zalo..."
-              required
             />
           </div>
           <div class="form-group">
             <label>Loại dịch vụ *</label>
             <div class="custom-dropdown" id="categoryDropdown">
-              <div class="dropdown-selected" data-value="">-- Chọn --</div>
-              <div class="dropdown-options">
-                <div class="dropdown-option" data-value="free">
-                  🎁 Free hữu duyên
-                </div>
-                <div class="dropdown-option" data-value="combo">
-                  💎 Combo chuyển khoản
-                </div>
+              <div class="dropdown-selected" data-value="">-- Đang tải... --</div>
+              <div class="dropdown-options" id="categoryOptions">
+                <!-- Loaded from API -->
               </div>
             </div>
             <input
@@ -397,72 +391,65 @@
       // Load menu on page load
       loadMenuServices();
 
-      // Service options data
-      const serviceOptionsData = {
-        free: [
-          { value: "50 Tim FREE", label: "🎁 50 Tim" },
-          { value: "5000 View FREE", label: "🎁 5000 View" },
-        ],
-        combo: [
-          { value: "Combo 1 - 10K", label: "💎 Combo 1 - 10K" },
-          { value: "Combo 2 - 20K", label: "💎 Combo 2 - 20K" },
-          { value: "Combo 3 - 35K", label: "💎 Combo 3 - 35K" },
-          { value: "Combo 4 - 50K", label: "💎 Combo 4 - 50K" },
-          { value: "Combo 5 - 75K", label: "💎 Combo 5 - 75K" },
-          { value: "Combo VIP - 100K", label: "👑 Combo VIP - 100K" },
-        ],
-      };
+      // Service options data - loaded from API
+      let serviceOptionsData = {};
+      let comboDetailsData = {};
+      let allCategories = [];
 
-      // Combo details data (giống combo.html)
-      const comboDetailsData = {
-        "Combo 1 - 10K": [
-          "200 Tim (Không tụt)",
-          "5.000 View xuhuong",
-          "5 bình luận (viết tay)",
-          "100 Yêu Thích",
-          "100 Share",
-        ],
-        "Combo 2 - 20K": [
-          "100 FL Chất Lượng Cao",
-          "500 Tim (Không tụt)",
-          "10.000 View xuhuong",
-          "10 bình luận (viết tay)",
-          "200 Yêu Thích",
-          "200 Share",
-        ],
-        "Combo 3 - 35K": [
-          "250 FL Chất Lượng Cao",
-          "1000 Tim (Không tụt)",
-          "25.000 View xuhuong",
-          "20 bình luận (viết tay)",
-          "500 Yêu Thích",
-          "500 Share",
-        ],
-        "Combo 4 - 50K": [
-          "350 FL Chất Lượng Cao",
-          "1500 Tim (Không tụt)",
-          "35.000 View xuhuong",
-          "25 bình luận (viết tay)",
-          "400 Yêu Thích",
-          "400 Share",
-        ],
-        "Combo 5 - 75K": [
-          "500 FL Chất Lượng Cao",
-          "2000 Tim (Không tụt)",
-          "50.000 View xuhuong",
-          "30 bình luận (viết tay)",
-          "500 Yêu Thích",
-          "500 Share",
-        ],
-        "Combo VIP - 100K": [
-          "1000 FL Chất Lượng Cao",
-          "3000 Tim (Không tụt)",
-          "70.000 View xuhuong",
-          "50 bình luận (viết tay)",
-          "500 Yêu Thích",
-          "500 Share",
-        ],
-      };
+      // Load categories from API
+      async function loadCategoriesForForm() {
+        try {
+          const response = await fetch('/.netlify/functions/categories');
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          allCategories = await response.json();
+          
+          // Build serviceOptionsData and comboDetailsData from API
+          allCategories.forEach(cat => {
+            serviceOptionsData[cat.code] = (cat.options || []).map(opt => ({
+              value: opt.name,
+              label: opt.label
+            }));
+            
+            // Build combo details
+            (cat.options || []).forEach(opt => {
+              if (opt.details) {
+                try {
+                  comboDetailsData[opt.name] = JSON.parse(opt.details);
+                } catch(e) {}
+              }
+            });
+          });
+          
+          const categoryOptions = document.getElementById('categoryOptions');
+          const categorySelected = categoryDropdown.querySelector('.dropdown-selected');
+          
+          if (allCategories.length > 0) {
+            categoryOptions.innerHTML = allCategories.map(cat => 
+              `<div class="dropdown-option" data-value="${cat.code}">${cat.icon || '📦'} ${cat.name}</div>`
+            ).join('');
+            categorySelected.textContent = '-- Chọn --';
+            
+            // Re-init dropdown to attach event listeners (with small delay to ensure DOM is ready)
+            setTimeout(() => {
+              initCategoryDropdownAfterLoad();
+            }, 50);
+          } else {
+            console.warn('No categories found!');
+            if (categorySelected) categorySelected.textContent = 'Không có loại dịch vụ';
+          }
+        } catch (error) {
+          console.error('Error loading categories:', error);
+          const categorySelected = categoryDropdown?.querySelector('.dropdown-selected');
+          if (categorySelected) {
+            categorySelected.textContent = 'Lỗi tải dữ liệu';
+          }
+        }
+      }
+      
+      // Load categories on page load
+      loadCategoriesForForm();
 
       // Toggle combo details
       comboDetailsToggle.addEventListener("click", () => {
@@ -510,59 +497,99 @@
         });
       });
 
-      // Init category dropdown
-      initDropdown(categoryDropdown, serviceCategoryInput, (value) => {
-        if (value && serviceOptionsData[value]) {
-          serviceTypeGroup.style.display = "block";
-          // Populate service options
-          serviceOptionsContainer.innerHTML = serviceOptionsData[value]
-            .map(
-              (opt) =>
-                `<div class="dropdown-option" data-value="${opt.value}">${opt.label}</div>`
-            )
-            .join("");
-          // Reset service dropdown
-          const serviceSelected =
-            serviceDropdown.querySelector(".dropdown-selected");
-          serviceSelected.textContent = "-- Chọn --";
-          serviceSelected.dataset.value = "";
-          serviceTypeInput.value = "";
-          // Hide combo details when changing category
-          comboDetailsSection.style.display = "none";
-          // Init service dropdown options
-          serviceDropdown
-            .querySelectorAll(".dropdown-option")
-            .forEach((option) => {
-              option.addEventListener("click", () => {
-                const val = option.dataset.value;
-                serviceSelected.textContent = option.textContent;
-                serviceSelected.dataset.value = val;
-                serviceTypeInput.value = val;
-                serviceDropdown.classList.remove("open");
-                serviceDropdown
-                  .querySelectorAll(".dropdown-option")
-                  .forEach((o) => o.classList.remove("selected"));
-                option.classList.add("selected");
-
-                // Show combo details if combo selected
-                if (comboDetailsData[val]) {
-                  comboDetailsList.innerHTML = comboDetailsData[val]
-                    .map((item) => `<li>${item}</li>`)
-                    .join("");
-                  comboDetailsSection.style.display = "block";
-                  comboDetailsContent.classList.remove("collapsed");
-                  comboDetailsToggle.textContent = "Thu gọn ▲";
-                } else {
-                  comboDetailsSection.style.display = "none";
-                }
-              });
-            });
-        } else {
-          serviceTypeGroup.style.display = "none";
-          serviceTypeInput.value = "";
-          comboDetailsSection.style.display = "none";
-        }
-      });
+      // Function to init category dropdown after dynamic load
+      function initCategoryDropdownAfterLoad() {
+        const selected = categoryDropdown.querySelector(".dropdown-selected");
+        const options = categoryDropdown.querySelectorAll(".dropdown-option");
+        
+        selected.addEventListener("click", (e) => {
+          e.stopPropagation();
+          document.querySelectorAll(".custom-dropdown.open").forEach((d) => {
+            if (d !== categoryDropdown) d.classList.remove("open");
+          });
+          categoryDropdown.classList.toggle("open");
+        });
+        
+        options.forEach((option) => {
+          option.addEventListener("click", () => {
+            const value = option.dataset.value;
+            const text = option.textContent;
+            selected.textContent = text;
+            selected.dataset.value = value;
+            serviceCategoryInput.value = value;
+            categoryDropdown.classList.remove("open");
+            options.forEach((o) => o.classList.remove("selected"));
+            option.classList.add("selected");
+            
+            // Handle category change
+            if (value && serviceOptionsData[value]) {
+              serviceTypeGroup.style.display = "block";
+              // Populate service options
+              serviceOptionsContainer.innerHTML = serviceOptionsData[value]
+                .map((opt) => `<div class="dropdown-option" data-value="${opt.value}">${opt.label}</div>`)
+                .join("");
+              // Reset service dropdown
+              const serviceSelected = serviceDropdown.querySelector(".dropdown-selected");
+              serviceSelected.textContent = "-- Chọn --";
+              serviceSelected.dataset.value = "";
+              serviceTypeInput.value = "";
+              // Hide combo details
+              comboDetailsSection.style.display = "none";
+              // Re-init service dropdown
+              initServiceDropdownAfterCategoryChange();
+              
+              // Phone required only for combo
+              const phoneInput = document.getElementById('customerPhone');
+              const phoneLabel = document.getElementById('phoneLabel');
+              if (value === 'combo') {
+                phoneInput.required = true;
+                phoneInput.placeholder = 'Nhập SĐT Zalo...';
+                phoneLabel.innerHTML = 'Số điện thoại * <span class="form-hint">(dùng Zalo số này)</span>';
+              } else {
+                phoneInput.required = false;
+                phoneInput.placeholder = 'Nhập SĐT Zalo (nếu có)...';
+                phoneLabel.innerHTML = 'Số điện thoại <span class="form-hint">(nếu có)</span>';
+              }
+            } else {
+              serviceTypeGroup.style.display = "none";
+              comboDetailsSection.style.display = "none";
+            }
+          });
+        });
+      }
+      
+      // Function to init service dropdown after category change
+      // Only attach handlers to options (the click handler for opening dropdown is already set below)
+      function initServiceDropdownAfterCategoryChange() {
+        const options = serviceDropdown.querySelectorAll(".dropdown-option");
+        console.log('initServiceDropdownAfterCategoryChange - options:', options.length);
+        
+        options.forEach((option) => {
+          option.addEventListener("click", () => {
+            const value = option.dataset.value;
+            const text = option.textContent;
+            const selected = serviceDropdown.querySelector(".dropdown-selected");
+            selected.textContent = text;
+            selected.dataset.value = value;
+            serviceTypeInput.value = value;
+            serviceDropdown.classList.remove("open");
+            options.forEach((o) => o.classList.remove("selected"));
+            option.classList.add("selected");
+            
+            // Show combo details if available
+            if (comboDetailsData[value]) {
+              comboDetailsSection.style.display = "block";
+              comboDetailsContent.innerHTML = comboDetailsData[value]
+                .map((item) => `<li>${item}</li>`)
+                .join("");
+            } else {
+              comboDetailsSection.style.display = "none";
+            }
+          });
+        });
+      }
+      // NOTE: categoryDropdown is now initialized dynamically by initCategoryDropdownAfterLoad()
+      // after categories are loaded from API
 
       // Service dropdown click
       serviceDropdown
@@ -608,7 +635,8 @@
           alert("❌ Vui lòng nhập tên của bạn!");
           return;
         }
-        if (!phone) {
+        const phoneInput = document.getElementById("customerPhone");
+        if (phoneInput.required && !phone) {
           alert("❌ Vui lòng nhập số điện thoại!");
           return;
         }

@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="shortcut icon" href="admin-assets/images/favicon.svg" type="image/x-icon" />
+    <title>Quản Lý Loại Dịch Vụ | TikTok Menu Admin</title>
+
+    <!-- PlainAdmin CSS -->
+    <link rel="stylesheet" href="admin-assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="admin-assets/css/lineicons.css" />
+    <link rel="stylesheet" href="admin-assets/css/materialdesignicons.min.css" />
+    <link rel="stylesheet" href="admin-assets/css/main.css" />
+  </head>
+  <body>
+    <!-- ======== Preloader =========== -->
+    <div id="preloader">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- ======== sidebar-nav start =========== -->
+    <aside class="sidebar-nav-wrapper">
+      <div class="navbar-logo">
+        <a href="index.html">
+          <img src="admin-assets/images/logo/logo.svg" alt="logo" />
+        </a>
+      </div>
+      <nav class="sidebar-nav">
+        <ul>
+          <li class="nav-item nav-item-has-children">
+            <a href="#0" data-bs-toggle="collapse" data-bs-target="#ddmenu_1" aria-controls="ddmenu_1" aria-expanded="true" aria-label="Toggle navigation">
+              <span class="icon">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8.74999 18.3333C12.2376 18.3333 15.1364 15.8128 15.7244 12.4941C15.8448 11.8143 15.2737 11.25 14.5833 11.25H9.99999C9.30966 11.25 8.74999 10.6903 8.74999 10V5.41666C8.74999 4.7263 8.18563 4.15512 7.50586 4.27556C4.18711 4.86357 1.66666 7.76243 1.66666 11.25C1.66666 15.162 4.83797 18.3333 8.74999 18.3333Z" />
+                  <path d="M17.0833 10C17.7737 10 18.3432 9.43708 18.2408 8.75433C17.7005 5.14918 14.8508 2.29947 11.2457 1.75912C10.5629 1.6568 10 2.2263 10 2.91665V9.16666C10 9.62691 10.3731 10 10.8333 10H17.0833Z" />
+                </svg>
+              </span>
+              <span class="text">Dashboard</span>
+            </a>
+            <ul id="ddmenu_1" class="collapse show dropdown-nav">
+              <li><a href="admin.html">Quản lý đơn hàng</a></li>
+              <li><a href="admin-services.html">Quản lý menu</a></li>
+              <li><a href="admin-categories.html" class="active">Quản lý loại dịch vụ</a></li>
+            </ul>
+          </li>
+          <span class="divider"><hr /></span>
+          <li class="nav-item">
+            <a href="#" id="logoutBtn">
+              <span class="icon"><i class="lni lni-exit"></i></span>
+              <span class="text">Đăng xuất</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+    <div class="overlay"></div>
+    <!-- ======== sidebar-nav end =========== -->
+
+    <!-- ======== main-wrapper start =========== -->
+    <main class="main-wrapper">
+      <!-- ========== header start ========== -->
+      <header class="header">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-5 col-md-5 col-6">
+              <div class="header-left d-flex align-items-center">
+                <div class="menu-toggle-btn mr-15">
+                  <button id="menu-toggle" class="main-btn primary-btn btn-hover">
+                    <i class="lni lni-chevron-left me-2"></i> Menu
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-7 col-md-7 col-6">
+              <div class="header-right">
+                <div class="profile-box ml-15">
+                  <div class="profile-info">
+                    <div class="info">
+                      <h6 class="fw-500">Admin</h6>
+                      <p>Quản trị viên</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+      <!-- ========== header end ========== -->
+
+      <!-- ========== section start ========== -->
+      <section class="section">
+        <div class="container-fluid">
+          <!-- ========== title-wrapper start ========== -->
+          <div class="title-wrapper pt-30">
+            <div class="row align-items-center">
+              <div class="col-md-6">
+                <div class="title">
+                  <h2>Quản Lý Loại Dịch Vụ</h2>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="breadcrumb-wrapper">
+                  <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                      <li class="breadcrumb-item active" aria-current="page">Loại dịch vụ</li>
+                    </ol>
+                  </nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ========== title-wrapper end ========== -->
+
+          <!-- Add Category Button -->
+          <div class="row mb-3">
+            <div class="col-12">
+              <button class="main-btn primary-btn btn-hover" id="addCategoryBtn">
+                <i class="lni lni-plus me-2"></i> Thêm Loại Dịch Vụ
+              </button>
+              <p class="text-muted mt-2"><small>📌 Đây là loại dịch vụ hiển thị trong form đặt hàng (VD: Free, Combo)</small></p>
+            </div>
+          </div>
+
+          <!-- Categories List -->
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="card-style mb-30">
+                <div class="title d-flex flex-wrap justify-content-between align-items-center">
+                  <div class="left">
+                    <h6 class="text-medium mb-30">Danh Sách Loại Dịch Vụ</h6>
+                  </div>
+                </div>
+                
+                <div id="categoriesContainer">
+                  <p class="text-center py-5">Đang tải...</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+      <!-- ========== section end ========== -->
+
+      <!-- ========== footer start =========== -->
+      <footer class="footer">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-6 order-last order-md-first">
+              <div class="copyright text-center text-md-start">
+                <p class="text-sm">© 2024-2025 TikTok Menu Admin</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+      <!-- ========== footer end =========== -->
+    </main>
+    <!-- ======== main-wrapper end =========== -->
+
+    <!-- Category Modal -->
+    <div class="modal fade" id="categoryModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="categoryModalLabel">Thêm Loại Dịch Vụ</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="categoryForm">
+              <input type="hidden" id="categoryId" />
+              <div class="input-style-1">
+                <label>Tên loại dịch vụ *</label>
+                <input type="text" id="categoryName" placeholder="VD: Free hữu duyên" required />
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="input-style-1">
+                    <label>Code *</label>
+                    <input type="text" id="categoryCode" placeholder="VD: free" required />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="input-style-1">
+                    <label>Icon (emoji)</label>
+                    <input type="text" id="categoryIcon" placeholder="🎁" />
+                  </div>
+                </div>
+              </div>
+              <div class="input-style-1">
+                <label>Thứ tự sắp xếp</label>
+                <input type="number" id="categorySortOrder" value="0" min="0" />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="main-btn light-btn btn-hover" data-bs-dismiss="modal">Hủy</button>
+            <button type="button" class="main-btn primary-btn btn-hover" id="saveCategoryBtn">Lưu</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Option Modal -->
+    <div class="modal fade" id="optionModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="optionModalLabel">Thêm Option</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="optionForm">
+              <input type="hidden" id="optionId" />
+              <input type="hidden" id="optionCategoryId" />
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="input-style-1">
+                    <label>Tên option *</label>
+                    <input type="text" id="optionName" placeholder="VD: Combo 1 - 10K" required />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="input-style-1">
+                    <label>Label hiển thị *</label>
+                    <input type="text" id="optionLabel" placeholder="VD: 💎 Combo 1 - 10K" required />
+                  </div>
+                </div>
+              </div>
+              <div class="input-style-1">
+                <label>Chi tiết (mỗi dòng 1 item)</label>
+                <textarea id="optionDetails" rows="5" placeholder="200 Tim (Không tụt)
+5.000 View xuhuong
+5 bình luận (viết tay)"></textarea>
+              </div>
+              <div class="input-style-1">
+                <label>Thứ tự sắp xếp</label>
+                <input type="number" id="optionSortOrder" value="0" min="0" />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="main-btn light-btn btn-hover" data-bs-dismiss="modal">Hủy</button>
+            <button type="button" class="main-btn primary-btn btn-hover" id="saveOptionBtn">Lưu</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PlainAdmin JS -->
+    <script src="admin-assets/js/bootstrap.bundle.min.js"></script>
+    <script src="admin-assets/js/main.js"></script>
+
+    <!-- Categories Management Logic -->
+    <script>
+      // Check auth
+      if (!localStorage.getItem('adminToken')) {
+        window.location.href = 'admin-login.html';
+      }
+
+      // State
+      let allCategories = [];
+      let editingCategoryId = null;
+      let editingOptionId = null;
+      let currentCategoryId = null;
+
+      // DOM Elements
+      const logoutBtn = document.getElementById('logoutBtn');
+      const categoriesContainer = document.getElementById('categoriesContainer');
+      const addCategoryBtn = document.getElementById('addCategoryBtn');
+      const saveCategoryBtn = document.getElementById('saveCategoryBtn');
+      const saveOptionBtn = document.getElementById('saveOptionBtn');
+      const categoryModal = new bootstrap.Modal(document.getElementById('categoryModal'));
+      const optionModal = new bootstrap.Modal(document.getElementById('optionModal'));
+
+      // Logout
+      logoutBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.removeItem('adminToken');
+        window.location.href = 'admin-login.html';
+      });
+
+      // Add category button
+      addCategoryBtn.addEventListener('click', () => {
+        editingCategoryId = null;
+        document.getElementById('categoryModalLabel').textContent = 'Thêm Loại Dịch Vụ';
+        document.getElementById('categoryForm').reset();
+        categoryModal.show();
+      });
+
+      // Save category
+      saveCategoryBtn.addEventListener('click', async () => {
+        const name = document.getElementById('categoryName').value;
+        const code = document.getElementById('categoryCode').value;
+
+        if (!name || !code) {
+          alert('❌ Vui lòng nhập tên và code!');
+          return;
+        }
+
+        const data = {
+          name,
+          code,
+          icon: document.getElementById('categoryIcon').value || '📦',
+          sort_order: parseInt(document.getElementById('categorySortOrder').value) || 0
+        };
+
+        try {
+          const token = localStorage.getItem('adminToken');
+          let response;
+
+          if (editingCategoryId) {
+            data.id = editingCategoryId;
+            response = await fetch('/.netlify/functions/categories', {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+              body: JSON.stringify(data)
+            });
+          } else {
+            response = await fetch('/.netlify/functions/categories', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+              body: JSON.stringify(data)
+            });
+          }
+
+          if (response.ok) {
+            categoryModal.hide();
+            loadCategories();
+            alert('✅ Lưu thành công!');
+          } else {
+            const error = await response.json();
+            alert('❌ Lỗi: ' + (error.error || 'Không thể lưu'));
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('❌ Có lỗi xảy ra!');
+        }
+      });
+
+      // Save option
+      saveOptionBtn.addEventListener('click', async () => {
+        const name = document.getElementById('optionName').value;
+        const label = document.getElementById('optionLabel').value;
+        const categoryId = document.getElementById('optionCategoryId').value;
+
+        if (!name || !label) {
+          alert('❌ Vui lòng nhập tên và label!');
+          return;
+        }
+
+        // Convert textarea to JSON array
+        const detailsText = document.getElementById('optionDetails').value;
+        const detailsArray = detailsText.split('\n').filter(line => line.trim());
+        const details = detailsArray.length > 0 ? JSON.stringify(detailsArray) : null;
+
+        const data = {
+          category_id: parseInt(categoryId),
+          name,
+          label,
+          details,
+          sort_order: parseInt(document.getElementById('optionSortOrder').value) || 0
+        };
+
+        try {
+          const token = localStorage.getItem('adminToken');
+          let response;
+
+          if (editingOptionId) {
+            data.id = editingOptionId;
+            response = await fetch('/.netlify/functions/categories/options', {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+              body: JSON.stringify(data)
+            });
+          } else {
+            response = await fetch('/.netlify/functions/categories/options', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+              body: JSON.stringify(data)
+            });
+          }
+
+          if (response.ok) {
+            optionModal.hide();
+            loadCategories();
+            alert('✅ Lưu option thành công!');
+          } else {
+            const error = await response.json();
+            alert('❌ Lỗi: ' + (error.error || 'Không thể lưu'));
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('❌ Có lỗi xảy ra!');
+        }
+      });
+
+      // Load categories
+      async function loadCategories() {
+        try {
+          const response = await fetch('/.netlify/functions/categories?all=true');
+          allCategories = await response.json();
+          renderCategories();
+        } catch (error) {
+          console.error('Error loading:', error);
+          categoriesContainer.innerHTML = '<p class="text-center text-danger py-5">❌ Không thể tải dữ liệu</p>';
+        }
+      }
+
+      // Render categories
+      function renderCategories() {
+        if (allCategories.length === 0) {
+          categoriesContainer.innerHTML = '<p class="text-center py-5">📭 Chưa có loại dịch vụ. Nhấn "Thêm Loại Dịch Vụ" để bắt đầu!</p>';
+          return;
+        }
+
+        categoriesContainer.innerHTML = allCategories.map(cat => `
+          <div class="card-style mb-30">
+            <div class="title d-flex flex-wrap justify-content-between align-items-center mb-20">
+              <div class="left d-flex align-items-center">
+                <span style="font-size: 2rem; margin-right: 12px;">${cat.icon || '📦'}</span>
+                <div>
+                  <h6 class="text-medium mb-0">${cat.name}</h6>
+                  <span class="badge bg-light text-dark">${cat.code}</span>
+                </div>
+                <span class="status-btn ${cat.is_active ? 'success-btn' : 'close-btn'} ms-3" style="cursor: pointer; padding: 5px 15px; border-radius: 20px; font-size: 12px;" onclick="toggleCategory(${cat.id}, ${cat.is_active})">
+                  ${cat.is_active ? '● Hiện' : '○ Ẩn'}
+                </span>
+              </div>
+              <div class="right">
+                <button class="main-btn success-btn-outline btn-sm rounded-full me-2" onclick="addOption(${cat.id})" style="padding: 8px 16px;">
+                  <i class="lni lni-plus"></i> Thêm option
+                </button>
+                <button class="main-btn primary-btn-outline btn-sm rounded-full me-1" onclick="editCategory(${cat.id})" style="padding: 8px 12px;">
+                  <i class="lni lni-pencil"></i>
+                </button>
+                <button class="main-btn danger-btn-outline btn-sm rounded-full" onclick="deleteCategory(${cat.id})" style="padding: 8px 12px;">
+                  <i class="lni lni-trash-can"></i>
+                </button>
+              </div>
+            </div>
+            
+            ${cat.options && cat.options.length > 0 ? `
+              <div class="table-wrapper table-responsive">
+                <table class="table striped-table">
+                  <thead>
+                    <tr>
+                      <th><h6>STT</h6></th>
+                      <th><h6>Tên option</h6></th>
+                      <th><h6>Label hiển thị</h6></th>
+                      <th><h6>Chi tiết</h6></th>
+                      <th><h6>Trạng thái</h6></th>
+                      <th><h6>Thao tác</h6></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${cat.options.map((opt, idx) => `
+                      <tr>
+                        <td><p>${idx + 1}</p></td>
+                        <td><p class="text-sm">${opt.name}</p></td>
+                        <td><p class="text-sm">${opt.label}</p></td>
+                        <td>
+                          <p class="text-sm text-gray">
+                            ${opt.details ? JSON.parse(opt.details).slice(0, 2).join(', ') + (JSON.parse(opt.details).length > 2 ? '...' : '') : '-'}
+                          </p>
+                        </td>
+                        <td>
+                          <span class="status-btn ${opt.is_active ? 'success-btn' : 'close-btn'}" style="cursor: pointer; padding: 4px 12px; border-radius: 15px; font-size: 11px;" onclick="toggleOption(${opt.id}, ${opt.is_active})">
+                            ${opt.is_active ? '● Hiện' : '○ Ẩn'}
+                          </span>
+                        </td>
+                        <td>
+                          <div class="action d-flex">
+                            <button class="text-primary me-2" onclick="editOption(${cat.id}, ${opt.id})" style="border: none; background: none; cursor: pointer;">
+                              <i class="lni lni-pencil"></i>
+                            </button>
+                            <button class="text-danger" onclick="deleteOption(${opt.id})" style="border: none; background: none; cursor: pointer;">
+                              <i class="lni lni-trash-can"></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    `).join('')}
+                  </tbody>
+                </table>
+              </div>
+            ` : '<p class="text-center text-gray py-4">Chưa có option nào. Nhấn "Thêm option" để bắt đầu!</p>'}
+          </div>
+        `).join('');
+      }
+
+      // Edit category
+      window.editCategory = function(id) {
+        const cat = allCategories.find(c => c.id === id);
+        if (!cat) return;
+
+        editingCategoryId = id;
+        document.getElementById('categoryModalLabel').textContent = 'Sửa Loại Dịch Vụ';
+        document.getElementById('categoryId').value = id;
+        document.getElementById('categoryName').value = cat.name;
+        document.getElementById('categoryCode').value = cat.code;
+        document.getElementById('categoryIcon').value = cat.icon || '';
+        document.getElementById('categorySortOrder').value = cat.sort_order || 0;
+        categoryModal.show();
+      };
+
+      // Delete category
+      window.deleteCategory = async function(id) {
+        if (!confirm('Xóa loại dịch vụ này sẽ xóa tất cả options bên trong. Tiếp tục?')) return;
+
+        try {
+          const token = localStorage.getItem('adminToken');
+          await fetch('/.netlify/functions/categories', {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+            body: JSON.stringify({ id })
+          });
+          loadCategories();
+          alert('✅ Đã xóa!');
+        } catch (error) {
+          alert('❌ Có lỗi!');
+        }
+      };
+
+      // Toggle category visibility
+      window.toggleCategory = async function(id, currentStatus) {
+        try {
+          const token = localStorage.getItem('adminToken');
+          await fetch('/.netlify/functions/categories', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+            body: JSON.stringify({ id, is_active: !currentStatus })
+          });
+          loadCategories();
+        } catch (error) {
+          alert('❌ Có lỗi!');
+        }
+      };
+
+      // Add option
+      window.addOption = function(categoryId) {
+        editingOptionId = null;
+        document.getElementById('optionModalLabel').textContent = 'Thêm Option';
+        document.getElementById('optionForm').reset();
+        document.getElementById('optionCategoryId').value = categoryId;
+        optionModal.show();
+      };
+
+      // Edit option
+      window.editOption = function(categoryId, optionId) {
+        const cat = allCategories.find(c => c.id === categoryId);
+        if (!cat) return;
+        const opt = cat.options.find(o => o.id === optionId);
+        if (!opt) return;
+
+        editingOptionId = optionId;
+        document.getElementById('optionModalLabel').textContent = 'Sửa Option';
+        document.getElementById('optionId').value = optionId;
+        document.getElementById('optionCategoryId').value = categoryId;
+        document.getElementById('optionName').value = opt.name;
+        document.getElementById('optionLabel').value = opt.label;
+        document.getElementById('optionSortOrder').value = opt.sort_order || 0;
+
+        // Parse details JSON to textarea
+        if (opt.details) {
+          try {
+            const arr = JSON.parse(opt.details);
+            document.getElementById('optionDetails').value = arr.join('\n');
+          } catch {
+            document.getElementById('optionDetails').value = opt.details;
+          }
+        } else {
+          document.getElementById('optionDetails').value = '';
+        }
+
+        optionModal.show();
+      };
+
+      // Delete option
+      window.deleteOption = async function(id) {
+        if (!confirm('Xóa option này?')) return;
+
+        try {
+          const token = localStorage.getItem('adminToken');
+          await fetch('/.netlify/functions/categories/options', {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+            body: JSON.stringify({ id })
+          });
+          loadCategories();
+          alert('✅ Đã xóa!');
+        } catch (error) {
+          alert('❌ Có lỗi!');
+        }
+      };
+
+      // Toggle option visibility
+      window.toggleOption = async function(id, currentStatus) {
+        try {
+          const token = localStorage.getItem('adminToken');
+          await fetch('/.netlify/functions/categories/options', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+            body: JSON.stringify({ id, is_active: !currentStatus })
+          });
+          loadCategories();
+        } catch (error) {
+          alert('❌ Có lỗi!');
+        }
+      };
+
+      // Load on page start
+      loadCategories();
+    </script>
+  </body>
+</html>

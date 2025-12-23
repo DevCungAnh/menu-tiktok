@@ -42,6 +42,7 @@
             <ul id="ddmenu_1" class="collapse show dropdown-nav">
               <li><a href="admin.html">Quản lý đơn hàng</a></li>
               <li><a href="admin-services.html" class="active">Quản lý menu</a></li>
+              <li><a href="admin-categories.html">Quản lý loại dịch vụ</a></li>
             </ul>
           </li>
           <span class="divider"><hr /></span>
@@ -376,29 +377,31 @@
 
         servicesTableBody.innerHTML = allServices.map((service, index) => `
           <tr>
-            <td><p class="text-sm">${index + 1}</p></td>
+            <td><p>${index + 1}</p></td>
             <td>
-              ${service.icon_url ? `<img src="${service.icon_url}" alt="" style="width: 32px; height: 32px; object-fit: contain;" />` : '📦'}
+              ${service.icon_url ? `<img src="${service.icon_url}" alt="" style="width: 36px; height: 36px; object-fit: contain; border-radius: 8px;" />` : '<span style="font-size: 24px;">📦</span>'}
             </td>
             <td>
               <p class="text-sm"><strong>${service.name}</strong></p>
-              ${service.description ? `<small class="text-muted">${service.description}</small>` : ''}
+              ${service.description ? `<p class="text-xs text-gray">${service.description}</p>` : ''}
             </td>
             <td><p class="text-sm">${service.qty || 1}</p></td>
             <td><p class="text-sm">${service.badges || '-'}</p></td>
-            <td>${service.is_hot ? '🔥 HOT' : '-'}</td>
+            <td>${service.is_hot ? '<span class="status-btn warning-btn" style="padding: 4px 10px; border-radius: 15px; font-size: 11px;">🔥 HOT</span>' : '<span class="text-gray">-</span>'}</td>
             <td>
-              <button class="btn btn-sm btn-${service.is_active ? 'success' : 'secondary'}" onclick="toggleVisibility(${service.id}, ${service.is_active})">
-                ${service.is_active ? '👁️ Hiện' : '🚫 Ẩn'}
-              </button>
+              <span class="status-btn ${service.is_active ? 'success-btn' : 'close-btn'}" style="cursor: pointer; padding: 4px 12px; border-radius: 15px; font-size: 11px;" onclick="toggleVisibility(${service.id}, ${service.is_active})">
+                ${service.is_active ? '● Hiện' : '○ Ẩn'}
+              </span>
             </td>
             <td>
-              <button class="btn btn-sm btn-outline-primary me-1" onclick="editService(${service.id})">
-                <i class="lni lni-pencil"></i>
-              </button>
-              <button class="btn btn-sm btn-outline-danger" onclick="deleteService(${service.id})">
-                <i class="lni lni-trash-can"></i>
-              </button>
+              <div class="action d-flex">
+                <button class="text-primary me-2" onclick="editService(${service.id})" style="border: none; background: none; cursor: pointer;">
+                  <i class="lni lni-pencil"></i>
+                </button>
+                <button class="text-danger" onclick="deleteService(${service.id})" style="border: none; background: none; cursor: pointer;">
+                  <i class="lni lni-trash-can"></i>
+                </button>
+              </div>
             </td>
           </tr>
         `).join('');
