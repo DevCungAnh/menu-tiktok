@@ -1,6 +1,10 @@
 [build]
   publish = "."
-  command = "sed -i 's/__GOOGLE_API_KEY__/'$GOOGLE_API_KEY'/g' firebase-config.js && sed -i 's/__GOOGLE_API_KEY__/'$GOOGLE_API_KEY'/g' history.html"
+  command = "npm install && sed -i 's/__GOOGLE_API_KEY__/'$GOOGLE_API_KEY'/g' firebase-config.js && sed -i 's/__GOOGLE_API_KEY__/'$GOOGLE_API_KEY'/g' history.html"
 
 [build.environment]
   NODE_VERSION = "18"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"

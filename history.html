@@ -301,34 +301,8 @@
       </div>
     </div>
 
-    <!-- Firebase Config (injected by Netlify) -->
-    <script src="firebase-config.js"></script>
-
-    <!-- Firebase SDK -->
+    <!-- Order History Script (Neon PostgreSQL via Netlify Functions) -->
     <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-      import {
-        getDatabase,
-        ref,
-        onValue,
-        update,
-      } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
-
-      // Firebase config - loaded from firebase-config.js
-      const firebaseConfig = window.FIREBASE_CONFIG || {
-        apiKey: "__GOOGLE_API_KEY__",
-        authDomain: "menu-tikkok.firebaseapp.com",
-        databaseURL:
-          "https://menu-tikkok-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "menu-tikkok",
-        storageBucket: "menu-tikkok.firebasestorage.app",
-        messagingSenderId: "889648179170",
-        appId: "1:889648179170:web:28ac6df4d713ade38b3bbb",
-      };
-
-      const app = initializeApp(firebaseConfig);
-      const database = getDatabase(app);
-
       let allOrders = [];
       let currentFilter = "all";
 
@@ -349,12 +323,31 @@
         });
       });
 
-      // Toggle order status
-      function toggleStatus(orderId, currentStatus) {
+      // Toggle order status - Now using Netlify Functions API
+      async function toggleStatus(orderId, currentStatus) {
         const newStatus = currentStatus === "pending" ? "completed" : "pending";
-        const orderRef = ref(database, `orders/${orderId}`);
-        update(orderRef, { status: newStatus });
+        
+        try {
+          const response = await fetch('/.netlify/functions/update-order-status', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: orderId, status: newStatus })
+          });
+          
+          if (response.ok) {
+            // Reload orders after update
+            loadOrders();
+          } else {
+            alert('❌ Không thể cập nhật trạng thái!');
+          }
+        } catch (error) {
+          console.error('Error updating status:', error);
+          alert('❌ Có lỗi xảy ra!');
+        }
       }
+
+      // Make toggleStatus global
+      window.toggleStatus = toggleStatus;
 
       // Render orders
       function renderOrders() {
@@ -375,10 +368,10 @@
             (order) => `
           <div class="order-card ${order.status}">
             <div class="order-header">
-              <span class="order-customer">${order.name}</span>
+              <span class="order-customer">${order.customer_name}</span>
               <span class="order-status-badge ${
                 order.status
-              }" onclick="window.toggleStatus('${order.id}', '${
+              }" onclick="window.toggleStatus(${order.id}, '${
               order.status
             }')">
                 ${order.status === "pending" ? "⏳ Chờ xử lý" : "✅ Đã xong"}
@@ -386,17 +379,22 @@
             </div>
             <div class="order-info">
               <div class="order-info-row">
+                <span class="order-info-label">SĐT:</span>
+                <span class="order-info-value">${order.customer_phone}</span>
+              </div>
+              <div class="order-info-row">
                 <span class="order-info-label">Loại:</span>
                 <span class="order-info-value">${
-                  order.category === "free" ? "🎁 Free" : "💎 Combo"
+                  order.service_category === "free" ? "🎁 Free" : "💎 Combo"
                 }</span>
               </div>
               <div class="order-info-row">
                 <span class="order-info-label">Dịch vụ:</span>
-                <span class="order-info-value highlight">${order.service}</span>
+                <span class="order-info-value highlight">${order.service_type}</span>
               </div>
             </div>
-            <div class="order-time">${new Date(order.createdAt).toLocaleString(
+            ${order.note ? `<div class="order-note">📝 ${order.note}</div>` : ''}
+            <div class="order-time">${new Date(order.created_at).toLocaleString(
               "vi-VN"
             )}</div>
           </div>
@@ -405,31 +403,35 @@
           .join("");
       }
 
-      // Make toggleStatus global
-      window.toggleStatus = toggleStatus;
+      // Load orders from API
+      async function loadOrders() {
+        try {
+          ordersContainer.innerHTML = '<div class="loading">Đang tải...</div>';
+          
+          const response = await fetch('/.netlify/functions/orders');
+          allOrders = await response.json();
 
-      // Load orders realtime
-      const ordersRef = ref(database, "orders");
-      onValue(ordersRef, (snapshot) => {
-        allOrders = [];
-        snapshot.forEach((child) => {
-          allOrders.push({ id: child.key, ...child.val() });
-        });
+          // Update stats
+          totalOrdersEl.textContent = allOrders.length;
+          pendingOrdersEl.textContent = allOrders.filter(
+            (o) => o.status === "pending"
+          ).length;
+          completedOrdersEl.textContent = allOrders.filter(
+            (o) => o.status === "completed"
+          ).length;
 
-        // Sort newest first
-        allOrders.sort((a, b) => b.createdAt - a.createdAt);
+          renderOrders();
+        } catch (error) {
+          console.error('Error loading orders:', error);
+          ordersContainer.innerHTML = '<div class="no-orders">Không thể tải đơn hàng. Vui lòng thử lại!</div>';
+        }
+      }
 
-        // Update stats
-        totalOrdersEl.textContent = allOrders.length;
-        pendingOrdersEl.textContent = allOrders.filter(
-          (o) => o.status === "pending"
-        ).length;
-        completedOrdersEl.textContent = allOrders.filter(
-          (o) => o.status === "completed"
-        ).length;
-
-        renderOrders();
-      });
+      // Load orders on page load
+      loadOrders();
+      
+      // Auto refresh every 30 seconds
+      setInterval(loadOrders, 30000);
     </script>
     <script src="script.js"></script>
   </body>
