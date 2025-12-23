@@ -31,9 +31,9 @@ export default async (req, context) => {
             const body = await req.json();
 
             // Validate required fields
-            if (!body.name || !body.phone || !body.category || !body.service) {
+            if (!body.name || !body.category || !body.service) {
                 return new Response(
-                    JSON.stringify({ error: 'Missing required fields' }),
+                    JSON.stringify({ error: 'Missing required fields (name, category, or service)' }),
                     { status: 400, headers }
                 );
             }

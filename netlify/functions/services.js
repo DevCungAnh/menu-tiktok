@@ -31,13 +31,26 @@ export default async (req, context) => {
     };
 
     try {
-        // GET - Lấy tất cả services (public) - menu display items
+        // GET - Lấy services (public: only active, admin: ?all=true for all)
         if (req.method === 'GET') {
-            const services = await sql`
-                SELECT * FROM services 
-                WHERE is_active = true 
-                ORDER BY sort_order ASC, id ASC
-            `;
+            const url = new URL(req.url);
+            const showAll = url.searchParams.get('all') === 'true';
+
+            let services;
+            if (showAll) {
+                // Admin view - show all services
+                services = await sql`
+                    SELECT * FROM services 
+                    ORDER BY sort_order ASC, id ASC
+                `;
+            } else {
+                // Public view - only active services
+                services = await sql`
+                    SELECT * FROM services 
+                    WHERE is_active = true 
+                    ORDER BY sort_order ASC, id ASC
+                `;
+            }
             return new Response(JSON.stringify(services), { headers });
         }
 
