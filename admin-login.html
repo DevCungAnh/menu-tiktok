@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="shortcut icon" href="admin-assets/images/favicon.svg" type="image/x-icon" />
+    <title>Đăng Nhập Admin | TikTok Menu</title>
+
+    <!-- PlainAdmin CSS -->
+    <link rel="stylesheet" href="admin-assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="admin-assets/css/lineicons.css" />
+    <link rel="stylesheet" href="admin-assets/css/materialdesignicons.min.css" />
+    <link rel="stylesheet" href="admin-assets/css/main.css" />
+  </head>
+  <body>
+    <!-- ======== Preloader =========== -->
+    <div id="preloader">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- ======== sidebar-nav start =========== -->
+    <aside class="sidebar-nav-wrapper">
+      <div class="navbar-logo">
+        <a href="index.html">
+          <img src="admin-assets/images/logo/logo.svg" alt="logo" />
+        </a>
+      </div>
+      <nav class="sidebar-nav">
+        <ul>
+          <li class="nav-item nav-item-has-children">
+            <a href="#0" class="collapsed" data-bs-toggle="collapse" data-bs-target="#ddmenu_1" aria-controls="ddmenu_1" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="icon">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8.74999 18.3333C12.2376 18.3333 15.1364 15.8128 15.7244 12.4941C15.8448 11.8143 15.2737 11.25 14.5833 11.25H9.99999C9.30966 11.25 8.74999 10.6903 8.74999 10V5.41666C8.74999 4.7263 8.18563 4.15512 7.50586 4.27556C4.18711 4.86357 1.66666 7.76243 1.66666 11.25C1.66666 15.162 4.83797 18.3333 8.74999 18.3333Z" />
+                  <path d="M17.0833 10C17.7737 10 18.3432 9.43708 18.2408 8.75433C17.7005 5.14918 14.8508 2.29947 11.2457 1.75912C10.5629 1.6568 10 2.2263 10 2.91665V9.16666C10 9.62691 10.3731 10 10.8333 10H17.0833Z" />
+                </svg>
+              </span>
+              <span class="text">Dashboard</span>
+            </a>
+            <ul id="ddmenu_1" class="collapse dropdown-nav">
+              <li><a href="admin.html">Quản lý đơn hàng</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item-has-children">
+            <a href="#0" data-bs-toggle="collapse" data-bs-target="#ddmenu_3" aria-controls="ddmenu_3" aria-expanded="true" aria-label="Toggle navigation">
+              <span class="icon">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M14.9211 10.1294C15.1652 9.88534 15.1652 9.48967 14.9211 9.24559L10.7544 5.0789C10.5103 4.83482 10.1147 4.83482 9.87057 5.0789C9.62649 5.32297 9.62649 5.71871 9.87057 5.96278L12.9702 9.06251H1.97916C1.63398 9.06251 1.35416 9.34234 1.35416 9.68751C1.35416 10.0327 1.63398 10.3125 1.97916 10.3125H12.9702L9.87057 13.4123C9.62649 13.6563 9.62649 14.052 9.87057 14.2961C10.1147 14.5402 10.5103 14.5402 10.7544 14.2961L14.9211 10.1294Z" />
+                  <path d="M11.6383 15.18L15.805 11.0133C16.5373 10.2811 16.5373 9.09391 15.805 8.36166L11.6383 4.195C11.2722 3.82888 10.7923 3.64582 10.3125 3.64582V3.02082C10.3125 2.10035 11.0587 1.35416 11.9792 1.35416H16.9792C17.8997 1.35416 18.6458 2.10035 18.6458 3.02082V16.3542C18.6458 17.2747 17.8997 18.0208 16.9792 18.0208H11.9792C11.0587 18.0208 10.3125 17.2747 10.3125 16.3542V15.7292C10.7923 15.7292 11.2722 15.5461 11.6383 15.18Z" />
+                </svg>
+              </span>
+              <span class="text">Auth</span>
+            </a>
+            <ul id="ddmenu_3" class="collapsed show dropdown-nav">
+              <li><a href="admin-login.html" class="active">Đăng nhập</a></li>
+            </ul>
+          </li>
+          <span class="divider"><hr /></span>
+          <li class="nav-item">
+            <a href="index.html">
+              <span class="icon"><i class="lni lni-home"></i></span>
+              <span class="text">Trang chủ</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+    <div class="overlay"></div>
+    <!-- ======== sidebar-nav end =========== -->
+
+    <!-- ======== main-wrapper start =========== -->
+    <main class="main-wrapper">
+      <!-- ========== header start ========== -->
+      <header class="header">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-5 col-md-5 col-6">
+              <div class="header-left d-flex align-items-center">
+                <div class="menu-toggle-btn mr-15">
+                  <button id="menu-toggle" class="main-btn primary-btn btn-hover">
+                    <i class="lni lni-chevron-left me-2"></i> Menu
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-7 col-md-7 col-6">
+              <div class="header-right">
+                <div class="profile-box ml-15">
+                  <div class="profile-info">
+                    <div class="info">
+                      <h6 class="fw-500">TikTok Menu</h6>
+                      <p>Admin Panel</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+      <!-- ========== header end ========== -->
+
+      <!-- ========== signin-section start ========== -->
+      <section class="signin-section">
+        <div class="container-fluid">
+          <!-- ========== title-wrapper start ========== -->
+          <div class="title-wrapper pt-30">
+            <div class="row align-items-center">
+              <div class="col-md-6">
+                <div class="title">
+                  <h2>Đăng Nhập</h2>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="breadcrumb-wrapper">
+                  <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                      <li class="breadcrumb-item"><a href="#">Auth</a></li>
+                      <li class="breadcrumb-item active" aria-current="page">Đăng nhập</li>
+                    </ol>
+                  </nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ========== title-wrapper end ========== -->
+
+          <div class="row g-0 auth-row">
+            <div class="col-lg-6">
+              <div class="auth-cover-wrapper bg-primary-100">
+                <div class="auth-cover">
+                  <div class="title text-center">
+                    <h1 class="text-primary mb-10">🔐 Chào mừng Admin</h1>
+                    <p class="text-medium">
+                      Đăng nhập để quản lý đơn hàng TikTok Menu
+                    </p>
+                  </div>
+                  <div class="cover-image">
+                    <img src="admin-assets/images/auth/signin-image.svg" alt="" />
+                  </div>
+                  <div class="shape-image">
+                    <img src="admin-assets/images/auth/shape.svg" alt="" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- end col -->
+            <div class="col-lg-6">
+              <div class="signin-wrapper">
+                <div class="form-wrapper">
+                  <h6 class="mb-15">Đăng Nhập Admin</h6>
+                  <p class="text-sm mb-25">
+                    Vui lòng nhập thông tin đăng nhập để truy cập trang quản trị.
+                  </p>
+                  
+                  <div class="alert alert-danger" id="loginError" style="display: none;"></div>
+                  
+                  <form id="loginForm">
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="input-style-1">
+                          <label>Tài khoản</label>
+                          <input type="text" id="username" placeholder="Nhập tài khoản..." required />
+                        </div>
+                      </div>
+                      <!-- end col -->
+                      <div class="col-12">
+                        <div class="input-style-1">
+                          <label>Mật khẩu</label>
+                          <input type="password" id="password" placeholder="Nhập mật khẩu..." required />
+                        </div>
+                      </div>
+                      <!-- end col -->
+                      <div class="col-xxl-6 col-lg-12 col-md-6">
+                        <div class="form-check checkbox-style mb-30">
+                          <input class="form-check-input" type="checkbox" value="" id="checkbox-remember" />
+                          <label class="form-check-label" for="checkbox-remember">
+                            Ghi nhớ đăng nhập</label>
+                        </div>
+                      </div>
+                      <!-- end col -->
+                      <div class="col-12">
+                        <div class="button-group d-flex justify-content-center flex-wrap">
+                          <button type="submit" class="main-btn primary-btn btn-hover w-100 text-center">
+                            Đăng Nhập
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- end row -->
+                  </form>
+                  <div class="singin-option pt-40">
+                    <p class="text-sm text-medium text-center text-gray">
+                      <a href="index.html">← Quay lại trang chủ</a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- end col -->
+          </div>
+          <!-- end row -->
+        </div>
+      </section>
+      <!-- ========== signin-section end ========== -->
+
+      <!-- ========== footer start =========== -->
+      <footer class="footer">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-6 order-last order-md-first">
+              <div class="copyright text-center text-md-start">
+                <p class="text-sm">© 2024-2025 TikTok Menu Admin</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+      <!-- ========== footer end =========== -->
+    </main>
+    <!-- ======== main-wrapper end =========== -->
+
+    <!-- PlainAdmin JS -->
+    <script src="admin-assets/js/bootstrap.bundle.min.js"></script>
+    <script src="admin-assets/js/main.js"></script>
+
+    <!-- Login Logic -->
+    <script>
+      // Check if already logged in
+      if (localStorage.getItem('adminToken')) {
+        window.location.href = 'admin.html';
+      }
+
+      const loginForm = document.getElementById('loginForm');
+      const loginError = document.getElementById('loginError');
+
+      loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        try {
+          const response = await fetch('/.netlify/functions/admin-auth', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+            localStorage.setItem('adminToken', data.token);
+            window.location.href = 'admin.html';
+          } else {
+            loginError.textContent = data.message;
+            loginError.style.display = 'block';
+          }
+        } catch (error) {
+          loginError.textContent = 'Lỗi kết nối server!';
+          loginError.style.display = 'block';
+        }
+      });
+    </script>
+  </body>
+</html>
