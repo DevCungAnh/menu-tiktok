@@ -1,0 +1,726 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║                    BẢN QUYỀN THUỘC VỀ                        ║
+  ║                   NGUYỄN TUẤN ANH                            ║
+  ║  © 2024-2025 All Rights Reserved                             ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard | Quản Lý Đơn Hàng</title>
+    <meta name="robots" content="noindex, nofollow" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      /* Admin Specific Styles */
+      .admin-container {
+        position: relative;
+        z-index: 10;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        min-height: 100vh;
+      }
+
+      /* Login Section */
+      .login-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .login-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--card-border);
+        box-shadow: var(--shadow-soft);
+        padding: 40px;
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+      }
+
+      .login-title {
+        font-size: 1.8rem;
+        color: var(--text-white);
+        margin-bottom: 10px;
+      }
+
+      .login-subtitle {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        margin-bottom: 30px;
+      }
+
+      .login-form .form-group {
+        margin-bottom: 20px;
+        text-align: left;
+      }
+
+      .login-form .form-group label {
+        display: block;
+        color: var(--text-muted);
+        font-size: 0.85rem;
+        margin-bottom: 8px;
+      }
+
+      .login-form .form-group input {
+        width: 100%;
+        padding: 12px 16px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--card-border);
+        border-radius: var(--radius-sm);
+        color: var(--text-white);
+        font-size: 1rem;
+        transition: all 0.2s;
+      }
+
+      .login-form .form-group input:focus {
+        outline: none;
+        border-color: var(--neon-pink);
+        box-shadow: 0 0 0 3px rgba(255, 107, 157, 0.2);
+      }
+
+      .login-btn {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+        border: none;
+        border-radius: var(--radius-sm);
+        color: white;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .login-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(255, 107, 157, 0.3);
+      }
+
+      .login-error {
+        background: rgba(255, 71, 87, 0.2);
+        border: 1px solid #ff4757;
+        border-radius: var(--radius-sm);
+        padding: 12px;
+        color: #ff4757;
+        font-size: 0.85rem;
+        margin-bottom: 20px;
+        display: none;
+      }
+
+      .login-error.show {
+        display: block;
+      }
+
+      /* Dashboard Section */
+      .dashboard-section {
+        display: none;
+      }
+
+      .dashboard-section.active {
+        display: block;
+      }
+
+      .dashboard-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .dashboard-title {
+        font-size: 1.8rem;
+        color: var(--text-white);
+      }
+
+      .logout-btn {
+        padding: 10px 20px;
+        background: rgba(255, 71, 87, 0.2);
+        border: 1px solid #ff4757;
+        border-radius: var(--radius-full);
+        color: #ff4757;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .logout-btn:hover {
+        background: rgba(255, 71, 87, 0.4);
+      }
+
+      /* Stats Cards */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+        margin-bottom: 30px;
+      }
+
+      .stat-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--card-border);
+        border-radius: var(--radius-md);
+        padding: 20px;
+        text-align: center;
+      }
+
+      .stat-card.pending { border-left: 4px solid #ffc107; }
+      .stat-card.confirmed { border-left: 4px solid #00bcd4; }
+      .stat-card.processing { border-left: 4px solid #9c27b0; }
+      .stat-card.completed { border-left: 4px solid #00c853; }
+      .stat-card.cancelled { border-left: 4px solid #ff4757; }
+
+      .stat-number {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--text-white);
+      }
+
+      .stat-label {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        margin-top: 5px;
+      }
+
+      /* Filter Bar */
+      .filter-bar {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+
+      .filter-btn {
+        padding: 8px 16px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--card-border);
+        border-radius: var(--radius-full);
+        color: var(--text-muted);
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .filter-btn.active {
+        background: rgba(255, 107, 157, 0.2);
+        border-color: var(--neon-pink);
+        color: var(--neon-pink);
+      }
+
+      .filter-btn:hover {
+        border-color: var(--neon-pink);
+      }
+
+      /* Orders Table */
+      .orders-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--card-border);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+      }
+
+      .orders-table-wrapper {
+        overflow-x: auto;
+      }
+
+      .orders-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 800px;
+      }
+
+      .orders-table th {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 15px;
+        text-align: left;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        font-weight: 600;
+        text-transform: uppercase;
+        border-bottom: 1px solid var(--card-border);
+      }
+
+      .orders-table td {
+        padding: 15px;
+        font-size: 0.9rem;
+        color: var(--text-white);
+        border-bottom: 1px solid var(--card-border);
+        vertical-align: top;
+      }
+
+      .orders-table tr:hover {
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .customer-name {
+        font-weight: 600;
+        color: var(--text-white);
+      }
+
+      .customer-phone {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+      }
+
+      .order-note {
+        max-width: 200px;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        word-break: break-all;
+      }
+
+      .order-note a {
+        color: var(--neon-cyan);
+        text-decoration: none;
+      }
+
+      .order-note a:hover {
+        text-decoration: underline;
+      }
+
+      /* Status Badge */
+      .status-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: var(--radius-full);
+        font-size: 0.75rem;
+        font-weight: 500;
+      }
+
+      .status-badge.pending {
+        background: rgba(255, 193, 7, 0.2);
+        color: #ffc107;
+      }
+      .status-badge.confirmed {
+        background: rgba(0, 188, 212, 0.2);
+        color: #00bcd4;
+      }
+      .status-badge.processing {
+        background: rgba(156, 39, 176, 0.2);
+        color: #ce93d8;
+      }
+      .status-badge.completed {
+        background: rgba(0, 200, 83, 0.2);
+        color: #00c853;
+      }
+      .status-badge.cancelled {
+        background: rgba(255, 71, 87, 0.2);
+        color: #ff4757;
+      }
+
+      /* Status Select */
+      .status-select {
+        padding: 8px 12px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--card-border);
+        border-radius: var(--radius-sm);
+        color: var(--text-white);
+        font-size: 0.8rem;
+        cursor: pointer;
+        min-width: 140px;
+      }
+
+      .status-select:focus {
+        outline: none;
+        border-color: var(--neon-pink);
+      }
+
+      .status-select option {
+        background: #1a1a2e;
+        color: var(--text-white);
+      }
+
+      /* Order Time */
+      .order-time {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+      }
+
+      /* Empty State */
+      .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--text-muted);
+      }
+
+      .empty-state-icon {
+        font-size: 3rem;
+        margin-bottom: 15px;
+      }
+
+      /* Loading */
+      .loading-spinner {
+        text-align: center;
+        padding: 40px;
+        color: var(--text-muted);
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .dashboard-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .stats-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .orders-table th, .orders-table td {
+          padding: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Star Particle Background -->
+    <canvas id="starfield" aria-hidden="true"></canvas>
+    <div class="gradient-bg" aria-hidden="true"></div>
+
+    <!-- Login Section -->
+    <section class="login-section" id="loginSection">
+      <div class="login-card">
+        <h1 class="login-title">🔐 Admin Login</h1>
+        <p class="login-subtitle">Đăng nhập để quản lý đơn hàng</p>
+        
+        <div class="login-error" id="loginError"></div>
+        
+        <form class="login-form" id="loginForm">
+          <div class="form-group">
+            <label for="username">Tài khoản</label>
+            <input type="text" id="username" placeholder="Nhập tài khoản..." required />
+          </div>
+          <div class="form-group">
+            <label for="password">Mật khẩu</label>
+            <input type="password" id="password" placeholder="Nhập mật khẩu..." required />
+          </div>
+          <button type="submit" class="login-btn">Đăng Nhập</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section class="admin-container dashboard-section" id="dashboardSection">
+      <div class="dashboard-header">
+        <h1 class="dashboard-title">📊 Admin Dashboard</h1>
+        <button class="logout-btn" id="logoutBtn">🚪 Đăng xuất</button>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid" id="statsGrid">
+        <div class="stat-card">
+          <div class="stat-number" id="totalStat">0</div>
+          <div class="stat-label">Tổng đơn</div>
+        </div>
+        <div class="stat-card pending">
+          <div class="stat-number" id="pendingStat">0</div>
+          <div class="stat-label">⏳ Chờ xử lý</div>
+        </div>
+        <div class="stat-card confirmed">
+          <div class="stat-number" id="confirmedStat">0</div>
+          <div class="stat-label">✅ Đã xác nhận</div>
+        </div>
+        <div class="stat-card processing">
+          <div class="stat-number" id="processingStat">0</div>
+          <div class="stat-label">🔄 Đang xử lý</div>
+        </div>
+        <div class="stat-card completed">
+          <div class="stat-number" id="completedStat">0</div>
+          <div class="stat-label">✨ Hoàn thành</div>
+        </div>
+        <div class="stat-card cancelled">
+          <div class="stat-number" id="cancelledStat">0</div>
+          <div class="stat-label">❌ Đã hủy</div>
+        </div>
+      </div>
+
+      <!-- Filter -->
+      <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">Tất cả</button>
+        <button class="filter-btn" data-filter="pending">⏳ Chờ xử lý</button>
+        <button class="filter-btn" data-filter="confirmed">✅ Đã xác nhận</button>
+        <button class="filter-btn" data-filter="processing">🔄 Đang xử lý</button>
+        <button class="filter-btn" data-filter="completed">✨ Hoàn thành</button>
+        <button class="filter-btn" data-filter="cancelled">❌ Đã hủy</button>
+      </div>
+
+      <!-- Orders Table -->
+      <div class="orders-card">
+        <div class="orders-table-wrapper">
+          <table class="orders-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Khách hàng</th>
+                <th>Dịch vụ</th>
+                <th>Ghi chú</th>
+                <th>Trạng thái</th>
+                <th>Thời gian</th>
+              </tr>
+            </thead>
+            <tbody id="ordersTableBody">
+              <tr>
+                <td colspan="6" class="loading-spinner">Đang tải...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <script src="script.js"></script>
+    <script type="module">
+      // State
+      let allOrders = [];
+      let currentFilter = 'all';
+      let isLoggedIn = false;
+
+      // DOM Elements
+      const loginSection = document.getElementById('loginSection');
+      const dashboardSection = document.getElementById('dashboardSection');
+      const loginForm = document.getElementById('loginForm');
+      const loginError = document.getElementById('loginError');
+      const logoutBtn = document.getElementById('logoutBtn');
+      const ordersTableBody = document.getElementById('ordersTableBody');
+      const filterBtns = document.querySelectorAll('.filter-btn');
+
+      // Status labels
+      const statusLabels = {
+        pending: '⏳ Chờ xử lý',
+        confirmed: '✅ Đã xác nhận',
+        processing: '🔄 Đang xử lý',
+        completed: '✨ Hoàn thành',
+        cancelled: '❌ Đã hủy'
+      };
+
+      // Check if already logged in
+      function checkAuth() {
+        const token = localStorage.getItem('adminToken');
+        if (token) {
+          showDashboard();
+        }
+      }
+
+      // Show dashboard
+      function showDashboard() {
+        isLoggedIn = true;
+        loginSection.style.display = 'none';
+        dashboardSection.classList.add('active');
+        loadOrders();
+      }
+
+      // Show login
+      function showLogin() {
+        isLoggedIn = false;
+        localStorage.removeItem('adminToken');
+        loginSection.style.display = 'flex';
+        dashboardSection.classList.remove('active');
+      }
+
+      // Login handler
+      loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        try {
+          const response = await fetch('/.netlify/functions/admin-auth', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+            localStorage.setItem('adminToken', data.token);
+            loginError.classList.remove('show');
+            showDashboard();
+          } else {
+            loginError.textContent = data.message;
+            loginError.classList.add('show');
+          }
+        } catch (error) {
+          loginError.textContent = 'Lỗi kết nối server!';
+          loginError.classList.add('show');
+        }
+      });
+
+      // Logout handler
+      logoutBtn.addEventListener('click', () => {
+        showLogin();
+      });
+
+      // Filter handlers
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentFilter = btn.dataset.filter;
+          renderOrders();
+        });
+      });
+
+      // Load orders
+      async function loadOrders() {
+        try {
+          const response = await fetch('/.netlify/functions/orders');
+          allOrders = await response.json();
+          updateStats();
+          renderOrders();
+        } catch (error) {
+          console.error('Error loading orders:', error);
+          ordersTableBody.innerHTML = `
+            <tr>
+              <td colspan="6" class="empty-state">
+                <div class="empty-state-icon">❌</div>
+                <div>Không thể tải đơn hàng</div>
+              </td>
+            </tr>
+          `;
+        }
+      }
+
+      // Update stats
+      function updateStats() {
+        document.getElementById('totalStat').textContent = allOrders.length;
+        document.getElementById('pendingStat').textContent = allOrders.filter(o => o.status === 'pending').length;
+        document.getElementById('confirmedStat').textContent = allOrders.filter(o => o.status === 'confirmed').length;
+        document.getElementById('processingStat').textContent = allOrders.filter(o => o.status === 'processing').length;
+        document.getElementById('completedStat').textContent = allOrders.filter(o => o.status === 'completed').length;
+        document.getElementById('cancelledStat').textContent = allOrders.filter(o => o.status === 'cancelled').length;
+      }
+
+      // Render orders table
+      function renderOrders() {
+        let filteredOrders = allOrders;
+        
+        if (currentFilter !== 'all') {
+          filteredOrders = allOrders.filter(o => o.status === currentFilter);
+        }
+
+        if (filteredOrders.length === 0) {
+          ordersTableBody.innerHTML = `
+            <tr>
+              <td colspan="6" class="empty-state">
+                <div class="empty-state-icon">📭</div>
+                <div>Không có đơn hàng nào</div>
+              </td>
+            </tr>
+          `;
+          return;
+        }
+
+        ordersTableBody.innerHTML = filteredOrders.map(order => {
+          // Parse TikTok link from note
+          let noteHtml = order.note || '-';
+          if (order.note && order.note.includes('tiktok.com')) {
+            const urlMatch = order.note.match(/(https?:\/\/[^\s]+)/);
+            if (urlMatch) {
+              noteHtml = `<a href="${urlMatch[0]}" target="_blank">${urlMatch[0]}</a>`;
+            }
+          }
+
+          return `
+            <tr>
+              <td>#${order.id}</td>
+              <td>
+                <div class="customer-name">${order.customer_name}</div>
+                <div class="customer-phone">📱 ${order.customer_phone}</div>
+              </td>
+              <td>
+                <div>${order.service_category === 'free' ? '🎁 Free' : '💎 Combo'}</div>
+                <div style="color: var(--neon-cyan); font-weight: 500;">${order.service_type}</div>
+              </td>
+              <td class="order-note">${noteHtml}</td>
+              <td>
+                <select class="status-select" data-id="${order.id}" onchange="updateStatus(${order.id}, this.value)">
+                  <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>⏳ Chờ xử lý</option>
+                  <option value="confirmed" ${order.status === 'confirmed' ? 'selected' : ''}>✅ Đã xác nhận</option>
+                  <option value="processing" ${order.status === 'processing' ? 'selected' : ''}>🔄 Đang xử lý</option>
+                  <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>✨ Hoàn thành</option>
+                  <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>❌ Đã hủy</option>
+                </select>
+              </td>
+              <td class="order-time">${new Date(order.created_at).toLocaleString('vi-VN')}</td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      // Update order status
+      window.updateStatus = async function(orderId, newStatus) {
+        try {
+          const token = localStorage.getItem('adminToken');
+          const response = await fetch('/.netlify/functions/update-order-status', {
+            method: 'POST',
+            headers: { 
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ id: orderId, status: newStatus })
+          });
+
+          if (response.ok) {
+            // Update local data
+            const order = allOrders.find(o => o.id === orderId);
+            if (order) {
+              order.status = newStatus;
+            }
+            updateStats();
+            
+            // Show success feedback
+            const select = document.querySelector(`select[data-id="${orderId}"]`);
+            if (select) {
+              select.style.borderColor = '#00c853';
+              setTimeout(() => {
+                select.style.borderColor = '';
+              }, 1000);
+            }
+          } else if (response.status === 401) {
+            alert('❌ Phiên đăng nhập hết hạn! Vui lòng đăng nhập lại.');
+            showLogin();
+          } else {
+            alert('❌ Không thể cập nhật trạng thái!');
+            loadOrders();
+          }
+        } catch (error) {
+          console.error('Error updating status:', error);
+          alert('❌ Có lỗi xảy ra!');
+        }
+      };
+
+      // Auto refresh every 30 seconds
+      setInterval(() => {
+        if (isLoggedIn) {
+          loadOrders();
+        }
+      }, 30000);
+
+      // Check auth on load
+      checkAuth();
+    </script>
+  </body>
+</html>
