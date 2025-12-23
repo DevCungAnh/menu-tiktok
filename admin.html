@@ -1,586 +1,346 @@
-<!--
-  ╔══════════════════════════════════════════════════════════════╗
-  ║                    BẢN QUYỀN THUỘC VỀ                        ║
-  ║                   NGUYỄN TUẤN ANH                            ║
-  ║  © 2024-2025 All Rights Reserved                             ║
-  ╚══════════════════════════════════════════════════════════════╝
--->
 <!DOCTYPE html>
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Dashboard | Quản Lý Đơn Hàng</title>
     <meta name="robots" content="noindex, nofollow" />
+    <link rel="shortcut icon" href="admin-assets/images/favicon.svg" type="image/x-icon" />
+    <title>Dashboard | TikTok Menu Admin</title>
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-
-    <link rel="stylesheet" href="styles.css" />
-    <style>
-      /* Admin Specific Styles */
-      .admin-container {
-        position: relative;
-        z-index: 10;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-        min-height: 100vh;
-      }
-
-      /* Login Section */
-      .login-section {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        padding: 20px;
-      }
-
-      .login-card {
-        background: var(--card-bg);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border-radius: var(--radius-lg);
-        border: 1px solid var(--card-border);
-        box-shadow: var(--shadow-soft);
-        padding: 40px;
-        width: 100%;
-        max-width: 400px;
-        text-align: center;
-      }
-
-      .login-title {
-        font-size: 1.8rem;
-        color: var(--text-white);
-        margin-bottom: 10px;
-      }
-
-      .login-subtitle {
-        font-size: 0.9rem;
-        color: var(--text-muted);
-        margin-bottom: 30px;
-      }
-
-      .login-form .form-group {
-        margin-bottom: 20px;
-        text-align: left;
-      }
-
-      .login-form .form-group label {
-        display: block;
-        color: var(--text-muted);
-        font-size: 0.85rem;
-        margin-bottom: 8px;
-      }
-
-      .login-form .form-group input {
-        width: 100%;
-        padding: 12px 16px;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid var(--card-border);
-        border-radius: var(--radius-sm);
-        color: var(--text-white);
-        font-size: 1rem;
-        transition: all 0.2s;
-      }
-
-      .login-form .form-group input:focus {
-        outline: none;
-        border-color: var(--neon-pink);
-        box-shadow: 0 0 0 3px rgba(255, 107, 157, 0.2);
-      }
-
-      .login-btn {
-        width: 100%;
-        padding: 14px;
-        background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
-        border: none;
-        border-radius: var(--radius-sm);
-        color: white;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s;
-      }
-
-      .login-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 30px rgba(255, 107, 157, 0.3);
-      }
-
-      .login-error {
-        background: rgba(255, 71, 87, 0.2);
-        border: 1px solid #ff4757;
-        border-radius: var(--radius-sm);
-        padding: 12px;
-        color: #ff4757;
-        font-size: 0.85rem;
-        margin-bottom: 20px;
-        display: none;
-      }
-
-      .login-error.show {
-        display: block;
-      }
-
-      /* Dashboard Section */
-      .dashboard-section {
-        display: none;
-      }
-
-      .dashboard-section.active {
-        display: block;
-      }
-
-      .dashboard-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 30px;
-        flex-wrap: wrap;
-        gap: 15px;
-      }
-
-      .dashboard-title {
-        font-size: 1.8rem;
-        color: var(--text-white);
-      }
-
-      .logout-btn {
-        padding: 10px 20px;
-        background: rgba(255, 71, 87, 0.2);
-        border: 1px solid #ff4757;
-        border-radius: var(--radius-full);
-        color: #ff4757;
-        font-size: 0.85rem;
-        cursor: pointer;
-        transition: all 0.2s;
-      }
-
-      .logout-btn:hover {
-        background: rgba(255, 71, 87, 0.4);
-      }
-
-      /* Stats Cards */
-      .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 15px;
-        margin-bottom: 30px;
-      }
-
-      .stat-card {
-        background: var(--card-bg);
-        backdrop-filter: blur(20px);
-        border: 1px solid var(--card-border);
-        border-radius: var(--radius-md);
-        padding: 20px;
-        text-align: center;
-      }
-
-      .stat-card.pending { border-left: 4px solid #ffc107; }
-      .stat-card.confirmed { border-left: 4px solid #00bcd4; }
-      .stat-card.processing { border-left: 4px solid #9c27b0; }
-      .stat-card.completed { border-left: 4px solid #00c853; }
-      .stat-card.cancelled { border-left: 4px solid #ff4757; }
-
-      .stat-number {
-        font-size: 2rem;
-        font-weight: 700;
-        color: var(--text-white);
-      }
-
-      .stat-label {
-        font-size: 0.8rem;
-        color: var(--text-muted);
-        margin-top: 5px;
-      }
-
-      /* Filter Bar */
-      .filter-bar {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 20px;
-        flex-wrap: wrap;
-      }
-
-      .filter-btn {
-        padding: 8px 16px;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid var(--card-border);
-        border-radius: var(--radius-full);
-        color: var(--text-muted);
-        font-size: 0.8rem;
-        cursor: pointer;
-        transition: all 0.2s;
-      }
-
-      .filter-btn.active {
-        background: rgba(255, 107, 157, 0.2);
-        border-color: var(--neon-pink);
-        color: var(--neon-pink);
-      }
-
-      .filter-btn:hover {
-        border-color: var(--neon-pink);
-      }
-
-      /* Orders Table */
-      .orders-card {
-        background: var(--card-bg);
-        backdrop-filter: blur(20px);
-        border: 1px solid var(--card-border);
-        border-radius: var(--radius-lg);
-        overflow: hidden;
-      }
-
-      .orders-table-wrapper {
-        overflow-x: auto;
-      }
-
-      .orders-table {
-        width: 100%;
-        border-collapse: collapse;
-        min-width: 800px;
-      }
-
-      .orders-table th {
-        background: rgba(255, 255, 255, 0.05);
-        padding: 15px;
-        text-align: left;
-        font-size: 0.8rem;
-        color: var(--text-muted);
-        font-weight: 600;
-        text-transform: uppercase;
-        border-bottom: 1px solid var(--card-border);
-      }
-
-      .orders-table td {
-        padding: 15px;
-        font-size: 0.9rem;
-        color: var(--text-white);
-        border-bottom: 1px solid var(--card-border);
-        vertical-align: top;
-      }
-
-      .orders-table tr:hover {
-        background: rgba(255, 255, 255, 0.02);
-      }
-
-      .customer-name {
-        font-weight: 600;
-        color: var(--text-white);
-      }
-
-      .customer-phone {
-        font-size: 0.8rem;
-        color: var(--text-muted);
-      }
-
-      .order-note {
-        max-width: 200px;
-        font-size: 0.8rem;
-        color: var(--text-muted);
-        word-break: break-all;
-      }
-
-      .order-note a {
-        color: var(--neon-cyan);
-        text-decoration: none;
-      }
-
-      .order-note a:hover {
-        text-decoration: underline;
-      }
-
-      /* Status Badge */
-      .status-badge {
-        display: inline-block;
-        padding: 6px 12px;
-        border-radius: var(--radius-full);
-        font-size: 0.75rem;
-        font-weight: 500;
-      }
-
-      .status-badge.pending {
-        background: rgba(255, 193, 7, 0.2);
-        color: #ffc107;
-      }
-      .status-badge.confirmed {
-        background: rgba(0, 188, 212, 0.2);
-        color: #00bcd4;
-      }
-      .status-badge.processing {
-        background: rgba(156, 39, 176, 0.2);
-        color: #ce93d8;
-      }
-      .status-badge.completed {
-        background: rgba(0, 200, 83, 0.2);
-        color: #00c853;
-      }
-      .status-badge.cancelled {
-        background: rgba(255, 71, 87, 0.2);
-        color: #ff4757;
-      }
-
-      /* Status Select */
-      .status-select {
-        padding: 8px 12px;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid var(--card-border);
-        border-radius: var(--radius-sm);
-        color: var(--text-white);
-        font-size: 0.8rem;
-        cursor: pointer;
-        min-width: 140px;
-      }
-
-      .status-select:focus {
-        outline: none;
-        border-color: var(--neon-pink);
-      }
-
-      .status-select option {
-        background: #1a1a2e;
-        color: var(--text-white);
-      }
-
-      /* Order Time */
-      .order-time {
-        font-size: 0.8rem;
-        color: var(--text-muted);
-      }
-
-      /* Empty State */
-      .empty-state {
-        text-align: center;
-        padding: 60px 20px;
-        color: var(--text-muted);
-      }
-
-      .empty-state-icon {
-        font-size: 3rem;
-        margin-bottom: 15px;
-      }
-
-      /* Loading */
-      .loading-spinner {
-        text-align: center;
-        padding: 40px;
-        color: var(--text-muted);
-      }
-
-      /* Responsive */
-      @media (max-width: 768px) {
-        .dashboard-header {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-
-        .stats-grid {
-          grid-template-columns: repeat(2, 1fr);
-        }
-
-        .orders-table th, .orders-table td {
-          padding: 10px;
-        }
-      }
-    </style>
+    <!-- PlainAdmin CSS -->
+    <link rel="stylesheet" href="admin-assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="admin-assets/css/lineicons.css" />
+    <link rel="stylesheet" href="admin-assets/css/materialdesignicons.min.css" />
+    <link rel="stylesheet" href="admin-assets/css/main.css" />
   </head>
   <body>
-    <!-- Star Particle Background -->
-    <canvas id="starfield" aria-hidden="true"></canvas>
-    <div class="gradient-bg" aria-hidden="true"></div>
+    <!-- ======== Preloader =========== -->
+    <div id="preloader">
+      <div class="spinner"></div>
+    </div>
 
-    <!-- Login Section -->
-    <section class="login-section" id="loginSection">
-      <div class="login-card">
-        <h1 class="login-title">🔐 Admin Login</h1>
-        <p class="login-subtitle">Đăng nhập để quản lý đơn hàng</p>
-        
-        <div class="login-error" id="loginError"></div>
-        
-        <form class="login-form" id="loginForm">
-          <div class="form-group">
-            <label for="username">Tài khoản</label>
-            <input type="text" id="username" placeholder="Nhập tài khoản..." required />
+    <!-- ======== sidebar-nav start =========== -->
+    <aside class="sidebar-nav-wrapper">
+      <div class="navbar-logo">
+        <a href="index.html">
+          <img src="admin-assets/images/logo/logo.svg" alt="logo" />
+        </a>
+      </div>
+      <nav class="sidebar-nav">
+        <ul>
+          <li class="nav-item nav-item-has-children">
+            <a href="#0" data-bs-toggle="collapse" data-bs-target="#ddmenu_1" aria-controls="ddmenu_1" aria-expanded="true" aria-label="Toggle navigation">
+              <span class="icon">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8.74999 18.3333C12.2376 18.3333 15.1364 15.8128 15.7244 12.4941C15.8448 11.8143 15.2737 11.25 14.5833 11.25H9.99999C9.30966 11.25 8.74999 10.6903 8.74999 10V5.41666C8.74999 4.7263 8.18563 4.15512 7.50586 4.27556C4.18711 4.86357 1.66666 7.76243 1.66666 11.25C1.66666 15.162 4.83797 18.3333 8.74999 18.3333Z" />
+                  <path d="M17.0833 10C17.7737 10 18.3432 9.43708 18.2408 8.75433C17.7005 5.14918 14.8508 2.29947 11.2457 1.75912C10.5629 1.6568 10 2.2263 10 2.91665V9.16666C10 9.62691 10.3731 10 10.8333 10H17.0833Z" />
+                </svg>
+              </span>
+              <span class="text">Dashboard</span>
+            </a>
+            <ul id="ddmenu_1" class="collapse show dropdown-nav">
+              <li><a href="admin.html" class="active">Quản lý đơn hàng</a></li>
+              <li><a href="admin-services.html">Quản lý dịch vụ</a></li>
+            </ul>
+          </li>
+          <span class="divider"><hr /></span>
+          <li class="nav-item">
+            <a href="#" id="logoutBtn">
+              <span class="icon"><i class="lni lni-exit"></i></span>
+              <span class="text">Đăng xuất</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+    <div class="overlay"></div>
+    <!-- ======== sidebar-nav end =========== -->
+
+    <!-- ======== main-wrapper start =========== -->
+    <main class="main-wrapper">
+      <!-- ========== header start ========== -->
+      <header class="header">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-5 col-md-5 col-6">
+              <div class="header-left d-flex align-items-center">
+                <div class="menu-toggle-btn mr-15">
+                  <button id="menu-toggle" class="main-btn primary-btn btn-hover">
+                    <i class="lni lni-chevron-left me-2"></i> Menu
+                  </button>
+                </div>
+                <div class="header-search d-none d-md-flex">
+                  <form action="#">
+                    <input type="text" id="searchInput" placeholder="Tìm kiếm đơn hàng..." />
+                    <button type="button"><i class="lni lni-search-alt"></i></button>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-7 col-md-7 col-6">
+              <div class="header-right">
+                <!-- profile start -->
+                <div class="profile-box ml-15">
+                  <button class="dropdown-toggle bg-transparent border-0" type="button" id="profile" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="profile-info">
+                      <div class="info">
+                        <div class="image">
+                          <img src="admin-assets/images/profile/profile-image.png" alt="" />
+                        </div>
+                        <div>
+                          <h6 class="fw-500">Admin</h6>
+                          <p>Quản trị viên</p>
+                        </div>
+                      </div>
+                    </div>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profile">
+                    <li>
+                      <div class="author-info flex items-center !p-1">
+                        <div class="image">
+                          <img src="admin-assets/images/profile/profile-image.png" alt="image">
+                        </div>
+                        <div class="content">
+                          <h4 class="text-sm">Admin</h4>
+                          <a class="text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white text-xs" href="#">admin@tiktok-menu.com</a>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="divider"></li>
+                    <li><a href="#" id="logoutBtn2"><i class="lni lni-exit"></i> Đăng xuất</a></li>
+                  </ul>
+                </div>
+                <!-- profile end -->
+              </div>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="password">Mật khẩu</label>
-            <input type="password" id="password" placeholder="Nhập mật khẩu..." required />
+        </div>
+      </header>
+      <!-- ========== header end ========== -->
+
+      <!-- ========== section start ========== -->
+      <section class="section">
+        <div class="container-fluid">
+          <!-- ========== title-wrapper start ========== -->
+          <div class="title-wrapper pt-30">
+            <div class="row align-items-center">
+              <div class="col-md-6">
+                <div class="title">
+                  <h2>Quản Lý Đơn Hàng</h2>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="breadcrumb-wrapper">
+                  <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                      <li class="breadcrumb-item active" aria-current="page">Đơn hàng</li>
+                    </ol>
+                  </nav>
+                </div>
+              </div>
+            </div>
           </div>
-          <button type="submit" class="login-btn">Đăng Nhập</button>
-        </form>
-      </div>
-    </section>
+          <!-- ========== title-wrapper end ========== -->
 
-    <!-- Dashboard Section -->
-    <section class="admin-container dashboard-section" id="dashboardSection">
-      <div class="dashboard-header">
-        <h1 class="dashboard-title">📊 Admin Dashboard</h1>
-        <button class="logout-btn" id="logoutBtn">🚪 Đăng xuất</button>
-      </div>
+          <!-- ========== Stats Cards ========== -->
+          <div class="row">
+            <div class="col-xl-2 col-lg-4 col-sm-6">
+              <div class="icon-card mb-30">
+                <div class="icon purple">
+                  <i class="lni lni-cart-full"></i>
+                </div>
+                <div class="content">
+                  <h6 class="mb-10">Tổng đơn</h6>
+                  <h3 class="text-bold mb-10" id="totalStat">0</h3>
+                  <p class="text-sm text-success">
+                    <i class="lni lni-arrow-up"></i> Tất cả
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-2 col-lg-4 col-sm-6">
+              <div class="icon-card mb-30">
+                <div class="icon orange">
+                  <i class="lni lni-timer"></i>
+                </div>
+                <div class="content">
+                  <h6 class="mb-10">Chờ xử lý</h6>
+                  <h3 class="text-bold mb-10" id="pendingStat">0</h3>
+                  <p class="text-sm text-warning">
+                    <i class="lni lni-alarm"></i> Pending
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-2 col-lg-4 col-sm-6">
+              <div class="icon-card mb-30">
+                <div class="icon primary">
+                  <i class="lni lni-checkmark-circle"></i>
+                </div>
+                <div class="content">
+                  <h6 class="mb-10">Đã xác nhận</h6>
+                  <h3 class="text-bold mb-10" id="confirmedStat">0</h3>
+                  <p class="text-sm text-info">
+                    <i class="lni lni-checkmark"></i> Confirmed
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-2 col-lg-4 col-sm-6">
+              <div class="icon-card mb-30">
+                <div class="icon warning">
+                  <i class="lni lni-cog"></i>
+                </div>
+                <div class="content">
+                  <h6 class="mb-10">Đang xử lý</h6>
+                  <h3 class="text-bold mb-10" id="processingStat">0</h3>
+                  <p class="text-sm text-secondary">
+                    <i class="lni lni-spinner-arrow"></i> Processing
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-2 col-lg-4 col-sm-6">
+              <div class="icon-card mb-30">
+                <div class="icon success">
+                  <i class="lni lni-thumbs-up"></i>
+                </div>
+                <div class="content">
+                  <h6 class="mb-10">Hoàn thành</h6>
+                  <h3 class="text-bold mb-10" id="completedStat">0</h3>
+                  <p class="text-sm text-success">
+                    <i class="lni lni-checkmark"></i> Done
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-2 col-lg-4 col-sm-6">
+              <div class="icon-card mb-30">
+                <div class="icon danger">
+                  <i class="lni lni-cross-circle"></i>
+                </div>
+                <div class="content">
+                  <h6 class="mb-10">Đã hủy</h6>
+                  <h3 class="text-bold mb-10" id="cancelledStat">0</h3>
+                  <p class="text-sm text-danger">
+                    <i class="lni lni-close"></i> Cancelled
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Row -->
 
-      <!-- Stats -->
-      <div class="stats-grid" id="statsGrid">
-        <div class="stat-card">
-          <div class="stat-number" id="totalStat">0</div>
-          <div class="stat-label">Tổng đơn</div>
-        </div>
-        <div class="stat-card pending">
-          <div class="stat-number" id="pendingStat">0</div>
-          <div class="stat-label">⏳ Chờ xử lý</div>
-        </div>
-        <div class="stat-card confirmed">
-          <div class="stat-number" id="confirmedStat">0</div>
-          <div class="stat-label">✅ Đã xác nhận</div>
-        </div>
-        <div class="stat-card processing">
-          <div class="stat-number" id="processingStat">0</div>
-          <div class="stat-label">🔄 Đang xử lý</div>
-        </div>
-        <div class="stat-card completed">
-          <div class="stat-number" id="completedStat">0</div>
-          <div class="stat-label">✨ Hoàn thành</div>
-        </div>
-        <div class="stat-card cancelled">
-          <div class="stat-number" id="cancelledStat">0</div>
-          <div class="stat-label">❌ Đã hủy</div>
-        </div>
-      </div>
+          <!-- ========== Orders Table ========== -->
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="card-style mb-30">
+                <div class="title d-flex flex-wrap justify-content-between align-items-center">
+                  <div class="left">
+                    <h6 class="text-medium mb-30">Danh Sách Đơn Hàng</h6>
+                  </div>
+                  <div class="right">
+                    <div class="select-style-1">
+                      <div class="select-position select-sm">
+                        <select class="light-bg" id="statusFilter">
+                          <option value="all">Tất cả</option>
+                          <option value="pending">Chờ xử lý</option>
+                          <option value="confirmed">Đã xác nhận</option>
+                          <option value="processing">Đang xử lý</option>
+                          <option value="completed">Hoàn thành</option>
+                          <option value="cancelled">Đã hủy</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="table-wrapper table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th><h6 class="text-sm text-medium">ID</h6></th>
+                        <th><h6 class="text-sm text-medium">Khách hàng</h6></th>
+                        <th class="min-width"><h6 class="text-sm text-medium">SĐT</h6></th>
+                        <th class="min-width"><h6 class="text-sm text-medium">Dịch vụ</h6></th>
+                        <th class="min-width"><h6 class="text-sm text-medium">Link TikTok</h6></th>
+                        <th class="min-width"><h6 class="text-sm text-medium">Trạng thái</h6></th>
+                        <th class="min-width"><h6 class="text-sm text-medium">Thời gian</h6></th>
+                      </tr>
+                    </thead>
+                    <tbody id="ordersTableBody">
+                      <tr>
+                        <td colspan="7" class="text-center py-5">Đang tải...</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Row -->
 
-      <!-- Filter -->
-      <div class="filter-bar">
-        <button class="filter-btn active" data-filter="all">Tất cả</button>
-        <button class="filter-btn" data-filter="pending">⏳ Chờ xử lý</button>
-        <button class="filter-btn" data-filter="confirmed">✅ Đã xác nhận</button>
-        <button class="filter-btn" data-filter="processing">🔄 Đang xử lý</button>
-        <button class="filter-btn" data-filter="completed">✨ Hoàn thành</button>
-        <button class="filter-btn" data-filter="cancelled">❌ Đã hủy</button>
-      </div>
-
-      <!-- Orders Table -->
-      <div class="orders-card">
-        <div class="orders-table-wrapper">
-          <table class="orders-table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Khách hàng</th>
-                <th>Dịch vụ</th>
-                <th>Ghi chú</th>
-                <th>Trạng thái</th>
-                <th>Thời gian</th>
-              </tr>
-            </thead>
-            <tbody id="ordersTableBody">
-              <tr>
-                <td colspan="6" class="loading-spinner">Đang tải...</td>
-              </tr>
-            </tbody>
-          </table>
         </div>
-      </div>
-    </section>
+      </section>
+      <!-- ========== section end ========== -->
 
-    <script src="script.js"></script>
-    <script type="module">
+      <!-- ========== footer start =========== -->
+      <footer class="footer">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-6 order-last order-md-first">
+              <div class="copyright text-center text-md-start">
+                <p class="text-sm">© 2024-2025 TikTok Menu Admin Dashboard</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+      <!-- ========== footer end =========== -->
+    </main>
+    <!-- ======== main-wrapper end =========== -->
+
+    <!-- PlainAdmin JS -->
+    <script src="admin-assets/js/bootstrap.bundle.min.js"></script>
+    <script src="admin-assets/js/main.js"></script>
+
+    <!-- Dashboard Logic -->
+    <script>
+      // Check auth - redirect to login if not authenticated
+      if (!localStorage.getItem('adminToken')) {
+        window.location.href = 'admin-login.html';
+      }
+
       // State
       let allOrders = [];
       let currentFilter = 'all';
-      let isLoggedIn = false;
 
       // DOM Elements
-      const loginSection = document.getElementById('loginSection');
-      const dashboardSection = document.getElementById('dashboardSection');
-      const loginForm = document.getElementById('loginForm');
-      const loginError = document.getElementById('loginError');
       const logoutBtn = document.getElementById('logoutBtn');
+      const logoutBtn2 = document.getElementById('logoutBtn2');
       const ordersTableBody = document.getElementById('ordersTableBody');
-      const filterBtns = document.querySelectorAll('.filter-btn');
+      const statusFilter = document.getElementById('statusFilter');
+      const searchInput = document.getElementById('searchInput');
 
-      // Status labels
-      const statusLabels = {
-        pending: '⏳ Chờ xử lý',
-        confirmed: '✅ Đã xác nhận',
-        processing: '🔄 Đang xử lý',
-        completed: '✨ Hoàn thành',
-        cancelled: '❌ Đã hủy'
-      };
-
-      // Check if already logged in
-      function checkAuth() {
-        const token = localStorage.getItem('adminToken');
-        if (token) {
-          showDashboard();
-        }
-      }
-
-      // Show dashboard
-      function showDashboard() {
-        isLoggedIn = true;
-        loginSection.style.display = 'none';
-        dashboardSection.classList.add('active');
-        loadOrders();
-      }
-
-      // Show login
-      function showLogin() {
-        isLoggedIn = false;
+      // Logout handlers
+      function logout() {
         localStorage.removeItem('adminToken');
-        loginSection.style.display = 'flex';
-        dashboardSection.classList.remove('active');
+        window.location.href = 'admin-login.html';
       }
+      logoutBtn.addEventListener('click', (e) => { e.preventDefault(); logout(); });
+      logoutBtn2.addEventListener('click', (e) => { e.preventDefault(); logout(); });
 
-      // Login handler
-      loginForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-
-        try {
-          const response = await fetch('/.netlify/functions/admin-auth', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password })
-          });
-
-          const data = await response.json();
-
-          if (data.success) {
-            localStorage.setItem('adminToken', data.token);
-            loginError.classList.remove('show');
-            showDashboard();
-          } else {
-            loginError.textContent = data.message;
-            loginError.classList.add('show');
-          }
-        } catch (error) {
-          loginError.textContent = 'Lỗi kết nối server!';
-          loginError.classList.add('show');
-        }
+      // Filter handler
+      statusFilter.addEventListener('change', () => {
+        currentFilter = statusFilter.value;
+        renderOrders();
       });
 
-      // Logout handler
-      logoutBtn.addEventListener('click', () => {
-        showLogin();
-      });
-
-      // Filter handlers
-      filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          filterBtns.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          currentFilter = btn.dataset.filter;
-          renderOrders();
-        });
+      // Search handler
+      searchInput.addEventListener('input', () => {
+        renderOrders();
       });
 
       // Load orders
@@ -594,9 +354,8 @@
           console.error('Error loading orders:', error);
           ordersTableBody.innerHTML = `
             <tr>
-              <td colspan="6" class="empty-state">
-                <div class="empty-state-icon">❌</div>
-                <div>Không thể tải đơn hàng</div>
+              <td colspan="7" class="text-center py-5 text-danger">
+                ❌ Không thể tải đơn hàng
               </td>
             </tr>
           `;
@@ -617,16 +376,26 @@
       function renderOrders() {
         let filteredOrders = allOrders;
         
+        // Filter by status
         if (currentFilter !== 'all') {
-          filteredOrders = allOrders.filter(o => o.status === currentFilter);
+          filteredOrders = filteredOrders.filter(o => o.status === currentFilter);
+        }
+
+        // Filter by search
+        const searchTerm = searchInput.value.toLowerCase();
+        if (searchTerm) {
+          filteredOrders = filteredOrders.filter(o => 
+            o.customer_name.toLowerCase().includes(searchTerm) ||
+            o.customer_phone.includes(searchTerm) ||
+            o.service_type.toLowerCase().includes(searchTerm)
+          );
         }
 
         if (filteredOrders.length === 0) {
           ordersTableBody.innerHTML = `
             <tr>
-              <td colspan="6" class="empty-state">
-                <div class="empty-state-icon">📭</div>
-                <div>Không có đơn hàng nào</div>
+              <td colspan="7" class="text-center py-5">
+                📭 Không có đơn hàng nào
               </td>
             </tr>
           `;
@@ -639,39 +408,43 @@
           if (order.note && order.note.includes('tiktok.com')) {
             const urlMatch = order.note.match(/(https?:\/\/[^\s]+)/);
             if (urlMatch) {
-              noteHtml = `<a href="${urlMatch[0]}" target="_blank">${urlMatch[0]}</a>`;
+              noteHtml = `<a href="${urlMatch[0]}" target="_blank" class="text-primary">${urlMatch[0].substring(0, 40)}...</a>`;
             }
           }
 
           return `
             <tr>
-              <td>#${order.id}</td>
+              <td><p class="text-sm"><strong>#${order.id}</strong></p></td>
               <td>
-                <div class="customer-name">${order.customer_name}</div>
-                <div class="customer-phone">📱 ${order.customer_phone}</div>
+                <div class="employee-image">
+                  <p class="text-sm">${order.customer_name}</p>
+                </div>
               </td>
+              <td><p class="text-sm">${order.customer_phone}</p></td>
               <td>
-                <div>${order.service_category === 'free' ? '🎁 Free' : '💎 Combo'}</div>
-                <div style="color: var(--neon-cyan); font-weight: 500;">${order.service_type}</div>
+                <p class="text-sm">
+                  <span class="badge bg-${order.service_category === 'free' ? 'success' : 'primary'}">${order.service_category === 'free' ? 'Free' : 'Combo'}</span>
+                  <br><small>${order.service_type}</small>
+                </p>
               </td>
-              <td class="order-note">${noteHtml}</td>
+              <td style="max-width: 200px;"><p class="text-sm">${noteHtml}</p></td>
               <td>
-                <select class="status-select" data-id="${order.id}" onchange="updateStatus(${order.id}, this.value)">
-                  <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>⏳ Chờ xử lý</option>
-                  <option value="confirmed" ${order.status === 'confirmed' ? 'selected' : ''}>✅ Đã xác nhận</option>
-                  <option value="processing" ${order.status === 'processing' ? 'selected' : ''}>🔄 Đang xử lý</option>
-                  <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>✨ Hoàn thành</option>
-                  <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>❌ Đã hủy</option>
+                <select class="form-select form-select-sm" onchange="updateStatus(${order.id}, this.value)" style="min-width: 130px;">
+                  <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Chờ xử lý</option>
+                  <option value="confirmed" ${order.status === 'confirmed' ? 'selected' : ''}>Đã xác nhận</option>
+                  <option value="processing" ${order.status === 'processing' ? 'selected' : ''}>Đang xử lý</option>
+                  <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>Hoàn thành</option>
+                  <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>Đã hủy</option>
                 </select>
               </td>
-              <td class="order-time">${new Date(order.created_at).toLocaleString('vi-VN')}</td>
+              <td><p class="text-sm">${new Date(order.created_at).toLocaleString('vi-VN')}</p></td>
             </tr>
           `;
         }).join('');
       }
 
       // Update order status
-      window.updateStatus = async function(orderId, newStatus) {
+      async function updateStatus(orderId, newStatus) {
         try {
           const token = localStorage.getItem('adminToken');
           const response = await fetch('/.netlify/functions/update-order-status', {
@@ -684,24 +457,15 @@
           });
 
           if (response.ok) {
-            // Update local data
             const order = allOrders.find(o => o.id === orderId);
             if (order) {
               order.status = newStatus;
             }
             updateStats();
-            
-            // Show success feedback
-            const select = document.querySelector(`select[data-id="${orderId}"]`);
-            if (select) {
-              select.style.borderColor = '#00c853';
-              setTimeout(() => {
-                select.style.borderColor = '';
-              }, 1000);
-            }
+            alert('✅ Cập nhật thành công!');
           } else if (response.status === 401) {
             alert('❌ Phiên đăng nhập hết hạn! Vui lòng đăng nhập lại.');
-            showLogin();
+            logout();
           } else {
             alert('❌ Không thể cập nhật trạng thái!');
             loadOrders();
@@ -710,17 +474,13 @@
           console.error('Error updating status:', error);
           alert('❌ Có lỗi xảy ra!');
         }
-      };
+      }
 
       // Auto refresh every 30 seconds
-      setInterval(() => {
-        if (isLoggedIn) {
-          loadOrders();
-        }
-      }, 30000);
+      setInterval(loadOrders, 30000);
 
-      // Check auth on load
-      checkAuth();
+      // Load orders on page load
+      loadOrders();
     </script>
   </body>
 </html>

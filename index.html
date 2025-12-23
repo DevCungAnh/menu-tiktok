@@ -54,278 +54,12 @@
           >
         </header>
 
-        <!-- Menu List -->
+        <!-- Menu List - Dynamic from API -->
         <nav aria-label="Danh sách dịch vụ">
-          <ul class="menu-list" role="list">
-            <!-- Item 1: 10000 view -->
-            <li
-              class="menu-item"
-              data-qty="5"
-              data-tooltip="10k view"
-              data-info="Có tuột"
-              data-order="10.000 view - 5 điểm"
-              tabindex="0"
-            >
-              <span class="badge-hot">🔥 HOT</span>
-              <!-- <span class="badge-maintenance">🔧 Đang bảo trì</span> -->
-              <span class="item-qty">5</span>
-              <span class="item-icon" aria-hidden="true"
-                ><img
-                  src="https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/eba3a9bb85c33e017f3648eaf88d7189~tplv-obj.webp"
-                  alt="Hoa hồng"
-                  style="width: 28px; height: 28px; object-fit: contain"
-              /></span>
-              <span class="item-text">10.000 view (Nhanh)</span>
+          <ul class="menu-list" role="list" id="menuList">
+            <li class="menu-item" style="text-align: center; opacity: 0.7;">
+              <span class="item-text">⏳ Đang tải dịch vụ...</span>
             </li>
-
-            <!-- Divider -->
-            <li class="divider" aria-hidden="true"></li>
-
-            <!-- Item: 5000 view -->
-            <!-- <li
-              class="menu-item"
-              data-qty="1"
-              data-tooltip="5k view"
-              data-info="Bảo hành 30 ngày"
-              data-order="5.000 view BH - 1 điểm"
-              tabindex="0"
-            >
-              <span class="item-qty">1</span>
-              <span class="item-icon" aria-hidden="true"
-                ><img
-                  src="https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/a4c4dc437fd3a6632aba149769491f49.png~tplv-obj.webp"
-                  alt="Bắn tim"
-                  style="width: 28px; height: 28px; object-fit: contain"
-              /></span>
-              <span class="item-text">5.000 view (Bảo hành)</span>
-            </li> -->
-
-            <!-- Divider -->
-            <li class="divider" aria-hidden="true"></li>
-
-            <!-- Item 2: 800 Tim Nhanh -->
-            <li
-              class="menu-item"
-              data-qty="1"
-              data-tooltip="1000 Tim"
-              data-info="Có tụt"
-              tabindex="0"
-            >
-              <!-- <span class="badge-maintenance">🔧 Đang bảo trì</span> -->
-              <span class="badge-hot">🔥 HOT</span>
-              <span class="item-qty">1</span>
-              <span class="item-icon" aria-hidden="true"
-                ><img
-                  src="https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/d53125bd5416e6f2f6ab61da02ddd302.png~tplv-obj.webp"
-                  alt="Chú heo may mắn"
-                  style="width: 28px; height: 28px; object-fit: contain"
-              /></span>
-              <span class="item-text">1000 Tim</span>
-              <span class="item-badges">
-                <span class="badge-heart" aria-label="Tim">❤️</span>
-                <!-- <span class="badge-flag" aria-label="Việt Nam">🇻🇳</span> -->
-                <span class="badge-flag" aria-label="Mỹ">🇺🇸</span>
-              </span>
-            </li>
-
-            <!-- Divider -->
-            <li class="divider" aria-hidden="true"></li>
-
-            <!-- Item 2: 400 Tim Siêu Tốc -->
-            <li
-              class="menu-item"
-              data-qty="1"
-              data-tooltip="400 Tim Siêu Tốc"
-              data-info="Không tụt"
-              tabindex="0"
-            >
-              <span class="badge-hot">🔥 HOT</span>
-              <span class="item-qty">1</span>
-              <span class="item-icon" aria-hidden="true"
-                ><img
-                  src="https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/e45927083072ffe0015253d11e11a3b3~tplv-obj.webp"
-                  alt="Phở"
-                  style="width: 28px; height: 28px; object-fit: contain"
-              /></span>
-              <span class="item-text">150 Tim (Không tụt)</span>
-              <span class="item-badges">
-                <span class="badge-heart" aria-label="Tim">❤️</span>
-                <!-- <span class="badge-flag" aria-label="Mỹ">🇺🇸</span> -->
-              </span>
-            </li>
-
-            <li class="divider" aria-hidden="true"></li>
-
-            <!-- Item: 300 Tim ít tụt -->
-            <li
-              class="menu-item"
-              data-qty="1"
-              data-tooltip="300 Tim ít tụt"
-              data-info="Ít tụt"
-              tabindex="0"
-            >
-              <span class="item-qty">1</span>
-              <span class="item-icon" aria-hidden="true"
-                ><img
-                  src="https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/312f721603de550519983ca22f5cc445.png~tplv-obj.webp"
-                  alt="Cỏ bốn lá"
-                  style="width: 28px; height: 28px; object-fit: contain"
-              /></span>
-              <span class="item-text">300 Tim ít tụt</span>
-              <span class="item-badges">
-                <span class="badge-heart" aria-label="Tim">❤️</span>
-              </span>
-            </li>
-
-            <li class="divider" aria-hidden="true"></li>
-
-            <!-- Item: 500 Tim Việt -->
-            <li
-              class="menu-item"
-              data-qty="3"
-              data-tooltip="500 Tim Việt"
-              data-info="Không bảo hành"
-              tabindex="0"
-            >
-              <span class="item-qty">3</span>
-              <span class="item-icon" aria-hidden="true"
-                ><img
-                  src="https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/eb77ead5c3abb6da6034d3cf6cfeb438~tplv-obj.webp"
-                  alt="Rosa"
-                  style="width: 28px; height: 28px; object-fit: contain"
-              /></span>
-              <span class="item-text">500 Tim Việt</span>
-              <span class="item-badges">
-                <span class="badge-heart" aria-label="Tim">❤️</span>
-                <span class="badge-flag" aria-label="Việt Nam">🇻🇳</span>
-              </span>
-            </li>
-
-            <li class="divider" aria-hidden="true"></li>
-
-            <!-- Item 4: 100 FL -->
-            <li
-              class="menu-item"
-              data-qty="4"
-              data-tooltip="100 Follow"
-              data-info="Không Tụt"
-              tabindex="0"
-            >
-              <span class="item-qty">4</span>
-              <span class="item-icon" aria-hidden="true"
-                ><img
-                  src="https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/d53125bd5416e6f2f6ab61da02ddd302.png~tplv-obj.webp"
-                  alt="Chú heo may mắn"
-                  style="width: 28px; height: 28px; object-fit: contain"
-              /></span>
-              <span class="item-text">100 FL Người thật (Không Tụt)</span>
-              <span class="item-badges">
-                <span class="badge-flag" aria-label="Việt Nam">🇻🇳</span>
-              </span>
-            </li>
-
-            <li class="divider" aria-hidden="true"></li>
-
-            <!-- Item: 400 FL -->
-            <li
-              class="menu-item"
-              data-qty="1"
-              data-tooltip="400 Follow"
-              data-info="Không Tụt"
-              tabindex="0"
-            >
-              <span class="item-qty">1</span>
-              <span class="item-icon" aria-hidden="true"
-                ><img
-                  src="https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/1bdf0b38142a94af0f71ea53da82a3b1~tplv-obj.webp"
-                  alt="Bó hoa"
-                  style="width: 28px; height: 28px; object-fit: contain"
-              /></span>
-              <span class="item-text">300 FL Không Tụt</span>
-              <span class="item-badges">
-                <span class="badge-flag" aria-label="Việt Nam">🇻🇳</span>
-              </span>
-            </li>
-
-            <li class="divider" aria-hidden="true"></li>
-
-            <!-- Item 5: 200 yêu thích / share -->
-            <li
-              class="menu-item"
-              data-qty="1"
-              data-tooltip="200 lượt yêu thích hoặc chia sẻ"
-              data-info="Không tuột"
-              tabindex="0"
-            >
-              <span class="item-qty">1</span>
-              <span class="item-icon" aria-hidden="true"
-                ><img
-                  src="https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/312f721603de550519983ca22f5cc445.png~tplv-obj.webp"
-                  alt="Cỏ bốn lá"
-                  style="width: 28px; height: 28px; object-fit: contain"
-              /></span>
-              <span class="item-text">200 yêu thích / share</span>
-            </li>
-
-            <li class="divider" aria-hidden="true"></li>
-
-            <!-- Item 6: 20 cmt -->
-            <li
-              class="menu-item"
-              data-qty="1"
-              data-tooltip="20 bình luận"
-              data-info="Khách tự viết hoặc sốp tự viết"
-              tabindex="0"
-            >
-              <span class="item-qty">1</span>
-              <span class="item-icon" aria-hidden="true"
-                ><img
-                  src="https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/4e7ad6bdf0a1d860c538f38026d4e812~tplv-obj.webp"
-                  alt="Bánh vòng"
-                  style="width: 28px; height: 28px; object-fit: contain"
-              /></span>
-              <span class="item-text">20 cmt</span>
-              <span class="item-badges">
-                <span class="badge-flag" aria-label="Việt Nam">🇻🇳</span>
-              </span>
-            </li>
-
-            <li class="divider" aria-hidden="true"></li>
-
-            <!-- Item 8: 5000 Tim -->
-            <!-- <li
-              class="menu-item premium"
-              data-qty="1"
-              data-tooltip="5000 Tim Mỹ"
-              data-info="Bảo hành 365 ngày"
-              tabindex="0"
-            >
-              <span class="item-qty">1</span>
-              <span class="item-icon" aria-hidden="true"
-                ><img
-                  src="https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/0f158a08f7886189cdabf496e8a07c21~tplv-obj.webp"
-                  alt="Hạc giấy"
-                  style="width: 28px; height: 28px; object-fit: contain"
-              /></span>
-              <span class="item-text">5000 Tim (BH 365 ngày)</span>
-              <span class="item-badges">
-                <span class="badge-heart" aria-label="Tim">❤️</span>
-                <span class="badge-flag" aria-label="Việt Nam">🇻🇳</span>
-                <span class="badge-flag" aria-label="Mỹ">🇺🇸</span>
-              </span>
-            </li> -->
-
-            <li class="divider" aria-hidden="true"></li>
-
-            <!-- Item 9: 1000 FL -->
-            <!-- <li class="menu-item premium" data-qty="1" data-tooltip="1000 Follow" data-info="Bảo hành vĩnh viễn" tabindex="0">
-                        <span class="item-qty">1</span>
-                        <span class="item-icon" aria-hidden="true"><img src="https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/148eef0884fdb12058d1c6897d1e02b9~tplv-obj.webp" alt="Chó Corgi" style="width: 28px; height: 28px; object-fit: contain;"></span>
-                        <span class="item-text">1000 FL Không Tụt</span>
-                        <span class="item-badges">
-                            <span class="badge-flag" aria-label="Việt Nam">🇻🇳</span>
-                        </span>
-                    </li> -->
           </ul>
         </nav>
 
@@ -581,6 +315,7 @@
     <!-- Order Management Script (Neon PostgreSQL via Netlify Functions) -->
     <script type="module">
       // DOM Elements
+      const menuList = document.getElementById("menuList");
       const orderForm = document.getElementById("orderForm");
       const orderFormOverlay = document.getElementById("orderFormOverlay");
       const orderFormClose = document.getElementById("orderFormClose");
@@ -602,6 +337,109 @@
       const comboDetailsContent = document.getElementById(
         "comboDetailsContent"
       );
+
+      // Load menu services from API
+      async function loadMenuServices() {
+        try {
+          const response = await fetch('/.netlify/functions/services');
+          const services = await response.json();
+          
+          if (!services || services.length === 0) {
+            menuList.innerHTML = `
+              <li class="menu-item" style="text-align: center; opacity: 0.7;">
+                <span class="item-text">📭 Chưa có dịch vụ nào</span>
+              </li>
+            `;
+            return;
+          }
+          
+          // Render menu items
+          menuList.innerHTML = services.map((service, index) => {
+            let html = '';
+            
+            // Add divider except for first item
+            if (index > 0) {
+              html += '<li class="divider" aria-hidden="true"></li>';
+            }
+            
+            html += `
+              <li class="menu-item" 
+                  data-qty="${service.qty || 1}" 
+                  data-tooltip="${service.name}" 
+                  data-info="${service.description || ''}"
+                  tabindex="0">
+                ${service.is_hot ? '<span class="badge-hot">🔥 HOT</span>' : ''}
+                <span class="item-qty">${service.qty || 1}</span>
+                ${service.icon_url ? `
+                  <span class="item-icon" aria-hidden="true">
+                    <img src="${service.icon_url}" alt="" style="width: 28px; height: 28px; object-fit: contain" />
+                  </span>
+                ` : '<span class="item-icon">📦</span>'}
+                <span class="item-text">${service.name}</span>
+                ${service.badges ? `
+                  <span class="item-badges">${service.badges}</span>
+                ` : ''}
+              </li>
+            `;
+            
+            return html;
+          }).join('');
+          
+          // Menu loaded successfully - order form options remain hardcoded (free/combo)
+          
+          // Fix visibility for dynamically added items (CSS animation sets opacity:0 by default)
+          setTimeout(() => {
+            menuList.querySelectorAll('.menu-item').forEach(item => {
+              item.style.opacity = '1';
+              item.style.transform = 'none';
+              
+              // Attach click handler for popup
+              item.addEventListener('click', function(e) {
+                const info = this.dataset.info;
+                const popupOverlay = document.getElementById('popupOverlay');
+                const popupTitle = document.getElementById('popupTitle');
+                const popupInfo = document.getElementById('popupInfo');
+                
+                if (popupOverlay && info) {
+                  const itemText = this.querySelector('.item-text')?.textContent || 'Chi tiết';
+                  popupTitle.textContent = itemText;
+                  popupInfo.innerHTML = info;
+                  popupOverlay.classList.add('active');
+                }
+                
+                // Ripple effect
+                const ripple = document.createElement('span');
+                ripple.style.cssText = `
+                  position: absolute;
+                  background: rgba(255, 107, 157, 0.3);
+                  border-radius: 50%;
+                  transform: scale(0);
+                  animation: ripple 0.6s ease-out forwards;
+                  pointer-events: none;
+                `;
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+                ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+                this.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+              });
+            });
+          }, 100);
+          
+        } catch (error) {
+          console.error('Error loading services:', error);
+          menuList.innerHTML = `
+            <li class="menu-item" style="text-align: center; color: #ff6b6b;">
+              <span class="item-text">❌ Không thể tải dịch vụ</span>
+            </li>
+          `;
+        }
+      }
+      
+      // Load menu on page load
+      loadMenuServices();
 
       // Service options data
       const serviceOptionsData = {
