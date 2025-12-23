@@ -578,37 +578,8 @@
       </div>
     </div>
 
-    <!-- Firebase Config (injected by Netlify) -->
-    <script src="firebase-config.js"></script>
-
-    <!-- Firebase SDK -->
+    <!-- Order Management Script (Neon PostgreSQL via Netlify Functions) -->
     <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-      import {
-        getDatabase,
-        ref,
-        push,
-        onValue,
-        serverTimestamp,
-      } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
-
-      // Firebase config - loaded from firebase-config.js
-      const firebaseConfig = window.FIREBASE_CONFIG || {
-        apiKey: "__GOOGLE_API_KEY__",
-        authDomain: "menu-tikkok.firebaseapp.com",
-        databaseURL:
-          "https://menu-tikkok-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "menu-tikkok",
-        storageBucket: "menu-tikkok.firebasestorage.app",
-        messagingSenderId: "889648179170",
-        appId: "1:889648179170:web:28ac6df4d713ade38b3bbb",
-        measurementId: "G-EBLVSBWCJD",
-      };
-
-      // Initialize Firebase
-      const app = initializeApp(firebaseConfig);
-      const database = getDatabase(app);
-
       // DOM Elements
       const orderForm = document.getElementById("orderForm");
       const orderFormOverlay = document.getElementById("orderFormOverlay");
@@ -829,7 +800,7 @@
         ordersPanel.classList.remove("active");
       });
 
-      // Submit Order
+      // Submit Order - Now using Netlify Functions API
       orderForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
@@ -872,66 +843,87 @@
           category: category,
           service: service,
           note: note,
-          status: "pending",
-          createdAt: Date.now(),
         };
 
         try {
-          const ordersRef = ref(database, "orders");
-          await push(ordersRef, orderData);
+          // Call Netlify Function API
+          const response = await fetch('/.netlify/functions/orders', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(orderData)
+          });
+
+          if (!response.ok) {
+            throw new Error('Failed to create order');
+          }
 
           // Reset form and hide service type
           orderForm.reset();
           serviceTypeGroup.style.display = "none";
+          // Reset dropdowns
+          categoryDropdown.querySelector(".dropdown-selected").textContent = "-- Chọn --";
+          categoryDropdown.querySelector(".dropdown-selected").dataset.value = "";
+          serviceDropdown.querySelector(".dropdown-selected").textContent = "-- Chọn --";
+          serviceDropdown.querySelector(".dropdown-selected").dataset.value = "";
+          comboDetailsSection.style.display = "none";
           orderFormOverlay.classList.remove("active");
 
           // Show success message
           alert(
             "✅ Đã gửi đơn hàng thành công! Vui lòng chuyển khoản theo thông tin trên trang."
           );
+          
+          // Reload orders
+          loadOrders();
         } catch (error) {
           console.error("Error:", error);
           alert("❌ Có lỗi xảy ra. Vui lòng thử lại!");
         }
       });
 
-      // Load Orders Realtime
-      const ordersRef = ref(database, "orders");
-      onValue(ordersRef, (snapshot) => {
-        const orders = [];
-        snapshot.forEach((child) => {
-          orders.push({ id: child.key, ...child.val() });
-        });
+      // Load Orders from API
+      async function loadOrders() {
+        try {
+          const response = await fetch('/.netlify/functions/orders');
+          const orders = await response.json();
 
-        // Sort by newest first
-        orders.sort((a, b) => b.createdAt - a.createdAt);
-
-        // Render orders
-        if (orders.length === 0) {
-          ordersList.innerHTML =
-            '<p class="no-orders">Chưa có đơn hàng nào</p>';
-        } else {
-          ordersList.innerHTML = orders
-            .slice(0, 10)
-            .map(
-              (order) => `
-            <div class="order-item ${order.status}">
-              <div class="order-item-header">
-                <span class="order-name">${order.name}</span>
-                <span class="order-status">${
-                  order.status === "pending" ? "⏳ Chờ xử lý" : "✅ Đã xong"
-                }</span>
+          // Render orders
+          if (!orders || orders.length === 0) {
+            ordersList.innerHTML =
+              '<p class="no-orders">Chưa có đơn hàng nào</p>';
+          } else {
+            ordersList.innerHTML = orders
+              .slice(0, 10)
+              .map(
+                (order) => `
+              <div class="order-item ${order.status}">
+                <div class="order-item-header">
+                  <span class="order-name">${order.customer_name}</span>
+                  <span class="order-status">${
+                    order.status === "pending" ? "⏳ Chờ xử lý" : "✅ Đã xong"
+                  }</span>
+                </div>
+                <div class="order-service">${order.service_type}</div>
+                <div class="order-time">${new Date(
+                  order.created_at
+                ).toLocaleString("vi-VN")}</div>
               </div>
-              <div class="order-service">${order.service}</div>
-              <div class="order-time">${new Date(
-                order.createdAt
-              ).toLocaleString("vi-VN")}</div>
-            </div>
-          `
-            )
-            .join("");
+            `
+              )
+              .join("");
+          }
+        } catch (error) {
+          console.error("Error loading orders:", error);
+          ordersList.innerHTML =
+            '<p class="no-orders">Không thể tải đơn hàng</p>';
         }
-      });
+      }
+
+      // Load orders on page load
+      loadOrders();
+      
+      // Refresh orders every 30 seconds
+      setInterval(loadOrders, 30000);
     </script>
 
     <script src="script.js"></script>
