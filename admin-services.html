@@ -348,7 +348,7 @@
       // Load services
       async function loadServices() {
         try {
-          const response = await fetch('/.netlify/functions/services');
+          const response = await fetch('/.netlify/functions/services?all=true');
           allServices = await response.json();
           renderServices();
         } catch (error) {
@@ -388,9 +388,9 @@
             <td><p class="text-sm">${service.badges || '-'}</p></td>
             <td>${service.is_hot ? '🔥 HOT' : '-'}</td>
             <td>
-              <span class="badge bg-${service.is_active ? 'success' : 'secondary'}">
-                ${service.is_active ? 'Hiện' : 'Ẩn'}
-              </span>
+              <button class="btn btn-sm btn-${service.is_active ? 'success' : 'secondary'}" onclick="toggleVisibility(${service.id}, ${service.is_active})">
+                ${service.is_active ? '👁️ Hiện' : '🚫 Ẩn'}
+              </button>
             </td>
             <td>
               <button class="btn btn-sm btn-outline-primary me-1" onclick="editService(${service.id})">
@@ -446,6 +446,33 @@
           }
         } catch (error) {
           console.error('Error deleting service:', error);
+          alert('❌ Có lỗi xảy ra!');
+        }
+      };
+
+      // Toggle visibility (is_active)
+      window.toggleVisibility = async function(id, currentStatus) {
+        try {
+          const token = localStorage.getItem('adminToken');
+          const response = await fetch('/.netlify/functions/services', {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ 
+              id, 
+              is_active: !currentStatus 
+            })
+          });
+
+          if (response.ok) {
+            loadServices();
+          } else {
+            alert('❌ Không thể cập nhật!');
+          }
+        } catch (error) {
+          console.error('Error toggling visibility:', error);
           alert('❌ Có lỗi xảy ra!');
         }
       };
