@@ -323,33 +323,16 @@
         });
       });
 
-      // Toggle order status - Now using Netlify Functions API
-      async function toggleStatus(orderId, currentStatus) {
-        const newStatus = currentStatus === "pending" ? "completed" : "pending";
-        
-        try {
-          const response = await fetch('/.netlify/functions/update-order-status', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id: orderId, status: newStatus })
-          });
-          
-          if (response.ok) {
-            // Reload orders after update
-            loadOrders();
-          } else {
-            alert('❌ Không thể cập nhật trạng thái!');
-          }
-        } catch (error) {
-          console.error('Error updating status:', error);
-          alert('❌ Có lỗi xảy ra!');
-        }
-      }
+      // Status labels for display
+      const statusLabels = {
+        pending: "⏳ Chờ xử lý",
+        confirmed: "✅ Đã xác nhận",
+        processing: "🔄 Đang xử lý",
+        completed: "✨ Hoàn thành",
+        cancelled: "❌ Đã hủy"
+      };
 
-      // Make toggleStatus global
-      window.toggleStatus = toggleStatus;
-
-      // Render orders
+      // Render orders (read-only for customers)
       function renderOrders() {
         let filteredOrders = allOrders;
 
@@ -369,12 +352,8 @@
           <div class="order-card ${order.status}">
             <div class="order-header">
               <span class="order-customer">${order.customer_name}</span>
-              <span class="order-status-badge ${
-                order.status
-              }" onclick="window.toggleStatus(${order.id}, '${
-              order.status
-            }')">
-                ${order.status === "pending" ? "⏳ Chờ xử lý" : "✅ Đã xong"}
+              <span class="order-status-badge ${order.status}">
+                ${statusLabels[order.status] || order.status}
               </span>
             </div>
             <div class="order-info">

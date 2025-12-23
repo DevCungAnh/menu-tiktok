@@ -8,6 +8,21 @@ export default async (req, context) => {
         'Content-Type': 'application/json'
     };
 
+    // Require secret key to init database (set INIT_SECRET in Netlify ENV)
+    const url = new URL(req.url);
+    const secretKey = url.searchParams.get('key');
+    const requiredKey = process.env.INIT_SECRET || 'setup2024';
+
+    if (secretKey !== requiredKey) {
+        return new Response(
+            JSON.stringify({
+                success: false,
+                error: 'Unauthorized. Provide ?key=YOUR_SECRET'
+            }),
+            { status: 401, headers }
+        );
+    }
+
     try {
         // Create orders table if not exists
         await sql`
@@ -24,7 +39,7 @@ export default async (req, context) => {
       )
     `;
 
-        // Create indexes for better performance
+        // Create indexes for orders
         await sql`
       CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(status)
     `;
@@ -33,10 +48,38 @@ export default async (req, context) => {
       CREATE INDEX IF NOT EXISTS idx_orders_created_at ON orders(created_at DESC)
     `;
 
+        // Create admins table if not exists
+        await sql`
+      CREATE TABLE IF NOT EXISTS admins (
+        id SERIAL PRIMARY KEY,
+        username VARCHAR(50) UNIQUE NOT NULL,
+        password VARCHAR(255) NOT NULL,
+        created_at TIMESTAMP DEFAULT NOW()
+      )
+    `;
+
+        // Check if admin user exists
+        const existingAdmin = await sql`
+      SELECT id FROM admins WHERE username = 'admin'
+    `;
+
+        // Create default admin from ENV variables if not exists
+        let adminCreated = false;
+        if (existingAdmin.length === 0) {
+            const defaultPassword = process.env.ADMIN_DEFAULT_PASSWORD || 'ChangeMe123!';
+            await sql`
+        INSERT INTO admins (username, password) 
+        VALUES ('admin', ${defaultPassword})
+      `;
+            adminCreated = true;
+        }
+
         return new Response(
             JSON.stringify({
                 success: true,
-                message: 'Database initialized successfully! Bảng orders đã được tạo.'
+                message: 'Database initialized! Bảng orders và admins đã được tạo.',
+                adminCreated: adminCreated,
+                note: adminCreated ? 'Admin user created. Change password immediately!' : 'Admin already exists'
             }),
             { headers }
         );
